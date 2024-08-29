@@ -78,12 +78,14 @@ def run_frontend(default_port=8080):
     """Ejecuta el frontend en el puerto especificado o en uno dinámico."""
     frontend_port = get_free_port(default_port)
     subprocess.run(["reflex", "run", f"--frontend-port={frontend_port}"], check=True)
+    delete_pycache()
 
 
 def run_backend(default_port=8000):
     """Ejecuta el backend en el puerto especificado o en uno dinámico."""
     backend_port = get_free_port(default_port)
     subprocess.run(["reflex", "run", f"--backend-port={backend_port}"], check=True)
+    delete_pycache()
 
 
 def delete_pycache():
