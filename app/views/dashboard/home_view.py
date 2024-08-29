@@ -6,10 +6,13 @@ def home_view() -> rx.Component:
         # Header
         rx.heading(
             "Dashboard",
-            size="2xl",
-            background_color="rgba(130, 13, 13, 0.5)",  # Color de fondo con opacidad
-            color="primary-foreground",
-            padding="4",  # Espaciado interno alrededor del texto
+            title="Header",  # Título del contenedor para identificarlo
+            size="2xl",  # Tamaño del heading en xl
+            background_color="black",  # Color de fondo del heading
+            border="none",  # Sin borde
+            box_shadow="0 2px 4px rgba(0, 0, 0, 0.4)",  # Sombra
+            border_bottom_left_radius="10px",  # Radio de borde inferior izquierdo
+            border_bottom_right_radius="10px",  # Radio de borde inferior derecho
             width="100%",  # Ancho completo del contenedor
             margin="0",  # Márgenes alrededor del heading
             text_align="center",  # Alineación del texto
@@ -30,11 +33,15 @@ def home_view() -> rx.Component:
                         ),
                     ),
                 ),
+                spacing="6",
                 width="100%",
             ),
-            padding="6",
+            title="Main Content",
             background_color="white",  # Color de fondo del contenedor
+            width="-webkit-fill-available",  # ?: Ancho del contenedor acoplado con responsive design
         ),
+        title="Dashboard",
+        background_color="white",
         min_height="100vh",
-        width="100%",
+        spacing="0",  # ?: Este espacio se asigna por defecto a los elementos hijos en 3rem
     )
