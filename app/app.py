@@ -1,8 +1,8 @@
-"""Welcome to Reflex! This file outlines the steps to create a basic app."""
-
 import reflex as rx
-
 from rxconfig import config
+from app.views.auth.login_view import login_view
+from app.views.auth.signup_view import signup_view
+from app.views.dashboard.home_view import home_view
 
 
 class State(rx.State):
@@ -12,7 +12,7 @@ class State(rx.State):
 
 
 def index() -> rx.Component:
-    # Welcome Page (Index)
+    # Página de bienvenida (Index)
     return rx.container(
         rx.color_mode.button(position="top-right"),
         rx.vstack(
@@ -37,3 +37,6 @@ def index() -> rx.Component:
 
 app = rx.App()
 app.add_page(index)
+app.add_page(login_view, route="/login")  # Añadir la vista de inicio de sesión
+app.add_page(signup_view, route="/signup")  # Añadir la vista de registro
+app.add_page(home_view, route="/dashboard")  # Añadir la vista del dashboard
