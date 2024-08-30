@@ -88,6 +88,10 @@ def animation_view() -> rx.Component:
                 "backgroundPosition": "right",
                 "backgroundRepeat": "no-repeat",
                 "maxWidth": "100vw !important",
+                "backgroundColor": "transparent",  # Fallback color for unsupported browsers
+                "@media (max-width: 768px)": {
+                    "background": "none",  # Oculta la imagen de fondo en pantallas menores a 768px
+                },
             },
         ),
         title="container-animation",
