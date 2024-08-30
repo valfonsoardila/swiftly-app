@@ -222,8 +222,10 @@ def login_view() -> rx.Component:
                 justify="center",  # Centrado horizontal
                 align="center",  # Centrado vertical
                 height="100%",
-                width="100%",
+                width="90%",
             ),
+            align="center",
+            justify="center",
             height="100%",
             width="100%",
         ),
