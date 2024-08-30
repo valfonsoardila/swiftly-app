@@ -1,7 +1,7 @@
 import reflex as rx
 
 
-def login_view() -> rx.Component:
+def forgot_password_view() -> rx.Component:
     return rx.hstack(
         rx.box(  # Div adicional para el fondo con opacidad
             style={
@@ -32,7 +32,7 @@ def login_view() -> rx.Component:
                                         border_radius="25%",
                                     ),
                                     rx.heading(
-                                        "Sign in to your account",
+                                        "Recover Your Password",
                                         size="6",
                                         as_="h2",
                                         width="100%",
@@ -44,26 +44,38 @@ def login_view() -> rx.Component:
                                     ),
                                     rx.hstack(
                                         rx.text(
-                                            "New here?",
+                                            "Enter your email to receive a password recovery link.",
                                             size="3",
                                             text_align="center",
                                             style={
                                                 "color": "black",
                                             },
                                         ),
-                                        rx.link(
-                                            "Sign up",
-                                            size="3",
-                                            text_align="center",
-                                            color="black",
-                                            underline="always",
-                                            style={
-                                                "color": "black",
-                                                "fontWeight": "bold",
-                                            },
-                                            href="/signup",
+                                        rx.hstack(
+                                            rx.text(
+                                                "want to log in?",
+                                                size="3",
+                                                text_align="center",
+                                                style={
+                                                    "color": "black",
+                                                },
+                                            ),
+                                            rx.link(
+                                                "Sign in",
+                                                size="3",
+                                                text_align="center",
+                                                color="black",
+                                                underline="always",
+                                                style={
+                                                    "color": "black",
+                                                    "fontWeight": "bold",
+                                                },
+                                                href="/login",  # Cambio de href para apuntar al login
+                                            ),
+                                            spacing="1",
                                         ),
-                                        spacing="2",
+                                        direction="column",
+                                        spacing="0",  # Sin espacio adicional
                                         opacity="0.8",
                                         width="100%",
                                         justify="center",
@@ -101,44 +113,9 @@ def login_view() -> rx.Component:
                                 justify="start",
                                 width="100%",
                             ),
-                            rx.vstack(
-                                rx.hstack(
-                                    rx.text(
-                                        "Password",
-                                        size="3",
-                                        weight="medium",
-                                        style={
-                                            "color": "black",
-                                            "fontWeight": "bold",
-                                        },
-                                    ),
-                                    rx.link(
-                                        "Forgot password?",
-                                        size="3",
-                                        color="black",
-                                        underline="always",
-                                        style={
-                                            "color": "black",
-                                            "fontWeight": "bold",
-                                        },
-                                        href="/forgot-password",
-                                    ),
-                                    justify="between",
-                                    width="100%",
-                                ),
-                                rx.input(
-                                    rx.input.slot(rx.icon("lock")),
-                                    placeholder="Enter your password",
-                                    type="password",
-                                    size="3",
-                                    width="100%",
-                                ),
-                                spacing="2",
-                                width="100%",
-                            ),
                             rx.link(
                                 rx.button(
-                                    "Sign in",
+                                    "Send Recovery Email",
                                     size="large",
                                     width="100%",
                                     style={
@@ -156,48 +133,7 @@ def login_view() -> rx.Component:
                                     "transform": "scale(1.05)",
                                     "transition": "transform 0.2s ease",
                                 },
-                                href="/dashboard",
-                                width="100%",
-                            ),
-                            rx.hstack(
-                                rx.divider(
-                                    margin="0",
-                                    borderColor="rgba(0, 0, 0, 0.7)",  # Color más oscuro
-                                ),
-                                rx.text(
-                                    "Or continue with",
-                                    white_space="nowrap",
-                                    weight="medium",
-                                    style={
-                                        "color": "black",
-                                        "fontWeight": "bold",
-                                    },
-                                ),
-                                rx.divider(
-                                    margin="0",
-                                    borderColor="rgba(0, 0, 0, 0.7)",  # Color más oscuro
-                                ),
-                                align="center",
-                                width="100%",
-                            ),
-                            rx.center(
-                                rx.icon_button(
-                                    rx.icon(tag="github"),
-                                    variant="soft",
-                                    size="3",
-                                ),
-                                rx.icon_button(
-                                    rx.icon(tag="facebook"),
-                                    variant="soft",
-                                    size="3",
-                                ),
-                                rx.icon_button(
-                                    rx.icon(tag="twitter"),
-                                    variant="soft",
-                                    size="3",
-                                ),
-                                spacing="4",
-                                direction="row",
+                                href="/login",
                                 width="100%",
                             ),
                             spacing="6",
@@ -229,7 +165,7 @@ def login_view() -> rx.Component:
             height="100%",
             width="100%",
         ),
-        title="Container-login",
+        title="Container-forgot-password",
         background="linear-gradient(45deg, rgba(255,193,7) 0%, rgba(255,152,0) 25%, rgba(255,113,34) 50%, rgba(242, 116,5) 100%)",
         width="-webkit-fill-available",  # Ancho del contenedor acoplado con responsive design
         height="100vh",
