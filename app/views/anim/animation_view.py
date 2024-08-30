@@ -45,19 +45,28 @@ def animation_view() -> rx.Component:
                 justify="center",
                 align="center",
                 direction="column",
+                title="center-animation",
             ),
-            title="center-animation",
+            title="flex-animation",
             justify="center",
             align="center",
             direction="column",
             spacing="6",  # Espacio entre elementos en el flex contenedor
-            width="-webkit-fill-available",
+            width="100%",  # Asegúrate de que el contenedor use el 100% del ancho disponible
             height="100vh",  # Configura la altura de la vista
+            style={
+                # imagen de fondo
+                "background": "url('/repartidor-paquete-hombro.png')",
+                "backgroundSize": "contain",  # Ajusta según sea necesario
+                "backgroundPosition": "right center",  # Imagen pegada al lado derecho
+                "backgroundRepeat": "no-repeat",  # Evita que la imagen se repita
+            },
         ),
         title="container-animation",
         padding="0",
         style={
             "background": "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
             "height": "100vh",
+            "width": "100%",  # Asegúrate de que el contenedor use el 100% del ancho disponible
         },
     )

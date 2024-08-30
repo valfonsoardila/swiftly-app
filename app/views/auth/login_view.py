@@ -132,7 +132,7 @@ def login_view() -> rx.Component:
             height="100vh",  # Asegura que el flex ocupe toda la altura de la vista
         ),
         title="Container-login",
-        background_color="gray",
+        background="linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
         width="-webkit-fill-available",  # Ancho del contenedor acoplado con responsive design
         height="100vh",
     )
