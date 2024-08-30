@@ -3,36 +3,16 @@ from rxconfig import config
 from app.views.auth.login_view import login_view
 from app.views.auth.signup_view import signup_view
 from app.views.dashboard.home_view import home_view
+from app.views.anim.animation_view import animation_view
 
 
 class State(rx.State):
-    """The app state."""
-
-    ...
+    # manejar el estado de la aplicación
+    is_logged_in: bool = False
 
 
 def index() -> rx.Component:
-    # Página de bienvenida (Index)
-    return rx.container(
-        rx.color_mode.button(position="top-right"),
-        rx.vstack(
-            rx.heading("Welcome to Reflex!", size="9"),
-            rx.text(
-                "Get started by editing ",
-                rx.code(f"{config.app_name}/{config.app_name}.py"),
-                size="5",
-            ),
-            rx.link(
-                rx.button("Victory Docs"),
-                href="https://reflex.dev/docs/getting-started/introduction/",
-                is_external=True,
-            ),
-            spacing="5",
-            justify="center",
-            min_height="85vh",
-        ),
-        rx.logo(),
-    )
+    return animation_view()
 
 
 app = rx.App()
