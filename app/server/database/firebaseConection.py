@@ -1,16 +1,38 @@
 import firebase_admin
 from firebase_admin import credentials, firestore, auth, storage
+from dotenv import load_dotenv
+import os
 
-class ConnecionFB():
+
+class ConnecionFB:
     def __init__(self):
         super().__init__()
+        load_dotenv()
+        self.create_to_json()
         self.estado = self.conexion()
 
-    def conexion(self, ):
+    def create_to_json(self, data):
+        self.credentials = {
+            "type": os.getenv("TYPE"),
+            "project_id": os.getenv("PROJECT_ID"),
+            "private_key_id": os.getenv("PRIVATE_KEY_ID"),
+            "private_key": os.getenv("PRIVATE_KEY"),
+            "client_email": os.getenv("CLIENT_EMAIL"),
+            "client_id": os.getenv("CLIENT_ID"),
+            "auth_uri": os.getenv("AUTH_URI"),
+            "token_uri": os.getenv("TOKEN_URI"),
+            "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL"),
+            "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL"),
+            "universe_domain": os.getenv("UNIVERSE_DOMAIN"),
+        }
+
+    def conexion(
+        self,
+    ):
         try:
-            cred = credentials.Certificate("database\serviceAccountKey.json")
-            #self. app =firebase_admin.initialize_app(cred,{'storageBucket': 'dulce-tentacion-app.appspot.com'})
-            self. app =firebase_admin.initialize_app(cred)
+            cred = credentials.Certificate(self.credentials)
+            # self. app =firebase_admin.initialize_app(cred,{'storageBucket': 'dulce-tentacion-app.appspot.com'})
+            self.app = firebase_admin.initialize_app(cred)
             self.db = firestore.client()
             self.auth = auth
             self.storage = storage
@@ -21,6 +43,7 @@ class ConnecionFB():
 
     def closeConnection(self):
         firebase_admin.delete_app(self.app)
+
     # Operaciones CRUD para Firestore
     def consultarTabla(self, tabla):
         if self.estado:
@@ -36,14 +59,13 @@ class ConnecionFB():
         else:
             return "No hay conexión a Firebase"
 
-        
     def insertTabla(self, tabla, dato, id=None):
         if self.estado:
             try:
                 if id is None:
-                    _,doc_ref= self.db.collection(tabla).add(dato)
+                    _, doc_ref = self.db.collection(tabla).add(dato)
                 else:
-                    _,doc_ref= self.db.collection(tabla).add(dato,id)
+                    _, doc_ref = self.db.collection(tabla).add(dato, id)
                 return doc_ref.id
             except Exception as e:
                 return "Error al insertar en tabla:", e
@@ -66,14 +88,15 @@ class ConnecionFB():
             return "datos actualizados correctamente."
         except Exception as e:
             return f"Error al actualizar: {str(e)}"
+
     # Operaciones CRUD para la autenticación
     def crear_usuario(self, email, password):
         try:
             user = self.auth.create_user(email=email, password=password)
             print
-            return user.uid,("Usuario creado exitosamente")
+            return user.uid, ("Usuario creado exitosamente")
         except Exception as e:
-            return None,("Error al crear usuario:", e)
+            return None, ("Error al crear usuario:", e)
 
     def leer_usuario(self, uid):
         try:
@@ -101,7 +124,7 @@ class ConnecionFB():
     # Operaciones CRUD para el almacenamiento (Storage)
     def subir_archivo(self, source_file_name, destination_blob_name):
         try:
-            bucket = self.storage.bucket(app=self. app)
+            bucket = self.storage.bucket(app=self.app)
             blob = bucket.blob(destination_blob_name)
             blob.upload_from_string(source_file_name)
             return "Archivo subido exitosamente."
@@ -125,4 +148,3 @@ class ConnecionFB():
             print("Archivo eliminado exitosamente.")
         except Exception as e:
             print("Error al eliminar archivo:", e)
-

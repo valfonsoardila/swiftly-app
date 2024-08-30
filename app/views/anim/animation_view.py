@@ -2,15 +2,17 @@ import reflex as rx
 
 
 def animation_view() -> rx.Component:
-    return rx.container(
+    return rx.hstack(
         rx.flex(
             rx.center(
                 rx.image(
                     src="/logo.png",
                     height="250px",
                     border_radius="25%",
+                    style={
+                        "animation": "fadeInDown 2s ease-out",  # Aplicar la animación CSS
+                    },
                 ),
-                # Título con espacio en la parte superior e inferior
                 rx.heading(
                     rx.text(
                         "Swiftly App",
@@ -20,24 +22,50 @@ def animation_view() -> rx.Component:
                             "fontSize": "50px",
                             "color": "black",
                             "fontWeight": "bold",
-                            "margin": "50px 0",  # Espacio en la parte superior e inferior
+                            "margin": "50px 0",
                         },
                     ),
                 ),
                 rx.hstack(
-                    # Texto con margen adicional
-                    rx.text(
-                        "Tu envío, nuestro compromiso. Rápido, seguro y siempre a tiempo.",
-                        size="3",
-                        text_align="center",
-                        style={
-                            "color": "black",
-                            "fontSize": "1.5em",
-                            "marginTop": "1em",  # Espacio encima del texto
-                            "marginBottom": "1em",  # Espacio debajo del texto
-                        },
+                    rx.vstack(
+                        rx.text(
+                            "Tu envío, nuestro compromiso. Rápido, seguro y siempre a tiempo.",
+                            size="3",
+                            text_align="center",
+                            style={
+                                "color": "black",
+                                "fontSize": "1.5em",
+                                "marginTop": "1em",
+                                "marginBottom": "1em",
+                            },
+                        ),
+                        rx.link(
+                            rx.button(
+                                "¡Comencemos!",
+                                size="large",
+                                style={
+                                    "color": "white",
+                                    "backgroundColor": "black",
+                                    "border": "none",
+                                    "padding": "1em 2em",
+                                    "borderRadius": "1em",
+                                    "cursor": "pointer",
+                                    "fontSize": "1.5em",
+                                },
+                                _hover={
+                                    "backgroundColor": "#333333",
+                                    "transform": "scale(1.05)",
+                                    "transition": "transform 0.2s ease",
+                                },
+                            ),
+                            href="/login",  # Redirigir a la ruta /login
+                        ),
+                        autofocus=True,
+                        align="center",
+                        justify="center",
+                        spacing="2",
                     ),
-                    spacing="4",  # Espacio entre elementos en el hstack (si hay más de uno)
+                    spacing="4",
                     width="100%",
                     justify="center",
                     align="center",
@@ -51,15 +79,15 @@ def animation_view() -> rx.Component:
             justify="center",
             align="center",
             direction="column",
-            spacing="6",  # Espacio entre elementos en el flex contenedor
-            width="100%",  # Asegúrate de que el contenedor use el 100% del ancho disponible
-            height="100vh",  # Configura la altura de la vista
+            spacing="6",
+            width="100%",
+            height="100vh",
             style={
-                # imagen de fondo
                 "background": "url('/repartidor-paquete-hombro.png')",
-                "backgroundSize": "contain",  # Ajusta según sea necesario
-                "backgroundPosition": "right center",  # Imagen pegada al lado derecho
-                "backgroundRepeat": "no-repeat",  # Evita que la imagen se repita
+                "backgroundSize": "contain",
+                "backgroundPosition": "right",
+                "backgroundRepeat": "no-repeat",
+                "maxWidth": "100vw !important",
             },
         ),
         title="container-animation",
@@ -67,6 +95,6 @@ def animation_view() -> rx.Component:
         style={
             "background": "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
             "height": "100vh",
-            "width": "100%",  # Asegúrate de que el contenedor use el 100% del ancho disponible
+            "width": "100%",
         },
     )
