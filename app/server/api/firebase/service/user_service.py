@@ -4,6 +4,7 @@ db = initialize_firebase()
 
 
 def create_user(user_data):
+    print(user_data)
     users_ref = db.collection("users")
     check = users_ref.add(user_data)
     check_id = check[1].id

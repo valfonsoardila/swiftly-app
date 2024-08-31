@@ -1,5 +1,7 @@
 # Welcome to Reflex!
 
+![Diagrama de clases](https://github.com/user-attachments/assets/f807f06a-9172-4f20-8d20-4f592d91842e)
+
 This is the base Reflex template - installed when you run `reflex init`.
 
 If you want to use a different template, pass the `--template` flag to `reflex init`.

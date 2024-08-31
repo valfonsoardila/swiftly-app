@@ -2,8 +2,8 @@ from app.server.api.firebase.service import user_service
 
 
 def create_user(user_data):
-    print("user_data", user_data)
     result = user_service.create_user(user_data)
+    print(result)
     return result
 
 

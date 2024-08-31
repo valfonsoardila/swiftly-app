@@ -7,20 +7,35 @@ class UserState(rx.State):
     email: str
     password: str
     password_confirm: str
+    is_registered: bool = False
 
     def on_signup_button_click(self):
         user_data = {
             "email": self.email,
             "password": self.password,
         }
-        if self.password == self.password_confirm:
+        if (
+            self.password == self.password_confirm
+            and self.password != ""
+            and self.password_confirm != ""
+        ):
             result = create_user(user_data)
-            if result:
+            if result == True:
+                rx.toast.success(
+                    "Registration successful! Redirecting to login...",
+                )
                 rx.redirect("/login")
-                rx.toast("User created successfully")
+                self.is_registered = True
             else:
-                rx.alert("User not found")
-                rx.toast("The user could not be created")
+                rx.toast.error(
+                    "Registration failed. Please try again.",
+                ),
+                self.is_registered = False
+        else:
+            print("Passwords do not match. Please try again.")
+            rx.toast.error(
+                "Passwords do not match. Please try again.",
+            ),
 
 
 def signup_view() -> rx.Component:
@@ -216,6 +231,7 @@ def signup_view() -> rx.Component:
                                         "cursor": "pointer",
                                         "fontSize": "20px",
                                     },
+                                    # validacion y toasts
                                     on_click=UserState.on_signup_button_click,
                                 ),
                                 _hover={
@@ -223,7 +239,6 @@ def signup_view() -> rx.Component:
                                     "transform": "scale(1.05)",
                                     "transition": "transform 0.2s ease",
                                 },
-                                href="/dashboard",
                                 width="100%",
                             ),
                             spacing="6",
