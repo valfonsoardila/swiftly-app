@@ -1,9 +1,28 @@
 import reflex as rx
+from app.server.controllers.user_controller import read_user
+
+
+class UserState(rx.State):
+    email: str
+    password: str
+
+    def on_login_button_click(self):
+        user_data = {
+            "email": self.email,
+            "password": self.password,
+        }
+        result = read_user(user_data)
+        if result:
+            rx.toast("Welcome back!")
+            rx.redirect("/login")
+        else:
+            rx.toast("User not found")
+            rx.alert("User not found")
 
 
 def login_view() -> rx.Component:
     return rx.hstack(
-        rx.box(  # Div adicional para el fondo con opacidad
+        rx.box(
             style={
                 "position": "absolute",
                 "top": "0",
@@ -15,11 +34,11 @@ def login_view() -> rx.Component:
                 "backgroundPosition": "center",
                 "backgroundRepeat": "repeat",
                 "backgroundAttachment": "fixed",
-                "opacity": "0.3",  # Solo la imagen de fondo tiene opacidad
-                "zIndex": "0",  # Asegura que esté detrás del contenido
+                "opacity": "0.3",
+                "zIndex": "0",
             },
         ),
-        rx.flex(  # Contenido principal
+        rx.flex(
             rx.hstack(
                 rx.flex(
                     rx.card(
@@ -96,6 +115,7 @@ def login_view() -> rx.Component:
                                     type="email",
                                     size="3",
                                     width="100%",
+                                    on_change=UserState.set_email,
                                 ),
                                 spacing="2",
                                 justify="start",
@@ -132,6 +152,7 @@ def login_view() -> rx.Component:
                                     type="password",
                                     size="3",
                                     width="100%",
+                                    on_change=UserState.set_password,
                                 ),
                                 spacing="2",
                                 width="100%",
@@ -150,19 +171,19 @@ def login_view() -> rx.Component:
                                         "cursor": "pointer",
                                         "fontSize": "20px",
                                     },
+                                    on_click=UserState.on_login_button_click,
                                 ),
                                 _hover={
                                     "backgroundColor": "#333333",
                                     "transform": "scale(1.05)",
                                     "transition": "transform 0.2s ease",
                                 },
-                                href="/dashboard",
                                 width="100%",
                             ),
                             rx.hstack(
                                 rx.divider(
                                     margin="0",
-                                    borderColor="rgba(0, 0, 0, 0.7)",  # Color más oscuro
+                                    borderColor="rgba(0, 0, 0, 0.7)",
                                 ),
                                 rx.text(
                                     "Or continue with",
@@ -175,7 +196,7 @@ def login_view() -> rx.Component:
                                 ),
                                 rx.divider(
                                     margin="0",
-                                    borderColor="rgba(0, 0, 0, 0.7)",  # Color más oscuro
+                                    borderColor="rgba(0, 0, 0, 0.7)",
                                 ),
                                 align="center",
                                 width="100%",
@@ -211,16 +232,16 @@ def login_view() -> rx.Component:
                         },
                     ),
                     filter="drop-shadow(0px 0px 10px rgba(0,0,0,0.1))",
-                    justify="center",  # Centrado horizontal
-                    align="center",  # Centrado vertical
+                    justify="center",
+                    align="center",
                     style={
                         "position": "relative",
                         "height": "100%",
                         "width": "100%",
                     },
                 ),
-                justify="center",  # Centrado horizontal
-                align="center",  # Centrado vertical
+                justify="center",
+                align="center",
                 height="100%",
                 width="90%",
             ),
@@ -231,10 +252,10 @@ def login_view() -> rx.Component:
         ),
         title="Container-login",
         background="linear-gradient(45deg, rgba(255,193,7) 0%, rgba(255,152,0) 25%, rgba(255,113,34) 50%, rgba(242, 116,5) 100%)",
-        width="-webkit-fill-available",  # Ancho del contenedor acoplado con responsive design
+        width="-webkit-fill-available",
         height="100vh",
         style={
-            "position": "relative",  # Para que todo el contenido esté sobre el fondo
+            "position": "relative",
             "height": "100%",
             "width": "100%",
         },

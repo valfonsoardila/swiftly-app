@@ -1,4 +1,26 @@
 import reflex as rx
+from app.server.controllers.user_controller import create_user
+
+
+class UserState(rx.State):
+    username: str
+    email: str
+    password: str
+    password_confirm: str
+
+    def on_signup_button_click(self):
+        user_data = {
+            "email": self.email,
+            "password": self.password,
+        }
+        if self.password == self.password_confirm:
+            result = create_user(user_data)
+            if result:
+                rx.redirect("/login")
+                rx.toast("User created successfully")
+            else:
+                rx.alert("User not found")
+                rx.toast("The user could not be created")
 
 
 def signup_view() -> rx.Component:
@@ -96,6 +118,7 @@ def signup_view() -> rx.Component:
                                     type="email",
                                     size="3",
                                     width="100%",
+                                    on_change=UserState.set_username,
                                 ),
                                 spacing="2",
                                 justify="start",
@@ -119,6 +142,7 @@ def signup_view() -> rx.Component:
                                     type="email",
                                     size="3",
                                     width="100%",
+                                    on_change=UserState.set_email,
                                 ),
                                 spacing="2",
                                 justify="start",
@@ -140,6 +164,7 @@ def signup_view() -> rx.Component:
                                     type="password",
                                     size="3",
                                     width="100%",
+                                    on_change=UserState.set_password,
                                 ),
                                 spacing="2",
                                 width="100%",
@@ -160,6 +185,7 @@ def signup_view() -> rx.Component:
                                     type="password",
                                     size="3",
                                     width="100%",
+                                    on_change=UserState.set_password_confirm,
                                 ),
                                 spacing="2",
                                 width="100%",
@@ -190,6 +216,7 @@ def signup_view() -> rx.Component:
                                         "cursor": "pointer",
                                         "fontSize": "20px",
                                     },
+                                    on_click=UserState.on_signup_button_click,
                                 ),
                                 _hover={
                                     "backgroundColor": "#333333",
