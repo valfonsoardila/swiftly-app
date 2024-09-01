@@ -14,11 +14,23 @@ def initialize_firebase():
 
 
 def create_json_acces():
+    # Obtiene el directorio del script actual
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Construye la ruta a 4 niveles hacia atrás
+    parent_dir = os.path.abspath(os.path.join(base_dir, "../../../../"))
+
+    # Construye la ruta al archivo de clave privada
+    private_key_path = os.path.join(parent_dir, "private_key.pem")
+
+    # Lee el contenido del archivo de clave privada
+    with open(private_key_path, "r") as file:
+        private_key = file.read()
     credentialsUser = {
         "type": os.getenv("TYPE"),
         "project_id": os.getenv("PROJECT_ID"),
         "private_key_id": os.getenv("PRIVATE_KEY_ID"),
-        "private_key": os.getenv("PRIVATE_KEY"),
+        "private_key": private_key,
         "client_email": os.getenv("CLIENT_EMAIL"),
         "client_id": os.getenv("CLIENT_ID"),
         "auth_uri": os.getenv("AUTH_URI"),

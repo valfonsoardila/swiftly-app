@@ -3,39 +3,38 @@ from app.server.controllers.user_controller import create_user
 
 
 class UserState(rx.State):
-    username: str
-    email: str
-    password: str
-    password_confirm: str
-    is_registered: bool = False
+    username: str = ""
+    email: str = ""
+    password: str = ""
+    password_confirm: str = ""
+    agree: bool = False
+    redirect_flag: bool = False
 
     def on_signup_button_click(self):
         user_data = {
+            "username": self.username,
             "email": self.email,
             "password": self.password,
         }
-        if (
-            self.password == self.password_confirm
-            and self.password != ""
-            and self.password_confirm != ""
-        ):
+        if self.password == self.password_confirm and self.password:
             result = create_user(user_data)
-            if result == True:
+            if result:
                 rx.toast.success(
                     "Registration successful! Redirecting to login...",
+                    duration=5000,
                 )
-                rx.redirect("/login")
-                self.is_registered = True
+                self.redirect_flag = True
+                yield
+                return rx.redirect("/login")
             else:
-                rx.toast.error(
-                    "Registration failed. Please try again.",
-                ),
-                self.is_registered = False
+                return rx.toast.error(
+                    "Registration failed. Please try again.", duration=5000
+                )
         else:
-            print("Passwords do not match. Please try again.")
-            rx.toast.error(
+            return rx.toast.error(
                 "Passwords do not match. Please try again.",
-            ),
+                duration=5000,
+            )
 
 
 def signup_view() -> rx.Component:
@@ -134,6 +133,10 @@ def signup_view() -> rx.Component:
                                     size="3",
                                     width="100%",
                                     on_change=UserState.set_username,
+                                    color_scheme="orange",
+                                    variant="surface",
+                                    radius="full",
+                                    required=True,
                                 ),
                                 spacing="2",
                                 justify="start",
@@ -154,10 +157,14 @@ def signup_view() -> rx.Component:
                                 rx.input(
                                     rx.input.slot(rx.icon("user")),
                                     placeholder="user@reflex.dev",
-                                    type="email",
+                                    type="username",
                                     size="3",
                                     width="100%",
                                     on_change=UserState.set_email,
+                                    color_scheme="orange",
+                                    variant="surface",
+                                    radius="full",
+                                    required=True,
                                 ),
                                 spacing="2",
                                 justify="start",
@@ -180,6 +187,10 @@ def signup_view() -> rx.Component:
                                     size="3",
                                     width="100%",
                                     on_change=UserState.set_password,
+                                    color_scheme="orange",
+                                    variant="surface",
+                                    radius="full",
+                                    required=True,
                                 ),
                                 spacing="2",
                                 width="100%",
@@ -201,19 +212,29 @@ def signup_view() -> rx.Component:
                                     size="3",
                                     width="100%",
                                     on_change=UserState.set_password_confirm,
+                                    color_scheme="orange",
+                                    variant="surface",
+                                    radius="full",
+                                    required=True,
                                 ),
                                 spacing="2",
                                 width="100%",
                             ),
                             rx.box(
                                 rx.checkbox(
-                                    "Agree to Terms and Conditions",
+                                    rx.text(
+                                        "Agree to Terms and Conditions",
+                                        size="3",
+                                        weight="normal",
+                                        style={
+                                            "color": "black",
+                                        },
+                                    ),
                                     default_checked=True,
                                     spacing="2",
-                                    style={
-                                        "color": "black",
-                                        "fontWeight": "bold",
-                                    },
+                                    color_scheme="orange",
+                                    on_change=UserState.set_agree,
+                                    _hover={"cursor": "pointer"},
                                 ),
                                 width="100%",
                             ),
@@ -231,7 +252,6 @@ def signup_view() -> rx.Component:
                                         "cursor": "pointer",
                                         "fontSize": "20px",
                                     },
-                                    # validacion y toasts
                                     on_click=UserState.on_signup_button_click,
                                 ),
                                 _hover={

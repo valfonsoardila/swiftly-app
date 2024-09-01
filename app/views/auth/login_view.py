@@ -6,18 +6,25 @@ class UserState(rx.State):
     email: str
     password: str
 
-    def on_login_button_click(self):
+    def on_login_button_click(self) -> rx.Component:
         user_data = {
             "email": self.email,
             "password": self.password,
         }
-        result = read_user(user_data)
-        if result:
-            rx.toast("Welcome back!")
-            rx.redirect("/login")
+        if (
+            self.password == self.password_confirm
+            and self.password != ""
+            and self.password_confirm != ""
+        ):
+            result = read_user(user_data)
+            if result == True:
+                return rx.toast.success(
+                    "Registration successful! Redirecting to login..."
+                ) + rx.redirect("/dashboard")
+            else:
+                return rx.toast.error("Registration failed. Please try again.")
         else:
-            rx.toast("User not found")
-            rx.alert("User not found")
+            return rx.toast.error("Passwords do not match. Please try again.")
 
 
 def login_view() -> rx.Component:
@@ -116,6 +123,10 @@ def login_view() -> rx.Component:
                                     size="3",
                                     width="100%",
                                     on_change=UserState.set_email,
+                                    color_scheme="orange",
+                                    variant="surface",
+                                    radius="full",
+                                    required=True,
                                 ),
                                 spacing="2",
                                 justify="start",
@@ -153,6 +164,10 @@ def login_view() -> rx.Component:
                                     size="3",
                                     width="100%",
                                     on_change=UserState.set_password,
+                                    color_scheme="orange",
+                                    variant="surface",
+                                    radius="full",
+                                    required=True,
                                 ),
                                 spacing="2",
                                 width="100%",
@@ -183,7 +198,9 @@ def login_view() -> rx.Component:
                             rx.hstack(
                                 rx.divider(
                                     margin="0",
-                                    borderColor="rgba(0, 0, 0, 0.7)",
+                                    style={
+                                        "backgroundColor": "rgba(0,0,0,0.5)",
+                                    },
                                 ),
                                 rx.text(
                                     "Or continue with",
@@ -196,7 +213,9 @@ def login_view() -> rx.Component:
                                 ),
                                 rx.divider(
                                     margin="0",
-                                    borderColor="rgba(0, 0, 0, 0.7)",
+                                    style={
+                                        "backgroundColor": "rgba(0,0,0,0.5)",
+                                    },
                                 ),
                                 align="center",
                                 width="100%",
