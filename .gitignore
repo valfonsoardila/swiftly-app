@@ -1,0 +1,13 @@
+*.db
+*.py[cod]
+.env
+.venv/
+.web
+__init__.py
+__pycache__/
+assets/external/
+env/
+private_key.pem
+project_structure.text
+serviceAccountKey.json
+venv/
