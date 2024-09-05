@@ -5,7 +5,6 @@ import os
 
 
 def initialize_firebase():
-    os.environ.clear()  # Clear the environment
     load_dotenv(override=True)  # Load the .env file
     credentialsUser = create_json_acces()
     cred = credentials.Certificate(credentialsUser)
