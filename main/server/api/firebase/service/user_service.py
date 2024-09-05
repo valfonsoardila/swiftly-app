@@ -1,4 +1,4 @@
-from app.server.api.firebase.firebase_config import initialize_firebase
+from main.server.api.firebase.firebase_config import initialize_firebase
 from google.cloud.firestore_v1 import FieldFilter
 
 db = initialize_firebase()

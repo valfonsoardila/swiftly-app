@@ -1,8 +1,5 @@
 import reflex as rx
-from app.views.viewState.userState import UserState
-
-
-
+from main.ui.states.userState import UserState
 
 
 @rx.page(route="/signup")

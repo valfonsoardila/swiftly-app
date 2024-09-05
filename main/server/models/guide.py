@@ -1,8 +1,8 @@
 from datetime import date
 from typing import Optional
-from app.server.models.recipient import Recipient
-from app.server.models.sender import Sender
-from app.server.models.serviceType import ServiceType
+from main.server.models.recipient import Recipient
+from main.server.models.sender import Sender
+from main.server.models.serviceType import ServiceType
 
 
 class Guide:

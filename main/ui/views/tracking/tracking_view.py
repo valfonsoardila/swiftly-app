@@ -13,7 +13,7 @@ class TrackingState(rx.State):
         return rx.redirect("/login")
 
 
-@rx.page(route="/tracking")
+@rx.page(route="/tracking", title="Tracking | Swiftly")
 def tracking_view() -> rx.Component:
     return rx.vstack(
         # Encabezado
@@ -79,6 +79,11 @@ def tracking_view() -> rx.Component:
                                     "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                                     "borderRadius": "20px",
                                     "span": {"color": "rgba(0, 0, 0, 0.4)"},
+                                    "svg": {
+                                        "height": "15px",
+                                        "width": "15px",
+                                        "fontWeight": "bold !important",
+                                    },
                                 },
                             ),
                             rx.select.content(
@@ -239,13 +244,14 @@ def tracking_view() -> rx.Component:
                                 direction="column",
                             ),
                             background_color="transparent",
-                            width="40%",
+                            width="50%",
                             height="100%",
                         ),
                         # seccion derecha
                         rx.box(
                             rx.vstack(
                                 rx.box(
+                                    # Estado del envio
                                     rx.vstack(
                                         rx.text(
                                             "Detalles del envio",
@@ -523,6 +529,7 @@ def tracking_view() -> rx.Component:
                                                             ),
                                                             width="50%",
                                                         ),
+                                                        width="100%",
                                                         direction="row",
                                                     ),
                                                     width="100%",
@@ -544,7 +551,8 @@ def tracking_view() -> rx.Component:
                                         height="100%",
                                     ),
                                     width="100%",
-                                    height="70%",
+                                    height="45%",
+                                    padding="20px",
                                 ),
                                 width="100%",
                                 height="100%",
@@ -553,7 +561,7 @@ def tracking_view() -> rx.Component:
                                 direction="column",
                             ),
                             background_color="transparent",
-                            width="60%",
+                            width="50%",
                             height="100%",
                         ),
                         width="100%",

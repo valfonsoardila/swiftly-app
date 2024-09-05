@@ -1,6 +1,6 @@
 import reflex as rx
 from reflex_simpleicons import simpleicons
-from app.views.viewState.userState import UserState
+from main.ui.states.userState import UserState
 
 
 @rx.page(route="/login")
@@ -199,8 +199,7 @@ def login_view() -> rx.Component:
                             ),
                             rx.center(
                                 rx.icon_button(
-                                    # simpleicons("google", size="24"),
-                                    rx.icon(tag="github"),
+                                    simpleicons("google", size="24"),
                                     variant="soft",
                                     size="3",
                                 ),

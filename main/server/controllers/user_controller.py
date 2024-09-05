@@ -1,4 +1,4 @@
-from app.server.api.firebase.service import user_service
+from main.server.api.firebase.service import user_service
 
 
 def create_user(user_data):

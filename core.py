@@ -5,7 +5,7 @@ import socket
 
 
 def create_skeleton():
-    name_root = "app"
+    name_root = "main"
     # Ejecutar reflex init
     subprocess.run(["reflex", "init"], check=True)
 
@@ -42,8 +42,22 @@ def create_skeleton():
                     )
                     break
             break
+
     # Eliminar __pycache__
     delete_pycache()
+
+    # Crear las carpetas adicionales
+    server_path = os.path.join(name_root, "server")
+    ui_path = os.path.join(name_root, "ui")
+
+    # Crear carpetas server/api, server/controllers, server/models
+    os.makedirs(os.path.join(server_path, "api"), exist_ok=True)
+    os.makedirs(os.path.join(server_path, "controllers"), exist_ok=True)
+    os.makedirs(os.path.join(server_path, "models"), exist_ok=True)
+
+    # Crear carpetas ui/views, ui/states
+    os.makedirs(os.path.join(ui_path, "views"), exist_ok=True)
+    os.makedirs(os.path.join(ui_path, "states"), exist_ok=True)
 
 
 def update_rxconfig_app_name(new_app_name):

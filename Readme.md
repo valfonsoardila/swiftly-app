@@ -48,6 +48,12 @@ poetry run create-skln
 poetry run --frontend
 ```
 
+- ### `Crear estructura monorepo`
+```bash
+# Comando para crear estructura basica y vacia en monorepo
+poetry run create-skln
+```
+
 ## Estructura inicial para automatizar reflex 
 
 Esta plantilla tiene la siguiente estructura de directorios:
