@@ -157,7 +157,7 @@ def app_view() -> rx.Component:
         width="100%",
         height="100vh",  # Esto hará que el box ocupe toda la altura de la pantalla
         # imagen de fondo
-        background_image="url('/bg.gif')",
+        background_image="url('/bg.jpg')",
         style={
             "backgroundSize": "cover",
             "backgroundPosition": "center",
