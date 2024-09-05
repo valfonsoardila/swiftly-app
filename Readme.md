@@ -43,6 +43,7 @@ debe escoger un proyecto en blanco en el menu de opciones que le ofrece poetry
 poetry run create-skln
 ```
 - ### `Correr el proyecto en modo desarrollo`
+Esto desplegará tanto el frontend como el backend
 ```bash
 # Comando para correr el proyecto en modo desarrollo
 poetry run --frontend
