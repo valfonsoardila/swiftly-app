@@ -8,7 +8,7 @@
 
 ## Descripcion del proyecto
 
-![Selección_003](https://github.com/user-attachments/assets/40614218-e8a8-4dd9-b34d-2335629e6419)
+![Dashboard_view](https://github.com/user-attachments/assets/52dc2237-db92-41cb-86b6-94ddfcaf422a)
 
 Este es un proyecto hecho en Reflex - instalada cuando ejecutas `reflex init`.
 Al iniciar este comando tome una plantilla en blanco de todas las plantillas disponibles `--template blank`
