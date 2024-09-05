@@ -226,7 +226,7 @@ def sidebar_bottom_profile() -> rx.Component:
                 rx.spacer(),
                 rx.vstack(
                     rx.vstack(
-                        sidebar_item("Settings", "settings", "/#"),
+                        sidebar_item("Settings", "settings", "/settings"),
                         sidebar_item("Log out", "log-out", "/login"),
                         spacing="1",
                         width="100%",
