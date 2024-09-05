@@ -3,7 +3,7 @@ from reflex_simpleicons import simpleicons
 from main.ui.states.userState import UserState
 
 
-@rx.page(route="/login")
+@rx.page(route="/login", title="Login")
 def login_view() -> rx.Component:
     return rx.hstack(
         rx.box(

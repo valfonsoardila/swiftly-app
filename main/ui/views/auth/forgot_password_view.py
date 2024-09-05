@@ -1,6 +1,7 @@
 import reflex as rx
 
-@rx.page(route="/forgot-password")
+
+@rx.page(route="/forgot-password", title="Forgot Password")
 def forgot_password_view() -> rx.Component:
     return rx.hstack(
         rx.box(  # Div adicional para el fondo con opacidad

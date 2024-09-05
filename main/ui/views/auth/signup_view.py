@@ -2,7 +2,7 @@ import reflex as rx
 from main.ui.states.userState import UserState
 
 
-@rx.page(route="/signup")
+@rx.page(route="/signup", title="Sign Up")
 def signup_view() -> rx.Component:
     return rx.hstack(
         rx.box(  # Div adicional para el fondo con opacidad
