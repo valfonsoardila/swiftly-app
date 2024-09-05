@@ -63,6 +63,10 @@ def app_view() -> rx.Component:
                                 ),
                                 size="2xl",
                                 background_color="rgba(255, 255, 255, 0.4)",
+                                _hover={
+                                    "backgroundColor": "rgba(255, 255, 255, 0.82)",
+                                    "cursor": "pointer",
+                                },
                                 border="none",
                                 box_shadow="0 2px 4px rgba(0, 0, 0, 0.4)",
                                 border_radius="20px",
@@ -128,23 +132,27 @@ def app_view() -> rx.Component:
                 ),
                 # Main Content with two vertical sections side by side
                 rx.hstack(
-                    rx.hstack(),
+                    rx.flex(
+                        rx.vstack(),
+                        style={
+                            "background": "rgba(255, 255, 255, 0.82)",
+                            "border": "1px solid #ccc",
+                            "borderRadius": "20px",
+                            "boxShadow": "0 0.5px 2px rgba(0, 0, 0, 0.4)",
+                        },
+                        width="100%",
+                        height="100%",
+                    ),
                     width="100%",
                     height="96vh",
                     spacing="2",
                 ),
                 title="Dashboard",
                 width="100%",
-                spacing="0",
+                spacing="2",
             ),
             width="98%",
             height="98%",
-            style={
-                "background": "rgba(255, 255, 255, 0.82)",
-                "border": "1px solid #ccc",
-                "borderRadius": "20px",
-                "boxShadow": "0 0.5px 2px rgba(0, 0, 0, 0.4)",
-            },
         ),
         width="100%",
         height="100vh",  # Esto hará que el box ocupe toda la altura de la pantalla
