@@ -74,7 +74,10 @@ def tracking_view() -> rx.Component:
                         rx.container(
                             rx.vstack(
                                 rx.text(
-                                    "Tipo de paquete", color="black", font_weight="bold", font_size="20px",
+                                    "Tipo de paquete",
+                                    color="black",
+                                    font_weight="bold",
+                                    font_size="20px",
                                 ),
                                 rx.select.root(
                                     rx.select.trigger(
@@ -649,7 +652,6 @@ def tracking_view() -> rx.Component:
         ),
         background_image="url('/tracking.jpg')",
         style={
-            "backgroundAttachment": "fixed",
             "backgroundSize": "cover",
             "backgroundPosition": "center",
             "backgroundRepeat": "no-repeat",
