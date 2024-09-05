@@ -241,14 +241,16 @@ def sidebar_bottom_profile() -> rx.Component:
                         rx.vstack(
                             rx.box(
                                 rx.text(
-                                    UserState.load_user,
+                                    UserState.load_user_username,
                                     size="3",
                                     weight="bold",
+                                    color="black",
                                 ),
                                 rx.text(
-                                    UserState.load_user,
+                                    UserState.load_user_email,
                                     size="2",
                                     weight="medium",
+                                    color="black",
                                 ),
                                 width="100%",
                             ),
@@ -317,7 +319,7 @@ def sidebar_bottom_profile() -> rx.Component:
                                     rx.vstack(
                                         rx.box(
                                             rx.text(
-                                                UserState.load_user,
+                                                UserState.load_user_email,
                                                 size="3",
                                                 weight="bold",
                                             ),

@@ -77,11 +77,21 @@ class UserState(rx.State):
             )
 
     @rx.var
-    def load_user(self) -> str:
+    def load_user_email(self) -> str:
         try:
             user = json.loads(self.logged_user)
             return user.get(
                 "email", ""
             )  # Devuelve el email del usuario o una cadena vacía
+        except json.JSONDecodeError:
+            return ""
+
+    @rx.var
+    def load_user_username(self) -> str:
+        try:
+            user = json.loads(self.logged_user)
+            return user.get(
+                "username", ""
+            )  # Devuelve el username del usuario o una cadena vacía
         except json.JSONDecodeError:
             return ""
