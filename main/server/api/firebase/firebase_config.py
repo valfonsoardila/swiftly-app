@@ -5,14 +5,13 @@ import os
 
 
 def initialize_firebase():
-    pass
-    # os.environ.clear()  # Clear the environment
-    # load_dotenv(override=True)  # Load the .env file
-    # credentialsUser = create_json_acces()
-    # cred = credentials.Certificate(credentialsUser)
-    # firebase_admin.initialize_app(cred)
-    # db = firestore.client()
-    # return db
+    os.environ.clear()  # Clear the environment
+    load_dotenv(override=True)  # Load the .env file
+    credentialsUser = create_json_acces()
+    cred = credentials.Certificate(credentialsUser)
+    firebase_admin.initialize_app(cred)
+    db = firestore.client()
+    return db
 
 
 def create_json_acces():

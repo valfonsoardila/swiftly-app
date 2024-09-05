@@ -59,7 +59,7 @@ class UserState(rx.State):
                     duration=3000,
                 )
                 await asyncio.sleep(3)
-                yield rx.redirect("/dashboard")
+                yield rx.redirect("/app")
             elif result["password"] != user_data["password"]:
                 yield rx.toast.error(
                     "Invalid password. Please try again.",
