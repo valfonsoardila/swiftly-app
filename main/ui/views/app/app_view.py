@@ -11,19 +11,9 @@ from main.ui.views.app.modules.settings_view import settings_view
 # import models
 from main.server.models.guide import Guide
 from main.server.models.sender import Sender
+from main.ui.states.pageState import StatePage
 
 # logica para implemetar los estados de las guias y los clientes o senders
-
-
-class StatePage(rx.State):
-    current_route: str = "dashboard"
-
-    def set_route(self, route: str):
-        self.current_route = route
-
-    def logout(self):
-        # Aquí puedes agregar lógica adicional para cerrar la sesión si es necesario
-        return rx.redirect("/login")
 
 
 class StateSidebar(rx.State):

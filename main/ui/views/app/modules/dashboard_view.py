@@ -1,7 +1,10 @@
 import reflex as rx
-from reflex_simpleicons import simpleicons
+from main.ui.states.pageState import StatePage
+
+# from reflex_simpleicons import simpleicons
 
 
+@rx.page(route="/app/dashboard", title="App | Dashboard")
 def dashboard_view() -> rx.Component:
     data = [
         {"name": "Page A", "uv": 4000, "pv": 2400, "amt": 2400},
@@ -111,7 +114,7 @@ def dashboard_view() -> rx.Component:
                                 rx.vstack(
                                     rx.hstack(
                                         item_list_client(
-                                            "/logo.png", "Cliente 1", "/#"
+                                            "/logo.png", "Cliente 1", "clients"
                                         ),
                                         height="100%",
                                         width="100%",
@@ -156,7 +159,7 @@ def dashboard_view() -> rx.Component:
                                 # Contenido
                                 rx.box(
                                     rx.vstack(
-                                        item_list_guide("route", "Guia 1", "/#"),
+                                        item_list_guide("route", "Guia 1", "guides"),
                                     ),
                                     width="100%",
                                     height="100%",
@@ -205,6 +208,7 @@ def item_list_guide(icon: str, text: str, href: str) -> rx.Component:
                     "borderRadius": "2px",
                     "color": "orange",
                     "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                    "cursor": "pointer",
                     "transition": "all 0.3s",
                 },
                 "borderRadius": "0.5rem",
@@ -213,7 +217,7 @@ def item_list_guide(icon: str, text: str, href: str) -> rx.Component:
             },
         ),
         background_color="rgba(255, 255, 255, 0.5)",
-        href=href,
+        on_click=StatePage.set_current_route(href),
         underline="none",
         weight="medium",
         width="100%",
@@ -237,6 +241,7 @@ def item_list_client(img: str, text: str, href: str) -> rx.Component:
                     "borderRadius": "2px",
                     "color": "orange",
                     "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                    "cursor": "pointer",
                     "transition": "all 0.3s",
                 },
                 "borderRadius": "0.5rem",
@@ -249,7 +254,7 @@ def item_list_client(img: str, text: str, href: str) -> rx.Component:
             direction="column",
         ),
         align_items="center",
-        href=href,
+        on_click=StatePage.set_current_route(href),
         underline="none",
         weight="medium",
         width="100%",
