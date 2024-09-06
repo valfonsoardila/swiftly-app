@@ -1,5 +1,24 @@
 import reflex as rx
 from main.ui.states.userState import UserState
+import base64
+
+
+class StateImageAvatar(rx.State):
+    image_data: str = (
+        ""  # Variable para almacenar los datos de la imagen como una cadena codificada
+    )
+    image: str = "/ico/avatar.png"
+
+    async def handle_upload(self, files: list[rx.UploadFile]):
+        for file in files:
+            # Leer el archivo como binarios
+            upload_data = await file.read()
+
+            # Codificar los datos binarios en una cadena base64
+            self.image_data = base64.b64encode(upload_data).decode("utf-8")
+
+            # Si necesitas actualizar la ruta de la imagen (opcional)
+            self.image = f"data:image/png;base64,{self.image_data}"
 
 
 @rx.page(route="/signup", title="Sign Up")
@@ -78,6 +97,17 @@ def signup_view() -> rx.Component:
                                 justify="start",
                                 direction="column",
                                 spacing="4",
+                                width="100%",
+                            ),
+                            rx.vstack(
+                                circle_avatar(
+                                    image=StateImageAvatar.image,
+                                    size="150px",
+                                    on_upload=StateImageAvatar.handle_upload(
+                                        rx.upload_files(upload_id="avatar_upload")
+                                    ),
+                                ),
+                                align="center",
                                 width="100%",
                             ),
                             rx.vstack(
@@ -265,4 +295,53 @@ def signup_view() -> rx.Component:
             "height": "100%",
             "width": "100%",
         },
+    )
+
+
+def circle_avatar(image: str, size: str = "3em", on_upload=None) -> rx.Component:
+    return rx.box(
+        rx.avatar(
+            src=image,
+            size="9",
+            fallback="",
+        ),
+        rx.upload(
+            rx.button(
+                rx.icon("camera"),
+                position="absolute",
+                top="50%",
+                left="50%",
+                transform="translate(-50%, -50%)",
+                background_color="rgba(0, 0, 0, 0.5)",
+                color="white",
+                border_radius="50%",
+                style={
+                    "height": "30%",
+                    "width": "30%",
+                },
+                _hover={
+                    "background": "rgba(0, 0, 0, 0.7)",
+                    "cursor": "pointer",
+                },
+            ),
+            id="avatar_upload",
+            multiple=False,
+            accept={
+                "image/png": [".png"],
+                "image/jpeg": [".jpg", ".jpeg"],
+                "image/gif": [".gif"],
+            },
+            max_files=1,
+            on_drop=on_upload,
+        ),
+        style={
+            "borderRadius": "50%",
+            "overflow": "hidden",
+            "position": "relative",
+            "width": size,
+            "height": size,
+        },
+        position="relative",
+        width=size,
+        height=size,
     )
