@@ -1,6 +1,7 @@
 import reflex as rx
 from main.server.controllers.user_controller import create_user, read_user
 import asyncio
+import base64
 import json
 
 
@@ -11,6 +12,21 @@ class UserState(rx.State):
     password_confirm: str = ""
     agree: bool = False
     logged_user: dict = rx.LocalStorage({}, name="user_data")
+    image_data: str = (
+        ""  # Variable para almacenar los datos de la imagen como una cadena codificada
+    )
+    image: str = "/ico/avatar.png"
+
+    async def handle_upload_image_profile(self, files: list[rx.UploadFile]):
+        for file in files:
+            # Leer el archivo como binarios
+            upload_data = await file.read()
+
+            # Codificar los datos binarios en una cadena base64
+            self.image_data = base64.b64encode(upload_data).decode("utf-8")
+
+            # Si necesitas actualizar la ruta de la imagen (opcional)
+            self.image = f"data:image/png;base64,{self.image_data}"
 
     @rx.background
     async def on_signup_button_click(self):
@@ -76,6 +92,7 @@ class UserState(rx.State):
                 duration=5000,
             )
 
+    # accesores
     @rx.var
     def load_user_email(self) -> str:
         try:

@@ -3,24 +3,6 @@ from main.ui.states.userState import UserState
 import base64
 
 
-class StateImageAvatar(rx.State):
-    image_data: str = (
-        ""  # Variable para almacenar los datos de la imagen como una cadena codificada
-    )
-    image: str = "/ico/avatar.png"
-
-    async def handle_upload(self, files: list[rx.UploadFile]):
-        for file in files:
-            # Leer el archivo como binarios
-            upload_data = await file.read()
-
-            # Codificar los datos binarios en una cadena base64
-            self.image_data = base64.b64encode(upload_data).decode("utf-8")
-
-            # Si necesitas actualizar la ruta de la imagen (opcional)
-            self.image = f"data:image/png;base64,{self.image_data}"
-
-
 @rx.page(route="/signup", title="Sign Up")
 def signup_view() -> rx.Component:
     return rx.hstack(
@@ -101,9 +83,9 @@ def signup_view() -> rx.Component:
                             ),
                             rx.vstack(
                                 circle_avatar(
-                                    image=StateImageAvatar.image,
+                                    image=UserState.image,
                                     size="150px",
-                                    on_upload=StateImageAvatar.handle_upload(
+                                    on_upload=UserState.handle_upload_image_profile(
                                         rx.upload_files(upload_id="avatar_upload")
                                     ),
                                 ),
