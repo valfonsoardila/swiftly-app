@@ -28,7 +28,7 @@ def forgot_password_view() -> rx.Component:
                             rx.flex(
                                 rx.center(
                                     rx.image(
-                                        src="/logo.png",
+                                        src="/ico/logo.png",
                                         width="40%",
                                         border_radius="25%",
                                     ),
