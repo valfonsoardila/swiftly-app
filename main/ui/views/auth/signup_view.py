@@ -335,6 +335,7 @@ def circle_avatar(image: str, size: str = "3em", on_upload=None) -> rx.Component
             on_drop=on_upload,
         ),
         style={
+            "border": "2px solid rgba(0, 0, 0, 0.4)",
             "borderRadius": "50%",
             "overflow": "hidden",
             "position": "relative",
