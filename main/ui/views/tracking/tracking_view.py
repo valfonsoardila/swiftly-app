@@ -650,15 +650,24 @@ def tracking_view() -> rx.Component:
                 "background": "rgba(255, 255, 255, 0.3)",
             },
         ),
-        background_image="url('/tracking.jpg')",
-        style={
-            "backgroundSize": "cover",
-            "backgroundPosition": "center",
-            "backgroundRepeat": "no-repeat",
-            "display": "flex",
-        },  # Estilos del contenedor principal
+        position="relative",
         width="100%",
         height="100vh",
+        overflow="hidden",
+        _before={
+            "content": '""',
+            "position": "absolute",
+            "top": "0",
+            "left": "0",
+            "width": "100%",
+            "height": "100%",
+            "background_image": "url('/tracking.jpg')",
+            "background_size": "cover",
+            "background_position": "center",
+            "background_repeat": "no-repeat",
+            "filter": "blur(3.5px)",
+            "z_index": "-1",
+        },
     )
 
 

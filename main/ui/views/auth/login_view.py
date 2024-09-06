@@ -13,7 +13,7 @@ def login_view() -> rx.Component:
                 "left": "0",
                 "right": "0",
                 "bottom": "0",
-                "background": "url('/diseño-b.png')",
+                "background": "url('/design/diseño-b.png')",
                 "backgroundSize": "15% auto",
                 "backgroundPosition": "center",
                 "backgroundRepeat": "repeat",
@@ -30,7 +30,7 @@ def login_view() -> rx.Component:
                             rx.flex(
                                 rx.center(
                                     rx.image(
-                                        src="/logo.png",
+                                        src="/ico/logo.png",
                                         width="40%",
                                         border_radius="25%",
                                     ),
@@ -199,19 +199,43 @@ def login_view() -> rx.Component:
                             ),
                             rx.center(
                                 rx.icon_button(
-                                    simpleicons("google", size="24"),
+                                    rx.image(
+                                        src="/svg/google_icon.svg",
+                                        width="24px",
+                                        height="24px",
+                                    ),
                                     variant="soft",
                                     size="3",
+                                    style={
+                                        "backgroundColor": "rgba(255,255,255,0.8)",
+                                        "border": "none",
+                                        "borderRadius": "30%",
+                                        "cursor": "pointer",
+                                    },
                                 ),
                                 rx.icon_button(
                                     rx.icon(tag="github"),
                                     variant="soft",
                                     size="3",
+                                    style={
+                                        "color": "white",
+                                        "backgroundColor": "rgba(0,0,0,0.8)",
+                                        "border": "none",
+                                        "borderRadius": "30%",
+                                        "cursor": "pointer",
+                                    },
                                 ),
                                 rx.icon_button(
                                     rx.icon(tag="facebook"),
                                     variant="soft",
                                     size="3",
+                                    style={
+                                        "color": "white",
+                                        "backgroundColor": "rgba(59,89,152,0.8)",
+                                        "border": "none",
+                                        "borderRadius": "30%",
+                                        "cursor": "pointer",
+                                    },
                                 ),
                                 spacing="4",
                                 direction="row",
@@ -246,7 +270,6 @@ def login_view() -> rx.Component:
             height="100%",
             width="100%",
         ),
-        title="Container-login",
         background="linear-gradient(45deg, rgba(255,193,7) 0%, rgba(255,152,0) 25%, rgba(255,113,34) 50%, rgba(242, 116,5) 100%)",
         width="-webkit-fill-available",
         height="100vh",

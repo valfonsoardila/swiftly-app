@@ -6,7 +6,7 @@ def intro_view() -> rx.Component:
         rx.flex(
             rx.center(
                 rx.image(
-                    src="/logo.png",
+                    src="/ico/logo.png",
                     height="250px",
                     border_radius="25%",
                     style={
@@ -107,7 +107,7 @@ def intro_view() -> rx.Component:
             width="100%",
             height="100vh",
             style={
-                "background": "url('/repartidor-paquete-hombro.png')",
+                "background": "url('/design/repartidor-paquete-hombro.png')",
                 "backgroundSize": "contain",
                 "backgroundPosition": "right",
                 "backgroundRepeat": "no-repeat",

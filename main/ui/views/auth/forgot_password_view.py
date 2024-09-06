@@ -11,7 +11,7 @@ def forgot_password_view() -> rx.Component:
                 "left": "0",
                 "right": "0",
                 "bottom": "0",
-                "background": "url('/diseño-b.png')",
+                "background": "url('/design/diseño-b.png')",
                 "backgroundSize": "15% auto",
                 "backgroundPosition": "center",
                 "backgroundRepeat": "repeat",
