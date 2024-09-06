@@ -31,6 +31,7 @@ class UserState(rx.State):
     @rx.background
     async def on_signup_button_click(self):
         user_data = {
+            "image": self.image_data,
             "username": self.username,
             "email": self.email,
             "password": self.password,
@@ -110,5 +111,19 @@ class UserState(rx.State):
             return user.get(
                 "username", ""
             )  # Devuelve el username del usuario o una cadena vacía
+        except json.JSONDecodeError:
+            return ""
+
+    @rx.var
+    def load_user_image(self) -> str:
+        try:
+            user = json.loads(self.logged_user)
+
+            image = user.get(
+                "image", ""
+            )  # Devuelve el username del usuario o una cadena vacía
+
+            # convertir la cadena a un formato de imagen
+            return f"data:image/png;base64,{image}"
         except json.JSONDecodeError:
             return ""

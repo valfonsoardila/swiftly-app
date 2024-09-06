@@ -234,9 +234,16 @@ def sidebar_bottom_profile() -> rx.Component:
                     rx.divider(),
                     rx.hstack(
                         rx.icon_button(
-                            rx.icon("user"),
-                            size="3",
+                            rx.avatar(
+                                src=UserState.load_user_image,
+                                size="4",
+                                width="100%",
+                                height="100%",
+                                object_fit="cover",
+                            ),
+                            size="4",
                             radius="full",
+                            padding="0",
                         ),
                         rx.vstack(
                             rx.box(
