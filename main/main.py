@@ -9,7 +9,7 @@ from main.ui.views.app.app_view import app_view
 from main.ui.views.app.modules.dashboard_view import dashboard_view
 from main.ui.views.app.modules.guides_view import guides_view
 from main.ui.views.app.modules.settings_view import settings_view
-from main.ui.views.app.modules.client_view import client_view
+from main.ui.views.app.modules.clients_view import clients_view
 from main.ui.views.tracking.tracking_view import tracking_view
 
 

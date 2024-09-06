@@ -2,6 +2,28 @@ import reflex as rx
 from main.ui.states.userState import UserState
 from main.server.models.guide import Guide
 from main.server.models.sender import Sender
+from main.ui.views.app.modules.guides_view import guides_view
+from main.ui.views.app.modules.senders_view import senders_view
+from main.ui.views.app.modules.clients_view import clients_view
+from main.ui.views.app.modules.dashboard_view import dashboard_view
+from main.ui.views.app.modules.settings_view import settings_view
+
+# import models
+from main.server.models.guide import Guide
+from main.server.models.sender import Sender
+
+# logica para implemetar los estados de las guias y los clientes o senders
+
+
+class StatePage(rx.State):
+    current_route: str = "dashboard"
+
+    def set_route(self, route: str):
+        self.current_route = route
+
+    def logout(self):
+        # Aquí puedes agregar lógica adicional para cerrar la sesión si es necesario
+        return rx.redirect("/login")
 
 
 class StateSidebar(rx.State):
@@ -133,7 +155,37 @@ def app_view() -> rx.Component:
                 # Main Content with two vertical sections side by side
                 rx.hstack(
                     rx.flex(
-                        rx.vstack(),
+                        rx.vstack(
+                            rx.match(
+                                StatePage.current_route,
+                                (
+                                    "dashboard",
+                                    rx.box(
+                                        dashboard_view(), width="100%", height="100%"
+                                    ),
+                                ),
+                                (
+                                    "guides",
+                                    rx.box(guides_view(), width="100%", height="100%"),
+                                ),
+                                (
+                                    "senders",
+                                    rx.box(senders_view(), width="100%", height="100%"),
+                                ),
+                                (
+                                    "clients",
+                                    rx.box(clients_view(), width="100%", height="100%"),
+                                ),
+                                (
+                                    "settings",
+                                    rx.box(
+                                        settings_view(), width="100%", height="100%"
+                                    ),
+                                ),
+                                rx.box(rx.text("Página no encontrada"), width="100%"),
+                            ),
+                            width="100%",
+                        ),
                         style={
                             "background": "rgba(255, 255, 255, 0.82)",
                             "border": "1px solid #ccc",
@@ -169,8 +221,10 @@ def app_view() -> rx.Component:
     )
 
 
-def sidebar_item(text: str, icon: str, href: str) -> rx.Component:
-    return rx.link(
+def sidebar_item(
+    text: str, icon: str, route: str, is_logout: bool = False
+) -> rx.Component:
+    return rx.button(
         rx.hstack(
             rx.icon(icon),
             rx.text(text),
@@ -179,27 +233,25 @@ def sidebar_item(text: str, icon: str, href: str) -> rx.Component:
             padding_y="0.75rem",
             color="black",
             align="center",
-            style={
-                "_hover": {
-                    "bg": "rgba(220, 220, 220, 0.8)",
-                    "color": "rgba(242, 116, 5, 0.9)",
-                },
-                "borderRadius": "0.5rem",
-            },
         ),
-        href=href,
-        underline="none",
-        weight="medium",
+        on_click=StatePage.logout if is_logout else lambda: StatePage.set_route(route),
         width="100%",
+        bg="transparent",
+        border="none",
+        _hover={
+            "bg": "rgba(220, 220, 220, 0.8)",
+            "color": "rgba(242, 116, 5, 0.9)",
+        },
+        border_radius="0.5rem",
     )
 
 
 def sidebar_items() -> rx.Component:
     return rx.vstack(
-        sidebar_item("Dashboard", "layout-dashboard", "/dashboard"),
-        sidebar_item("Guias", "book", "/guides"),
-        sidebar_item("Envios", "route", "/senders"),
-        sidebar_item("Clientes", "user", "/clients"),
+        sidebar_item("Dashboard", "layout-dashboard", "dashboard"),
+        sidebar_item("Guias", "book", "guides"),
+        sidebar_item("Envios", "route", "senders"),
+        sidebar_item("Clientes", "user", "clients"),
         spacing="1",
         width="100%",
     )
@@ -226,8 +278,8 @@ def sidebar_bottom_profile() -> rx.Component:
                 rx.spacer(),
                 rx.vstack(
                     rx.vstack(
-                        sidebar_item("Settings", "settings", "/settings"),
-                        sidebar_item("Log out", "log-out", "/login"),
+                        sidebar_item("Settings", "settings", "settings"),
+                        sidebar_item("Log out", "log-out", "login", is_logout=True),
                         spacing="1",
                         width="100%",
                     ),
@@ -306,12 +358,10 @@ def sidebar_bottom_profile() -> rx.Component:
                                     sidebar_item(
                                         "Settings",
                                         "settings",
-                                        "/settings",
+                                        "settings",
                                     ),
                                     sidebar_item(
-                                        "Log out",
-                                        "log-out",
-                                        "/login",
+                                        "Log out", "log-out", "login", is_logout=True
                                     ),
                                     width="100%",
                                     spacing="1",
