@@ -157,7 +157,7 @@ def app_view() -> rx.Component:
         width="100%",
         height="100vh",  # Esto hará que el box ocupe toda la altura de la pantalla
         # imagen de fondo
-        background_image="url('/bg.jpg')",
+        background_image="url('/img/bg.jpg')",
         style={
             "backgroundSize": "cover",
             "backgroundPosition": "center",
@@ -211,7 +211,7 @@ def sidebar_bottom_profile() -> rx.Component:
             rx.vstack(
                 rx.hstack(
                     rx.image(
-                        src="/logo.png",
+                        src="/ico/logo.png",
                         width="2.25em",
                         height="auto",
                         border_radius="25%",

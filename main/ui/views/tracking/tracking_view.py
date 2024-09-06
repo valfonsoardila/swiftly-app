@@ -661,7 +661,7 @@ def tracking_view() -> rx.Component:
             "left": "0",
             "width": "100%",
             "height": "100%",
-            "background_image": "url('/tracking.jpg')",
+            "background_image": "url('/img/tracking.jpg')",
             "background_size": "cover",
             "background_position": "center",
             "background_repeat": "no-repeat",
