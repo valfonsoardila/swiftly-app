@@ -1,5 +1,6 @@
 import reflex as rx
-from typing import List
+from main.server.controllers import guides_controller
+from main.ui.states.pageState import StatePage
 
 
 class ShipmentFormState(rx.State):
@@ -29,10 +30,66 @@ class DataTableState(rx.State):
 
 
 class GuideState(rx.State):
-    guides: list[list] = []
+    # Datos del remitente
+    name_sender: str = ""
+    last_name_sender: str = ""
+    phone_sender: str = ""
+    department_sender: str = ""
+    # Datos del destinatario
+    company_recipient: str = ""
+    name_recipient: str = ""
+    last_name_recipient: str = ""
+    address_recipient: str = ""
+    neighborhood_recipient: str = ""
+    city_recipient: str = ""
+    state_recipient: str = ""
+    country_recipient: str = ""
+    phone_recipient: str = ""
+    # Datos del paquete
+    service_type: str = ""
+    weight: float = 0.0
+    quantity: int = 0
+    declared_value: float = 0.0
+    is_international: bool = False
 
-    def add_guide(self, new_guide: list):
-        self.guides.append(new_guide)
+    def toggle_international(self, value):
+        self.is_international = value
+
+    @rx.background
+    async def add_guide(self):
+        guide_data = {
+            "name_sender": self.name_sender,
+            "last_name_sender": self.last_name_sender,
+            "phone_sender": self.phone_sender,
+            "department_sender": self.department_sender,
+            "company_recipient": self.company_recipient,
+            "name_recipient": self.name_recipient,
+            "last_name_recipient": self.last_name_recipient,
+            "address_recipient": self.address_recipient,
+            "neighborhood_recipient": self.neighborhood_recipient,
+            "city_recipient": self.city_recipient,
+            "state_recipient": self.state_recipient,
+            "country_recipient": self.country_recipient,
+            "phone_recipient": self.phone_recipient,
+            "service_type": self.service_type,
+            "weight": self.weight,
+            "quantity": self.quantity,
+            "declared_value": self.declared_value,
+            "is_international": self.is_international,
+        }
+        result = guides_controller.create_guide(guide_data)
+        if result:
+            yield rx.toast.success(
+                "Registro exitoso! Redirigiendo a la lista de guías...",
+                duration=5000,
+            )
+            await rx.sleep(3)
+            yield StatePage.current_route("guides")
+        else:
+            yield rx.toast.error(
+                "Registro fallido. Por favor, intenta de nuevo.",
+                duration=5000,
+            )
 
 
 @rx.page(route="/app/guides", title="App | Guides")
@@ -218,7 +275,7 @@ def new_shipment_guide_view() -> rx.Component:
                                     "transition": "transform 0.2s ease",
                                 },
                             },
-                            # on_click=handle_submit,  # You need to define this function
+                            on_click=GuideState.add_guide,
                         ),
                         rx.button(
                             rx.icon("arrow-right"),
@@ -268,6 +325,7 @@ def sender_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        on_change=GuideState.set_name_sender,
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -291,6 +349,7 @@ def sender_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        on_change=GuideState.set_last_name_sender,
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -314,6 +373,7 @@ def sender_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        on_change=GuideState.set_phone_sender,
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -390,6 +450,7 @@ def sender_section() -> rx.Component:
                         size="3",
                         color_scheme="orange",
                         variant="surface",
+                        on_change=GuideState.set_department_sender,
                     ),
                 ),
                 columns="2",
@@ -432,6 +493,7 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        on_change=GuideState.set_company_recipient,
                     ),
                 ),
                 rx.vstack(
@@ -457,6 +519,7 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        on_change=GuideState.set_name_recipient,
                     ),
                 ),
                 rx.vstack(
@@ -482,6 +545,7 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        on_change=GuideState.set_last_name_recipient,
                     ),
                 ),
                 rx.accordion.root(
@@ -509,6 +573,7 @@ def recipient_section() -> rx.Component:
                                         "color": "rgba(0, 0, 0, 0.6)",
                                     },
                                 },
+                                on_change=GuideState.set_address_recipient,
                             ),
                             rx.input(
                                 rx.input.slot(
@@ -532,6 +597,7 @@ def recipient_section() -> rx.Component:
                                         "color": "rgba(0, 0, 0, 0.6)",
                                     },
                                 },
+                                on_change=GuideState.set_neighborhood_recipient,
                             ),
                             rx.input(
                                 rx.input.slot(
@@ -554,26 +620,23 @@ def recipient_section() -> rx.Component:
                                         "color": "rgba(0, 0, 0, 0.6)",
                                     },
                                 },
+                                on_change=GuideState.set_city_recipient,
                             ),
                             rx.select.root(
                                 rx.select.trigger(
-                                    placeholder="Departamento o estado",
+                                    placeholder="Estado",
                                     color_scheme="orange",
                                     color="black",
                                     width="100%",
                                     style={
-                                        "backgroundColor": "rgba(255, 255, 255, 0.4)",
+                                        "backgroundColor": "rgba(235, 235, 235, 0.4)",
                                         "border": "1px solid rgba(0, 0, 0, 0.8)",
                                         "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                                         "borderRadius": "20px",
-                                        "fontSize": "20px",
+                                        "fontSize": "18px",
                                         "span": {
+                                            "fontSize": "16px",
                                             "color": "rgba(0, 0, 0, 0.8)",
-                                        },
-                                        "svg": {
-                                            "height": "20px",
-                                            "width": "20px",
-                                            "fontWeight": "bold !important",
                                         },
                                     },
                                 ),
@@ -618,6 +681,7 @@ def recipient_section() -> rx.Component:
                                 size="3",
                                 color_scheme="orange",
                                 variant="surface",
+                                on_change=GuideState.set_state_recipient,
                             ),
                             rx.input(
                                 rx.input.slot(
@@ -640,12 +704,14 @@ def recipient_section() -> rx.Component:
                                         "color": "rgba(0, 0, 0, 0.6)",
                                     },
                                 },
+                                on_change=GuideState.set_country_recipient,
                             ),
                             spacing="1",
                         ),  # content
                         value="direccion",
                     ),
                     width="100%",
+                    easing="ease-in-out",
                     style={
                         "button": {
                             "svg": {
@@ -655,7 +721,6 @@ def recipient_section() -> rx.Component:
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
                             "color": "black",
                             "backgroundColor": "rgba(235, 235, 235, 0.4)",
-                            "paddingTop": "10px",
                             "_hover": {
                                 "backgroundColor": "rgba(230, 230, 230, 0.8)",
                                 "color": "black",
@@ -687,6 +752,7 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        on_change=GuideState.set_phone_recipient,
                     ),
                 ),
                 columns="2",
@@ -771,6 +837,7 @@ def package_section() -> rx.Component:
                         size="3",
                         color_scheme="orange",
                         variant="surface",
+                        on_change=GuideState.set_service_type,
                     ),
                 ),
                 rx.vstack(
@@ -796,6 +863,7 @@ def package_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        on_change=GuideState.set_weight,
                     ),
                 ),
                 rx.vstack(
@@ -821,6 +889,7 @@ def package_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        on_change=GuideState.set_quantity,
                     ),
                 ),
                 rx.vstack(
@@ -846,10 +915,15 @@ def package_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        on_change=GuideState.set_declared_value,
                     ),
                 ),
                 rx.hstack(
-                    rx.checkbox(),
+                    rx.checkbox(
+                        rx.icon("check"),
+                        on_change=GuideState.toggle_international,
+                        is_checked=GuideState.is_international,
+                    ),
                     rx.text("¿Es un envío internacional?", color="black"),
                 ),
                 columns="2",

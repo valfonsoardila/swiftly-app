@@ -12,6 +12,14 @@ from main.ui.views.app.modules.settings_view import settings_view
 from main.ui.views.app.modules.clients_view import clients_view
 from main.ui.views.tracking.tracking_view import tracking_view
 
+# inicializo el servicio de firebase
+from main.server.api.firebase.firebase_config import Firebase_Config
+
+# Inicializar Firebase una vez
+firebase_service = Firebase_Config()
+# Obtener la instancia de la base de datos
+db = firebase_service.get_db()
+
 
 class State(rx.State):
     # manejar el estado de la aplicación
