@@ -135,7 +135,7 @@ def guides_view():
                                         "border": "none",
                                         "backgroundImage": "url('/img/portapapeles.png')",
                                         "backgroundSize": "cover",
-                                        "backgroundPosition": "0px -65px",
+                                        "backgroundPosition": "0px -60px",
                                         "backgroundRepeat": "no-repeat",
                                     },
                                 ),
@@ -259,7 +259,7 @@ def sender_section() -> rx.Component:
                 rx.vstack(
                     rx.text("Nombres", color="black"),
                     rx.input(
-                        rx.input.slot(rx.icon("user"), position="left"),
+                        rx.input.slot(rx.icon("user", color="black"), position="left"),
                         placeholder="Ingresa tus nombres",
                         type="text",
                         size="3",
@@ -268,12 +268,20 @@ def sender_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        style={
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
                     ),
                 ),
                 rx.vstack(
                     rx.text("Apellidos", color="black"),
                     rx.input(
-                        rx.input.slot(rx.icon("user"), position="left"),
+                        rx.input.slot(rx.icon("user", color="black"), position="left"),
                         placeholder="Ingresa tus apellidos",
                         type="text",
                         size="3",
@@ -282,12 +290,20 @@ def sender_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        style={
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
                     ),
                 ),
                 rx.vstack(
                     rx.text("Número de teléfono", color="black"),
                     rx.input(
-                        rx.input.slot(rx.icon("phone"), position="left"),
+                        rx.input.slot(rx.icon("phone", color="black"), position="left"),
                         placeholder="Ingresa el número de teléfono del remitente",
                         type="tel",
                         size="3",
@@ -296,6 +312,14 @@ def sender_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        style={
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
                     ),
                 ),
                 rx.vstack(
@@ -325,7 +349,7 @@ def sender_section() -> rx.Component:
                         rx.select.content(
                             rx.select.item(
                                 rx.hstack(
-                                    rx.icon("box", color="black"),
+                                    rx.icon("box", color="black", position="left"),
                                     rx.text("Caja"),
                                     style={
                                         "display": "flex",
@@ -336,7 +360,7 @@ def sender_section() -> rx.Component:
                             ),
                             rx.select.item(
                                 rx.hstack(
-                                    rx.icon("package", color="black"),
+                                    rx.icon("package", color="black", position="left"),
                                     rx.text("Paquete"),
                                     style={
                                         "display": "flex",
@@ -347,7 +371,7 @@ def sender_section() -> rx.Component:
                             ),
                             rx.select.item(
                                 rx.hstack(
-                                    rx.icon("mail", color="black"),
+                                    rx.icon("mail", color="black", position="left"),
                                     rx.text("Sobre"),
                                     style={
                                         "display": "flex",
@@ -385,7 +409,9 @@ def recipient_section() -> rx.Component:
                 rx.vstack(
                     rx.text("Compañía", color="black"),
                     rx.input(
-                        rx.input.slot(rx.icon("building-2"), position="left"),
+                        rx.input.slot(
+                            rx.icon("building-2", color="black"), position="left"
+                        ),
                         placeholder="Ingresa el nombre de la compañía",
                         type="text",
                         size="3",
@@ -394,12 +420,22 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        style={
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
                     ),
                 ),
                 rx.vstack(
                     rx.text("Nombres", color="black"),
                     rx.input(
-                        rx.input.slot(rx.icon("person-standing"), position="left"),
+                        rx.input.slot(
+                            rx.icon("person-standing", color="black"), position="left"
+                        ),
                         placeholder="Ingresa los nombres del destinatario",
                         type="text",
                         size="3",
@@ -408,12 +444,22 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        style={
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
                     ),
                 ),
                 rx.vstack(
                     rx.text("Apellidos", color="black"),
                     rx.input(
-                        rx.input.slot(rx.icon("person-standing"), position="left"),
+                        rx.input.slot(
+                            rx.icon("person-standing", color="black"), position="left"
+                        ),
                         placeholder="Ingresa los apellidos del destinatario",
                         type="text",
                         size="3",
@@ -422,12 +468,22 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        style={
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
                     ),
                 ),
                 rx.vstack(
                     rx.text("Dirección", color="black"),
                     rx.input(
-                        rx.input.slot(rx.icon("map-pin"), position="left"),
+                        rx.input.slot(
+                            rx.icon("map-pin", color="black"), position="left"
+                        ),
                         placeholder="Calle y número",
                         type="text",
                         size="3",
@@ -436,9 +492,19 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        style={
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
                     ),
                     rx.input(
-                        rx.input.slot(rx.icon("parking-meter"), position="left"),
+                        rx.input.slot(
+                            rx.icon("parking-meter", color="black"), position="left"
+                        ),
                         placeholder="Barrio o colonia",
                         type="text",
                         size="3",
@@ -447,9 +513,17 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        style={
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
                     ),
                     rx.input(
-                        rx.input.slot(rx.icon("hotel"), position="left"),
+                        rx.input.slot(rx.icon("hotel", color="black"), position="left"),
                         placeholder="Ciudad o municipio",
                         type="text",
                         size="3",
@@ -458,6 +532,14 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        style={
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
                     ),
                     rx.select.root(
                         rx.select.trigger(
@@ -524,7 +606,9 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                     ),
                     rx.input(
-                        rx.input.slot(rx.icon("compass"), position="left"),
+                        rx.input.slot(
+                            rx.icon("compass", color="black"), position="left"
+                        ),
                         placeholder="Pais",
                         type="text",
                         size="3",
@@ -533,12 +617,20 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        style={
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
                     ),
                 ),
                 rx.vstack(
                     rx.text("Teléfono", color="black"),
                     rx.input(
-                        rx.input.slot(rx.icon("phone"), position="left"),
+                        rx.input.slot(rx.icon("phone", color="black"), position="left"),
                         placeholder="Ingresa el número de teléfono del destinatario",
                         type="tel",
                         size="3",
@@ -547,6 +639,14 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        style={
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
                     ),
                 ),
                 columns="2",
@@ -569,7 +669,9 @@ def package_section() -> rx.Component:
                 rx.vstack(
                     rx.text("Peso", color="black"),
                     rx.input(
-                        rx.input.slot(rx.icon("weight"), position="left"),
+                        rx.input.slot(
+                            rx.icon("weight", color="black"), position="left"
+                        ),
                         placeholder="Ingresa el peso del paquete",
                         type="number",
                         size="3",
@@ -578,12 +680,22 @@ def package_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        style={
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
                     ),
                 ),
                 rx.vstack(
                     rx.text("Cantidad", color="black"),
                     rx.input(
-                        rx.input.slot(rx.icon("package"), position="left"),
+                        rx.input.slot(
+                            rx.icon("package", color="black"), position="left"
+                        ),
                         placeholder="Ingresa la cantidad de paquetes",
                         type="number",
                         size="3",
@@ -592,12 +704,22 @@ def package_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        style={
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
                     ),
                 ),
                 rx.vstack(
                     rx.text("Valor declarado", color="black"),
                     rx.input(
-                        rx.input.slot(rx.icon("weight"), position="left"),
+                        rx.input.slot(
+                            rx.icon("weight", color="black"), position="left"
+                        ),
                         placeholder="Ingresa el valor declarado del paquete",
                         type="number",
                         size="3",
@@ -606,6 +728,14 @@ def package_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        style={
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
                     ),
                 ),
                 rx.hstack(
