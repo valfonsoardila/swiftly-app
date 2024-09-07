@@ -486,9 +486,8 @@ def recipient_section() -> rx.Component:
                 ),
                 rx.accordion.root(
                     rx.accordion.item(
-                        header="",
+                        header=rx.text("Dirección", color="rgba(0,0,0,0.6)"),
                         content=rx.vstack(
-                            rx.text("Dirección", color="black"),
                             rx.input(
                                 rx.input.slot(
                                     rx.icon("map-pin", color="black"), position="left"
@@ -642,27 +641,30 @@ def recipient_section() -> rx.Component:
                                     },
                                 },
                             ),
+                            spacing="1",
                         ),  # content
                         value="direccion",
                     ),
+                    width="100%",
                     style={
                         "button": {
                             "svg": {
                                 "color": "black !important",
                             },
                             "borderRadius": "20px",
-                            "border": "none",
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
                             "color": "black",
-                            "backgroundColor": "white",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "paddingTop": "10px",
+                            "_hover": {
+                                "backgroundColor": "rgba(230, 230, 230, 0.8)",
+                                "color": "black",
+                            },
                         },
-                        "border": "1px solid rgba(0, 0, 0, 0.8)",
-                        "borderRadius": "20px",
-                        "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                        "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                        "marginTop": "auto",
                     },
+                    variant="ghost",
                     collapsible=True,
-                    type="single",
-                    width="100%",
                 ),
                 rx.vstack(
                     rx.text("Teléfono", color="black"),
