@@ -484,158 +484,185 @@ def recipient_section() -> rx.Component:
                         },
                     ),
                 ),
-                rx.vstack(
-                    rx.text("Dirección", color="black"),
-                    rx.input(
-                        rx.input.slot(
-                            rx.icon("map-pin", color="black"), position="left"
-                        ),
-                        placeholder="Calle y número",
-                        type="text",
-                        size="3",
-                        width="100%",
-                        color_scheme="orange",
-                        variant="surface",
-                        radius="full",
-                        required=True,
-                        style={
-                            "color": "black",
-                            "border": "1px solid rgba(0, 0, 0, 0.8)",
-                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
-                            "& input::placeholder": {
-                                "color": "rgba(0, 0, 0, 0.6)",
-                            },
-                        },
-                    ),
-                    rx.input(
-                        rx.input.slot(
-                            rx.icon("parking-meter", color="black"), position="left"
-                        ),
-                        placeholder="Barrio o colonia",
-                        type="text",
-                        size="3",
-                        width="100%",
-                        color_scheme="orange",
-                        variant="surface",
-                        radius="full",
-                        required=True,
-                        style={
-                            "color": "black",
-                            "border": "1px solid rgba(0, 0, 0, 0.8)",
-                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
-                            "& input::placeholder": {
-                                "color": "rgba(0, 0, 0, 0.6)",
-                            },
-                        },
-                    ),
-                    rx.input(
-                        rx.input.slot(rx.icon("hotel", color="black"), position="left"),
-                        placeholder="Ciudad o municipio",
-                        type="text",
-                        size="3",
-                        width="100%",
-                        color_scheme="orange",
-                        variant="surface",
-                        radius="full",
-                        required=True,
-                        style={
-                            "color": "black",
-                            "border": "1px solid rgba(0, 0, 0, 0.8)",
-                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
-                            "& input::placeholder": {
-                                "color": "rgba(0, 0, 0, 0.6)",
-                            },
-                        },
-                    ),
-                    rx.select.root(
-                        rx.select.trigger(
-                            placeholder="Departamento o estado",
-                            color_scheme="orange",
-                            color="black",
-                            width="100%",
-                            style={
-                                "backgroundColor": "rgba(255, 255, 255, 0.4)",
-                                "border": "1px solid rgba(0, 0, 0, 0.8)",
-                                "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                                "borderRadius": "20px",
-                                "fontSize": "20px",
-                                "span": {
-                                    "color": "rgba(0, 0, 0, 0.8)",
+                rx.accordion.root(
+                    rx.accordion.item(
+                        header="",
+                        content=rx.vstack(
+                            rx.text("Dirección", color="black"),
+                            rx.input(
+                                rx.input.slot(
+                                    rx.icon("map-pin", color="black"), position="left"
+                                ),
+                                placeholder="Calle y número",
+                                type="text",
+                                size="3",
+                                width="100%",
+                                color_scheme="orange",
+                                variant="surface",
+                                radius="full",
+                                required=True,
+                                style={
+                                    "color": "black",
+                                    "border": "1px solid rgba(0, 0, 0, 0.8)",
+                                    "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                    "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                                    "& input::placeholder": {
+                                        "color": "rgba(0, 0, 0, 0.6)",
+                                    },
                                 },
-                                "svg": {
-                                    "height": "20px",
-                                    "width": "20px",
-                                    "fontWeight": "bold !important",
+                            ),
+                            rx.input(
+                                rx.input.slot(
+                                    rx.icon("parking-meter", color="black"),
+                                    position="left",
+                                ),
+                                placeholder="Barrio o colonia",
+                                type="text",
+                                size="3",
+                                width="100%",
+                                color_scheme="orange",
+                                variant="surface",
+                                radius="full",
+                                required=True,
+                                style={
+                                    "color": "black",
+                                    "border": "1px solid rgba(0, 0, 0, 0.8)",
+                                    "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                    "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                                    "& input::placeholder": {
+                                        "color": "rgba(0, 0, 0, 0.6)",
+                                    },
                                 },
-                            },
-                        ),
-                        rx.select.content(
-                            rx.select.item(
-                                rx.hstack(
-                                    rx.icon("box", color="black"),
-                                    rx.text("Caja"),
+                            ),
+                            rx.input(
+                                rx.input.slot(
+                                    rx.icon("hotel", color="black"), position="left"
+                                ),
+                                placeholder="Ciudad o municipio",
+                                type="text",
+                                size="3",
+                                width="100%",
+                                color_scheme="orange",
+                                variant="surface",
+                                radius="full",
+                                required=True,
+                                style={
+                                    "color": "black",
+                                    "border": "1px solid rgba(0, 0, 0, 0.8)",
+                                    "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                    "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                                    "& input::placeholder": {
+                                        "color": "rgba(0, 0, 0, 0.6)",
+                                    },
+                                },
+                            ),
+                            rx.select.root(
+                                rx.select.trigger(
+                                    placeholder="Departamento o estado",
+                                    color_scheme="orange",
+                                    color="black",
+                                    width="100%",
                                     style={
-                                        "display": "flex",
-                                        "alignItems": "center",
+                                        "backgroundColor": "rgba(255, 255, 255, 0.4)",
+                                        "border": "1px solid rgba(0, 0, 0, 0.8)",
+                                        "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                        "borderRadius": "20px",
+                                        "fontSize": "20px",
+                                        "span": {
+                                            "color": "rgba(0, 0, 0, 0.8)",
+                                        },
+                                        "svg": {
+                                            "height": "20px",
+                                            "width": "20px",
+                                            "fontWeight": "bold !important",
+                                        },
                                     },
                                 ),
-                                value="1",
-                            ),
-                            rx.select.item(
-                                rx.hstack(
-                                    rx.icon("package", color="black"),
-                                    rx.text("Paquete"),
-                                    style={
-                                        "display": "flex",
-                                        "alignItems": "center",
-                                    },
+                                rx.select.content(
+                                    rx.select.item(
+                                        rx.hstack(
+                                            rx.icon("box", color="black"),
+                                            rx.text("Caja"),
+                                            style={
+                                                "display": "flex",
+                                                "alignItems": "center",
+                                            },
+                                        ),
+                                        value="1",
+                                    ),
+                                    rx.select.item(
+                                        rx.hstack(
+                                            rx.icon("package", color="black"),
+                                            rx.text("Paquete"),
+                                            style={
+                                                "display": "flex",
+                                                "alignItems": "center",
+                                            },
+                                        ),
+                                        value="2",
+                                    ),
+                                    rx.select.item(
+                                        rx.hstack(
+                                            rx.icon("mail", color="black"),
+                                            rx.text("Sobre"),
+                                            style={
+                                                "display": "flex",
+                                                "alignItems": "center",
+                                            },
+                                        ),
+                                        value="3",
+                                    ),
+                                    color_scheme="orange",
+                                    background_color="white",
+                                    color="black",
                                 ),
-                                value="2",
+                                size="3",
+                                color_scheme="orange",
+                                variant="surface",
                             ),
-                            rx.select.item(
-                                rx.hstack(
-                                    rx.icon("mail", color="black"),
-                                    rx.text("Sobre"),
-                                    style={
-                                        "display": "flex",
-                                        "alignItems": "center",
-                                    },
+                            rx.input(
+                                rx.input.slot(
+                                    rx.icon("compass", color="black"), position="left"
                                 ),
-                                value="3",
+                                placeholder="Pais",
+                                type="text",
+                                size="3",
+                                width="100%",
+                                color_scheme="orange",
+                                variant="surface",
+                                radius="full",
+                                required=True,
+                                style={
+                                    "color": "black",
+                                    "border": "1px solid rgba(0, 0, 0, 0.8)",
+                                    "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                    "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                                    "& input::placeholder": {
+                                        "color": "rgba(0, 0, 0, 0.6)",
+                                    },
+                                },
                             ),
-                            color_scheme="orange",
-                            background_color="white",
-                            color="black",
-                        ),
-                        size="3",
-                        color_scheme="orange",
-                        variant="surface",
+                        ),  # content
+                        value="direccion",
                     ),
-                    rx.input(
-                        rx.input.slot(
-                            rx.icon("compass", color="black"), position="left"
-                        ),
-                        placeholder="Pais",
-                        type="text",
-                        size="3",
-                        width="100%",
-                        color_scheme="orange",
-                        variant="surface",
-                        radius="full",
-                        required=True,
-                        style={
+                    style={
+                        "button": {
+                            "svg": {
+                                "color": "black !important",
+                            },
+                            "borderRadius": "20px",
+                            "border": "none",
                             "color": "black",
-                            "border": "1px solid rgba(0, 0, 0, 0.8)",
-                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
-                            "& input::placeholder": {
-                                "color": "rgba(0, 0, 0, 0.6)",
-                            },
+                            "backgroundColor": "white",
                         },
-                    ),
+                        "border": "1px solid rgba(0, 0, 0, 0.8)",
+                        "borderRadius": "20px",
+                        "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                        "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                    },
+                    collapsible=True,
+                    type="single",
+                    width="100%",
                 ),
                 rx.vstack(
                     rx.text("Teléfono", color="black"),
