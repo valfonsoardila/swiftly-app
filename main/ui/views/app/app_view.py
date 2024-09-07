@@ -11,6 +11,8 @@ from main.ui.views.app.modules.settings_view import settings_view
 # import models
 from main.server.models.guide import Guide
 from main.server.models.sender import Sender
+
+# import states
 from main.ui.states.pageState import StatePage
 
 # logica para implemetar los estados de las guias y los clientes o senders
