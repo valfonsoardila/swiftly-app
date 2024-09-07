@@ -1,95 +1,70 @@
-# Clase Recipient
-class Recipient:
-    def __init__(self, fullName: str, company: str, street: str, neighborhood: str, city: str,state: str, country: str, postalCode: str, phones: list[str]):
-        self.__fullName = fullName
+from .Persona import Persona
+from .Address import Address
+import json
+
+class Recipient(Persona):
+    def __init__(self, name: str, company: str, street: str, neighborhood: str, city: str, state: str, country: str, postal_code: str,phones:list):
+        super().__init__(name,phones)
         self.__company = company
-        self.__street = street
-        self.__neighborhood = neighborhood
-        self.__city = city
-        self.__state = state
-        self.__country = country
-        self.__postalCode = postalCode
-        self.__phones = phones
+        self.__address = Address(street=street, neighborhood=neighborhood,city=city, state=state, country=country, postal_code=postal_code)
 
-    def getFullName(self) -> str:
-        return self.__fullName
-
-    def setFullName(self, fullName: str):
-        self.__fullName = fullName
-
-    def getCompany(self) -> str:
+    def getAddress(self)->Address:
+        return self.__address
+    
+    def setAddress(self, address: Address):
+        self.__address = address
+    
+    def getCompany(self):
         return self.__company
 
     def setCompany(self, company: str):
         self.__company = company
 
-    def getStreet(self) -> str:
-        return self.__street
+    def get_name(self) -> str:
+        return super().get_name()
+    def set_name(self, name: str):
+        return super().set_name(name)
+    def setId(self, id: str):
+        return super().setId(id)
+    def getId(self) -> str:
+        return super().getId()
+    def get_phones(self) -> list:
+        return super().get_phones()
+        
+    def to_json(self):
+        return {
+            "id": self.getId(),
+            "name": self.get_name(),
+            "company": self.__company,
+            "address":self.__address.to_json(),
+            "phones": self.get_phones()
+        }
 
-    def setStreet(self, street: str):
-        self.__street = street
+    @classmethod
+    def from_json(cls, data):
+        id = data.get("id")
+        name = data.get("name")
+        company = data.get("company")
+        address_data = data.get("address")
+        phones = data.get("phones")
 
-    def getNeighborhood(self) -> str:
-        return self.__neighborhood
+        # Crear la dirección a partir del JSON
+        address = Address.from_json(address_data)
 
-    def setNeighborhood(self, neighborhood: str):
-        self.__neighborhood = neighborhood
-
-    def getCity(self) -> str:
-        return self.__city
-
-    def setCity(self, city: str):
-        self.__city = city
-
-    def getState(self) -> str:
-        return self.__state
-
-    def setState(self, state: str):
-        self.__state = state
-
-    def getCountry(self) -> str:
-        return self.__country
-
-    def setCountry(self, country: str):
-        self.__country = country
-
-    def getPostalCode(self) -> str:
-        return self.__postalCode
-
-    def setPostalCode(self, postalCode: str):
-        self.__postalCode = postalCode
-
-    def getPhones(self) -> list[str]:
-        return self.__phones
-
-    def setPhones(self, phones: list[str]):
-        self.__phones = phones
-
-    def toJson(self):
-            return {
-                "full_name": self.__fullName,
-                "company": self.__company,
-                "street": self.__street,
-                "neighborhood": self.__neighborhood,
-                "city": self.__city,
-                "state": self.__state,
-                "country": self.__country,
-                "postal_code": self.__postalCode,
-                "phones": self.__phones
-            }
-
-    @staticmethod
-    def fromJson(data):
-        recipient = Recipient(
-            data.get('full_name'),
-            data.get('company'),
-            data.get('street'),
-            data.get('neighborhood'),
-            data.get('city'),
-            data.get('state'),
-            data.get('country'),
-            data.get('postal_code'),
-            data.get('phones')
+        # Crear una instancia de Recipient con los datos obtenidos
+        recipient = cls(
+            name=name,
+            company=company,
+            street=address.get_street(),
+            neighborhood=address.get_neighborhood(),
+            city=address.get_city(),
+            state=address.get_state(),
+            country=address.get_country(),
+            postal_code=address.get_postal_code(),
+            phones=phones
         )
+
+        # Establecer el ID
+        recipient.setId(id)
+
         return recipient
-    

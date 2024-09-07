@@ -1,14 +1,20 @@
-from typing import Optional
-from app.server.models.recipient import Recipient
-from app.server.models.guide import Guide
-
-
+from typing import Any, Optional
+from .guide import Guide
+from .recipient import Recipient
 class File:
-    def __init__(self, year: int, month: int):
+    def __init__(self,id, year: int, month: int):
+        self.__id = id
         self.__year = year
         self.__month = month
         self.__guideList = list[Guide] = []
 
+
+    def getId(self)->str:
+        return self.__id
+    
+    def setId(self, id: str):
+        self.__id = id
+    
     def getYear(self) -> int:
         return self.__year
 
