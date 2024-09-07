@@ -205,7 +205,7 @@ def item_list_guide(icon: str, text: str, href: str) -> rx.Component:
             style={
                 "_hover": {
                     "bg": "rgba(225, 225, 225, 0.6)",
-                    "borderRadius": "2px",
+                    "borderRadius": "0.5rem",
                     "color": "orange",
                     "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                     "cursor": "pointer",
@@ -238,7 +238,7 @@ def item_list_client(img: str, text: str, href: str) -> rx.Component:
             style={
                 "_hover": {
                     "bg": "rgba(225, 225, 225, 0.6)",
-                    "borderRadius": "2px",
+                    "borderRadius": "0.5rem",
                     "color": "orange",
                     "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                     "cursor": "pointer",
