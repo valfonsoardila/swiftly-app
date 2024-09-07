@@ -269,6 +269,7 @@ def sender_section() -> rx.Component:
                         radius="full",
                         required=True,
                         style={
+                            "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
                             "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                             "backgroundColor": "rgba(235, 235, 235, 0.4)",
@@ -291,6 +292,7 @@ def sender_section() -> rx.Component:
                         radius="full",
                         required=True,
                         style={
+                            "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
                             "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                             "backgroundColor": "rgba(235, 235, 235, 0.4)",
@@ -313,6 +315,7 @@ def sender_section() -> rx.Component:
                         radius="full",
                         required=True,
                         style={
+                            "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
                             "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                             "backgroundColor": "rgba(235, 235, 235, 0.4)",
@@ -421,6 +424,7 @@ def recipient_section() -> rx.Component:
                         radius="full",
                         required=True,
                         style={
+                            "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
                             "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                             "backgroundColor": "rgba(235, 235, 235, 0.4)",
@@ -445,6 +449,7 @@ def recipient_section() -> rx.Component:
                         radius="full",
                         required=True,
                         style={
+                            "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
                             "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                             "backgroundColor": "rgba(235, 235, 235, 0.4)",
@@ -469,6 +474,7 @@ def recipient_section() -> rx.Component:
                         radius="full",
                         required=True,
                         style={
+                            "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
                             "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                             "backgroundColor": "rgba(235, 235, 235, 0.4)",
@@ -493,6 +499,7 @@ def recipient_section() -> rx.Component:
                         radius="full",
                         required=True,
                         style={
+                            "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
                             "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                             "backgroundColor": "rgba(235, 235, 235, 0.4)",
@@ -514,6 +521,7 @@ def recipient_section() -> rx.Component:
                         radius="full",
                         required=True,
                         style={
+                            "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
                             "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                             "backgroundColor": "rgba(235, 235, 235, 0.4)",
@@ -533,6 +541,7 @@ def recipient_section() -> rx.Component:
                         radius="full",
                         required=True,
                         style={
+                            "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
                             "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                             "backgroundColor": "rgba(235, 235, 235, 0.4)",
@@ -618,6 +627,7 @@ def recipient_section() -> rx.Component:
                         radius="full",
                         required=True,
                         style={
+                            "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
                             "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                             "backgroundColor": "rgba(235, 235, 235, 0.4)",
@@ -640,6 +650,7 @@ def recipient_section() -> rx.Component:
                         radius="full",
                         required=True,
                         style={
+                            "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
                             "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                             "backgroundColor": "rgba(235, 235, 235, 0.4)",
@@ -666,82 +677,6 @@ def package_section() -> rx.Component:
                 color="black",
             ),
             rx.grid(
-                rx.vstack(
-                    rx.text("Peso", color="black"),
-                    rx.input(
-                        rx.input.slot(
-                            rx.icon("weight", color="black"), position="left"
-                        ),
-                        placeholder="Ingresa el peso del paquete",
-                        type="number",
-                        size="3",
-                        width="100%",
-                        color_scheme="orange",
-                        variant="surface",
-                        radius="full",
-                        required=True,
-                        style={
-                            "border": "1px solid rgba(0, 0, 0, 0.8)",
-                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
-                            "& input::placeholder": {
-                                "color": "rgba(0, 0, 0, 0.6)",
-                            },
-                        },
-                    ),
-                ),
-                rx.vstack(
-                    rx.text("Cantidad", color="black"),
-                    rx.input(
-                        rx.input.slot(
-                            rx.icon("package", color="black"), position="left"
-                        ),
-                        placeholder="Ingresa la cantidad de paquetes",
-                        type="number",
-                        size="3",
-                        width="100%",
-                        color_scheme="orange",
-                        variant="surface",
-                        radius="full",
-                        required=True,
-                        style={
-                            "border": "1px solid rgba(0, 0, 0, 0.8)",
-                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
-                            "& input::placeholder": {
-                                "color": "rgba(0, 0, 0, 0.6)",
-                            },
-                        },
-                    ),
-                ),
-                rx.vstack(
-                    rx.text("Valor declarado", color="black"),
-                    rx.input(
-                        rx.input.slot(
-                            rx.icon("weight", color="black"), position="left"
-                        ),
-                        placeholder="Ingresa el valor declarado del paquete",
-                        type="number",
-                        size="3",
-                        width="100%",
-                        color_scheme="orange",
-                        variant="surface",
-                        radius="full",
-                        required=True,
-                        style={
-                            "border": "1px solid rgba(0, 0, 0, 0.8)",
-                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
-                            "& input::placeholder": {
-                                "color": "rgba(0, 0, 0, 0.6)",
-                            },
-                        },
-                    ),
-                ),
-                rx.hstack(
-                    rx.checkbox(),
-                    rx.text("¿Es un envío internacional?", color="black"),
-                ),
                 rx.vstack(
                     rx.text("Tipo de servicio", color="black"),
                     rx.select.root(
@@ -808,6 +743,85 @@ def package_section() -> rx.Component:
                         color_scheme="orange",
                         variant="surface",
                     ),
+                ),
+                rx.vstack(
+                    rx.text("Peso", color="black"),
+                    rx.input(
+                        rx.input.slot(
+                            rx.icon("weight", color="black"), position="left"
+                        ),
+                        placeholder="Ingresa el peso del paquete",
+                        type="number",
+                        size="3",
+                        width="100%",
+                        color_scheme="orange",
+                        variant="surface",
+                        radius="full",
+                        required=True,
+                        style={
+                            "color": "black",
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
+                    ),
+                ),
+                rx.vstack(
+                    rx.text("Cantidad", color="black"),
+                    rx.input(
+                        rx.input.slot(
+                            rx.icon("package", color="black"), position="left"
+                        ),
+                        placeholder="Ingresa la cantidad de paquetes",
+                        type="number",
+                        size="3",
+                        width="100%",
+                        color_scheme="orange",
+                        variant="surface",
+                        radius="full",
+                        required=True,
+                        style={
+                            "color": "black",
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
+                    ),
+                ),
+                rx.vstack(
+                    rx.text("Valor declarado", color="black"),
+                    rx.input(
+                        rx.input.slot(
+                            rx.icon("weight", color="black"), position="left"
+                        ),
+                        placeholder="Ingresa el valor declarado del paquete",
+                        type="number",
+                        size="3",
+                        width="100%",
+                        color_scheme="orange",
+                        variant="surface",
+                        radius="full",
+                        required=True,
+                        style={
+                            "color": "black",
+                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                            "& input::placeholder": {
+                                "color": "rgba(0, 0, 0, 0.6)",
+                            },
+                        },
+                    ),
+                ),
+                rx.hstack(
+                    rx.checkbox(),
+                    rx.text("¿Es un envío internacional?", color="black"),
                 ),
                 columns="2",
                 spacing="4",
