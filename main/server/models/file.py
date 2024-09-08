@@ -1,8 +1,9 @@
 from typing import Optional
-from app.server.models.recipient import Recipient
-from app.server.models.guide import Guide
+from main.server.models.recipient import Recipient
+from main.server.models.guide import Guide
 
 
+# Posible Patron de diseño: Singleton
 class File:
     def __init__(self, year: int, month: int):
         self.__year = year

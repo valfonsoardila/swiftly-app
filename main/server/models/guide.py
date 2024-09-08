@@ -5,6 +5,7 @@ from main.server.models.sender import Sender
 from main.server.models.serviceType import ServiceType
 
 
+# Patron de diseño Active Record
 class Guide:
     def __init__(
         self,

@@ -1,6 +1,17 @@
-# Clase Recipient
+# Patrón de diseño DTO (Data Transfer Object)
 class Recipient:
-    def __init__(self, fullName: str, company: str, street: str, neighborhood: str, city: str,state: str, country: str, postalCode: str, phones: list[str]):
+    def __init__(
+        self,
+        fullName: str,
+        company: str,
+        street: str,
+        neighborhood: str,
+        city: str,
+        state: str,
+        country: str,
+        postalCode: str,
+        phones: list[str],
+    ):
         self.__fullName = fullName
         self.__company = company
         self.__street = street
@@ -66,30 +77,29 @@ class Recipient:
         self.__phones = phones
 
     def toJson(self):
-            return {
-                "full_name": self.__fullName,
-                "company": self.__company,
-                "street": self.__street,
-                "neighborhood": self.__neighborhood,
-                "city": self.__city,
-                "state": self.__state,
-                "country": self.__country,
-                "postal_code": self.__postalCode,
-                "phones": self.__phones
-            }
+        return {
+            "full_name": self.__fullName,
+            "company": self.__company,
+            "street": self.__street,
+            "neighborhood": self.__neighborhood,
+            "city": self.__city,
+            "state": self.__state,
+            "country": self.__country,
+            "postal_code": self.__postalCode,
+            "phones": self.__phones,
+        }
 
     @staticmethod
     def fromJson(data):
         recipient = Recipient(
-            data.get('full_name'),
-            data.get('company'),
-            data.get('street'),
-            data.get('neighborhood'),
-            data.get('city'),
-            data.get('state'),
-            data.get('country'),
-            data.get('postal_code'),
-            data.get('phones')
+            data.get("full_name"),
+            data.get("company"),
+            data.get("street"),
+            data.get("neighborhood"),
+            data.get("city"),
+            data.get("state"),
+            data.get("country"),
+            data.get("postal_code"),
+            data.get("phones"),
         )
         return recipient
-    

@@ -1,3 +1,4 @@
+# Patrón de diseño DTO (Data Transfer Object)
 class User:
     def __init__(self, fullname, password, email):
         self.__fullname = fullname
@@ -28,7 +29,7 @@ class User:
         return {
             "fullname": self.getFullname(),
             "password": self.getPassword(),
-            "email": self.getEmail()
+            "email": self.getEmail(),
         }
 
     # Método para convertir JSON a objeto User
