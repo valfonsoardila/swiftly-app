@@ -230,6 +230,11 @@ def signup_view() -> rx.Component:
                                         "cursor": "pointer",
                                         "fontSize": "20px",
                                     },
+                                    _hover={
+                                        "backgroundColor": "#333333",
+                                        "transform": "scale(1.05)",
+                                        "transition": "transform 0.2s ease",
+                                    },
                                     on_click=UserState.on_signup_button_click,
                                 ),
                                 _hover={
