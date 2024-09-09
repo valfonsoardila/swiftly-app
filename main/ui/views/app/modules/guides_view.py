@@ -1,6 +1,7 @@
 import reflex as rx
 from main.server.controllers import guides_controller
 from main.ui.states.pageState import StatePage
+from main.ui.states.deparmentState import DepartmentState
 
 
 class ShipmentFormState(rx.State):
@@ -410,38 +411,23 @@ def sender_section() -> rx.Component:
                             },
                         ),
                         rx.select.content(
-                            rx.select.item(
-                                rx.hstack(
-                                    rx.icon("box", color="black", position="left"),
-                                    rx.text("Caja"),
-                                    style={
-                                        "display": "flex",
-                                        "alignItems": "center",
-                                    },
+                            rx.foreach(
+                                DepartmentState.departments,
+                                lambda department: rx.select.item(
+                                    rx.hstack(
+                                        rx.icon(
+                                            "map-pin", color="black", position="left"
+                                        ),
+                                        rx.text(
+                                            department["departamento"], color="black"
+                                        ),
+                                        style={
+                                            "display": "flex",
+                                            "alignItems": "center",
+                                        },
+                                    ),
+                                    value=department["id"],
                                 ),
-                                value="1",
-                            ),
-                            rx.select.item(
-                                rx.hstack(
-                                    rx.icon("package", color="black", position="left"),
-                                    rx.text("Paquete"),
-                                    style={
-                                        "display": "flex",
-                                        "alignItems": "center",
-                                    },
-                                ),
-                                value="2",
-                            ),
-                            rx.select.item(
-                                rx.hstack(
-                                    rx.icon("mail", color="black", position="left"),
-                                    rx.text("Sobre"),
-                                    style={
-                                        "display": "flex",
-                                        "alignItems": "center",
-                                    },
-                                ),
-                                value="3",
                             ),
                             color_scheme="orange",
                             background_color="white",
@@ -599,28 +585,54 @@ def recipient_section() -> rx.Component:
                                 },
                                 on_change=GuideState.set_neighborhood_recipient,
                             ),
-                            rx.input(
-                                rx.input.slot(
-                                    rx.icon("hotel", color="black"), position="left"
+                            rx.popover.root(
+                                rx.popover.trigger(
+                                    rx.input(
+                                        rx.input.slot(
+                                            rx.icon("hotel", color="black"),
+                                            position="left",
+                                        ),
+                                        placeholder="Ciudad o municipio",
+                                        type="text",
+                                        size="3",
+                                        width="100%",
+                                        color_scheme="orange",
+                                        variant="surface",
+                                        radius="full",
+                                        required=True,
+                                        value=DepartmentState.city_input,
+                                        on_change=DepartmentState.filter_cities,
+                                        style={
+                                            "color": "black",
+                                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                                            "& input::placeholder": {
+                                                "color": "rgba(0, 0, 0, 0.6)",
+                                            },
+                                        },
+                                    )
                                 ),
-                                placeholder="Ciudad o municipio",
-                                type="text",
-                                size="3",
-                                width="100%",
-                                color_scheme="orange",
-                                variant="surface",
-                                radius="full",
-                                required=True,
-                                style={
-                                    "color": "black",
-                                    "border": "1px solid rgba(0, 0, 0, 0.8)",
-                                    "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                                    "backgroundColor": "rgba(235, 235, 235, 0.4)",
-                                    "& input::placeholder": {
-                                        "color": "rgba(0, 0, 0, 0.6)",
-                                    },
-                                },
-                                on_change=GuideState.set_city_recipient,
+                                rx.popover.content(
+                                    rx.box(
+                                        rx.vstack(
+                                            rx.foreach(
+                                                DepartmentState.filtered_cities,
+                                                lambda city: rx.text(
+                                                    city,
+                                                    on_click=lambda: DepartmentState.set_city_input(
+                                                        city
+                                                    ),
+                                                    cursor="pointer",
+                                                    _hover={"background": "lightgray"},
+                                                ),
+                                            ),
+                                            max_height="200px",
+                                            overflow="auto",
+                                        )
+                                    ),
+                                    style={"width": "100%"},
+                                ),
                             ),
                             rx.select.root(
                                 rx.select.trigger(
