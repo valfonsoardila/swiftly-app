@@ -187,7 +187,7 @@ def guides_view():
                                     ),
                                     style={
                                         "paddingTop": "90px",
-                                        "paddingBottom": "50px",
+                                        "paddingBottom": "38px",
                                         "paddingLeft": "65px",
                                         "paddingRight": "65px",
                                         "borderRadius": "40px",
@@ -242,18 +242,23 @@ def new_shipment_guide_view() -> rx.Component:
                 ),
                 rx.hstack(
                     rx.button(
-                        rx.icon("arrow-left"),
+                        rx.icon(
+                            "chevron-left", color="rgba(0,0,0,.4)", stroke_width="1"
+                        ),
                         style={
                             "color": "white",
-                            "backgroundColor": "black",
+                            "backgroundColor": "transparent",
                             "border": "none",
                             "borderRadius": "1em",
                             "cursor": "pointer",
                             "fontSize": "20px",
                             "_hover": {
-                                "backgroundColor": "#333333",
+                                "backgroundColor": "transparent",
                                 "transform": "scale(1.05)",
                                 "transition": "transform 0.2s ease",
+                                "svg": {
+                                    "color": "rgba(0,0,0,.9)",
+                                },
                             },
                         },
                         on_click=ShipmentFormState.prev_page,
@@ -262,36 +267,55 @@ def new_shipment_guide_view() -> rx.Component:
                     rx.cond(
                         ShipmentFormState.current_page == 2,
                         rx.button(
-                            rx.icon("save"),
-                            rx.text("Guardar", color="white"),
+                            rx.icon("save", color="rgba(0,0,0,.5)", stroke_width="1"),
+                            rx.text(
+                                "Guardar",
+                                color="rgba(0,0,0,.6)",
+                                fontWeigh="normal",
+                                fontSize="16px",
+                            ),
                             style={
                                 "color": "white",
-                                "backgroundColor": "black",
+                                "backgroundColor": "transparent",
                                 "border": "none",
                                 "borderRadius": "1em",
                                 "cursor": "pointer",
-                                "fontSize": "20px",
                                 "_hover": {
-                                    "backgroundColor": "#333333",
+                                    "backgroundColor": "transparent",
+                                    "border": "1px solid rgba(0, 0, 0, 0.8)",
                                     "transform": "scale(1.05)",
                                     "transition": "transform 0.2s ease",
+                                    "p": {
+                                        "fontWeight": "normal",
+                                        "color": "rgba(0,0,0,.9)",
+                                    },
+                                    "svg": {
+                                        "color": "rgba(0,0,0,.9)",
+                                    },
                                 },
                             },
                             on_click=GuideState.add_guide,
                         ),
                         rx.button(
-                            rx.icon("arrow-right"),
+                            rx.icon(
+                                "chevron-right",
+                                color="rgba(0,0,0,.5)",
+                                stroke_width="1",
+                            ),
                             style={
                                 "color": "white",
-                                "backgroundColor": "black",
+                                "backgroundColor": "transparent",
                                 "border": "none",
                                 "borderRadius": "1em",
                                 "cursor": "pointer",
                                 "fontSize": "20px",
                                 "_hover": {
-                                    "backgroundColor": "#333333",
+                                    "backgroundColor": "transparent",
                                     "transform": "scale(1.05)",
                                     "transition": "transform 0.2s ease",
+                                    "svg": {
+                                        "color": "rgba(0,0,0,.9)",
+                                    },
                                 },
                             },
                             on_click=ShipmentFormState.next_page,
@@ -1002,7 +1026,8 @@ def package_section() -> rx.Component:
                 ),
                 rx.hstack(
                     rx.checkbox(
-                        rx.icon("check"),
+                        color_scheme="orange",
+                        variant="surface",
                         on_change=GuideState.toggle_international,
                         is_checked=GuideState.is_international,
                     ),
