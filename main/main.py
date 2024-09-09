@@ -14,7 +14,7 @@ from main.ui.views.tracking.tracking_view import tracking_view
 
 # inicializamos los estados
 from main.ui.states.deparmentState import DepartmentState
-
+from main.ui.states.contryState import Countrystate
 
 # inicializo el servicio de firebase
 from main.server.api.firebase.firebase_config import Firebase_Config
@@ -23,7 +23,21 @@ from main.server.api.firebase.firebase_config import Firebase_Config
 firebase_service = Firebase_Config()
 
 
-@rx.page(on_load=DepartmentState.on_load)
+class InitialState(rx.State):
+    departments: list = []
+    countries: list = []
+
+    async def on_load(self):
+        # Load departments
+        department_state = await self.get_state(DepartmentState)
+        self.departments = await department_state.on_load()
+
+        # Load countries
+        country_state = await self.get_state(Countrystate)
+        self.countries = await country_state.on_load()
+
+
+@rx.page(on_load=InitialState.on_load)
 def index() -> rx.Component:
     return intro_view()
 

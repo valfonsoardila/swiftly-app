@@ -2,6 +2,7 @@ import reflex as rx
 from main.server.controllers import guides_controller
 from main.ui.states.pageState import StatePage
 from main.ui.states.deparmentState import DepartmentState
+from main.ui.states.contryState import Countrystate
 
 
 class ShipmentFormState(rx.State):
@@ -390,7 +391,7 @@ def sender_section() -> rx.Component:
                     rx.text("Departamento", color="black"),
                     rx.select.root(
                         rx.select.trigger(
-                            placeholder="Selecciona una opción",
+                            placeholder="Selecciona un estado",
                             color_scheme="orange",
                             color="black",
                             width="100%",
@@ -401,7 +402,8 @@ def sender_section() -> rx.Component:
                                 "borderRadius": "20px",
                                 "fontSize": "20px",
                                 "span": {
-                                    "color": "rgba(0, 0, 0, 0.8)",
+                                    "color": "rgba(0, 0, 0, 0.6)",
+                                    "fontSize": "16px",
                                 },
                                 "svg": {
                                     "height": "20px",
@@ -536,7 +538,10 @@ def recipient_section() -> rx.Component:
                 ),
                 rx.accordion.root(
                     rx.accordion.item(
-                        header=rx.text("Dirección", color="rgba(0,0,0,0.6)"),
+                        header=rx.hstack(
+                            rx.icon("navigation", color="black"),
+                            rx.text("Dirección", color="rgba(0, 0, 0, 0.6)"),
+                        ),
                         content=rx.vstack(
                             rx.input(
                                 rx.input.slot(
@@ -585,8 +590,8 @@ def recipient_section() -> rx.Component:
                                 },
                                 on_change=GuideState.set_neighborhood_recipient,
                             ),
-                            rx.popover.root(
-                                rx.popover.trigger(
+                            rx.vstack(
+                                rx.box(
                                     rx.input(
                                         rx.input.slot(
                                             rx.icon("hotel", color="black"),
@@ -611,9 +616,12 @@ def recipient_section() -> rx.Component:
                                                 "color": "rgba(0, 0, 0, 0.6)",
                                             },
                                         },
-                                    )
+                                    ),
+                                    position="relative",
+                                    width="100%",
                                 ),
-                                rx.popover.content(
+                                rx.cond(
+                                    DepartmentState.show_suggestions,
                                     rx.box(
                                         rx.vstack(
                                             rx.foreach(
@@ -623,68 +631,81 @@ def recipient_section() -> rx.Component:
                                                     on_click=lambda: DepartmentState.set_city_input(
                                                         city
                                                     ),
+                                                    color="black",
                                                     cursor="pointer",
-                                                    _hover={"background": "lightgray"},
+                                                    _hover={
+                                                        "background": "rgba(250, 250, 250, 0.3)",
+                                                        "border": "none",
+                                                        "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                                        "borderRadius": "10px",
+                                                    },
+                                                    align="center",
+                                                    width="100%",
                                                 ),
                                             ),
                                             max_height="200px",
                                             overflow="auto",
-                                        )
+                                        ),
+                                        position="absolute",
+                                        top="100%",
+                                        left="0",
+                                        width="100%",
+                                        bg="white",
+                                        z_index="1",
+                                        style={
+                                            "border": "none",
+                                            "borderRadius": "10px",
+                                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                        },
                                     ),
-                                    style={"width": "100%"},
                                 ),
+                                position="relative",
+                                width="100%",
                             ),
                             rx.select.root(
                                 rx.select.trigger(
-                                    placeholder="Estado",
+                                    placeholder="Departamento",
                                     color_scheme="orange",
                                     color="black",
                                     width="100%",
                                     style={
-                                        "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                                        "backgroundColor": "rgba(255, 255, 255, 0.4)",
                                         "border": "1px solid rgba(0, 0, 0, 0.8)",
                                         "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                                         "borderRadius": "20px",
-                                        "fontSize": "18px",
+                                        "fontSize": "20px",
                                         "span": {
+                                            "color": "rgba(0, 0, 0, 0.6)",
                                             "fontSize": "16px",
-                                            "color": "rgba(0, 0, 0, 0.8)",
+                                        },
+                                        "svg": {
+                                            "height": "20px",
+                                            "width": "20px",
+                                            "fontWeight": "bold !important",
                                         },
                                     },
                                 ),
                                 rx.select.content(
-                                    rx.select.item(
-                                        rx.hstack(
-                                            rx.icon("box", color="black"),
-                                            rx.text("Caja"),
-                                            style={
-                                                "display": "flex",
-                                                "alignItems": "center",
-                                            },
+                                    rx.foreach(
+                                        DepartmentState.departments,
+                                        lambda department: rx.select.item(
+                                            rx.hstack(
+                                                rx.icon(
+                                                    "map-pin",
+                                                    color="black",
+                                                    position="left",
+                                                ),
+                                                rx.text(
+                                                    department["departamento"],
+                                                    color="black",
+                                                ),
+                                                style={
+                                                    "display": "flex",
+                                                    "alignItems": "center",
+                                                },
+                                            ),
+                                            value=department["id"],
                                         ),
-                                        value="1",
-                                    ),
-                                    rx.select.item(
-                                        rx.hstack(
-                                            rx.icon("package", color="black"),
-                                            rx.text("Paquete"),
-                                            style={
-                                                "display": "flex",
-                                                "alignItems": "center",
-                                            },
-                                        ),
-                                        value="2",
-                                    ),
-                                    rx.select.item(
-                                        rx.hstack(
-                                            rx.icon("mail", color="black"),
-                                            rx.text("Sobre"),
-                                            style={
-                                                "display": "flex",
-                                                "alignItems": "center",
-                                            },
-                                        ),
-                                        value="3",
                                     ),
                                     color_scheme="orange",
                                     background_color="white",
@@ -693,30 +714,79 @@ def recipient_section() -> rx.Component:
                                 size="3",
                                 color_scheme="orange",
                                 variant="surface",
-                                on_change=GuideState.set_state_recipient,
+                                on_change=GuideState.set_department_sender,
                             ),
-                            rx.input(
-                                rx.input.slot(
-                                    rx.icon("compass", color="black"), position="left"
+                            rx.vstack(
+                                rx.box(
+                                    rx.input(
+                                        rx.input.slot(
+                                            rx.icon("compass", color="black"),
+                                            position="left",
+                                        ),
+                                        placeholder="Pais",
+                                        type="text",
+                                        size="3",
+                                        width="100%",
+                                        color_scheme="orange",
+                                        variant="surface",
+                                        radius="full",
+                                        required=True,
+                                        value=Countrystate.country_input,
+                                        on_change=Countrystate.filter_countrys,
+                                        style={
+                                            "color": "black",
+                                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                                            "& input::placeholder": {
+                                                "color": "rgba(0, 0, 0, 0.6)",
+                                            },
+                                        },
+                                    ),
+                                    position="relative",
+                                    width="100%",
                                 ),
-                                placeholder="Pais",
-                                type="text",
-                                size="3",
+                                rx.cond(
+                                    Countrystate.show_suggestions,
+                                    rx.box(
+                                        rx.vstack(
+                                            rx.foreach(
+                                                Countrystate.filtered_country,
+                                                lambda country: rx.text(
+                                                    country,
+                                                    on_click=lambda: Countrystate.set_country_input(
+                                                        country
+                                                    ),
+                                                    color="black",
+                                                    cursor="pointer",
+                                                    _hover={
+                                                        "background": "rgba(250, 250, 250, 0.3)",
+                                                        "border": "none",
+                                                        "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                                        "borderRadius": "10px",
+                                                    },
+                                                    align="center",
+                                                    width="100%",
+                                                ),
+                                            ),
+                                            max_height="200px",
+                                            overflow="auto",
+                                        ),
+                                        position="fixed",  # Change to fixed
+                                        width="10%",
+                                        bg="white",
+                                        z_index="9999",  # Increase z-index
+                                        style={
+                                            "border": "none",
+                                            "borderRadius": "10px",
+                                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                        },
+                                        # Add an ID to the box for JavaScript targeting
+                                        id="country-suggestions",
+                                    ),
+                                ),
+                                position="relative",
                                 width="100%",
-                                color_scheme="orange",
-                                variant="surface",
-                                radius="full",
-                                required=True,
-                                style={
-                                    "color": "black",
-                                    "border": "1px solid rgba(0, 0, 0, 0.8)",
-                                    "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                                    "backgroundColor": "rgba(235, 235, 235, 0.4)",
-                                    "& input::placeholder": {
-                                        "color": "rgba(0, 0, 0, 0.6)",
-                                    },
-                                },
-                                on_change=GuideState.set_country_recipient,
                             ),
                             spacing="1",
                         ),  # content
