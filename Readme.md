@@ -4,7 +4,10 @@
 
 ## Diagrama de clases
 
+### `V1`
 ![Diagrama de clases](https://github.com/user-attachments/assets/f807f06a-9172-4f20-8d20-4f592d91842e)
+### `V2`
+![Diagrama_V2](https://github.com/user-attachments/assets/cd227320-a348-4977-83f5-f0de6cb54b26)
 
 ## Descripcion del proyecto
 
