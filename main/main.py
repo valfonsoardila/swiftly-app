@@ -37,7 +37,7 @@ class InitialState(rx.State):
         self.countries = await country_state.on_load()
 
 
-@rx.page(on_load=InitialState.on_load)
+@rx.page(on_load=InitialState.on_load, title="Guides")
 def index() -> rx.Component:
     return intro_view()
 

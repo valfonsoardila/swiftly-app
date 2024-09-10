@@ -1,11 +1,11 @@
 import reflex as rx
-from main.server.controllers import guides_controller
-from main.ui.states.pageState import StatePage
 from main.ui.states.deparmentState import DepartmentState
 from main.ui.states.contryState import Countrystate
+from main.ui.states.shipmentGuideState import ShipmentGuideState
+from typing import List
 
 
-class ShipmentFormState(rx.State):
+class ModalPageState(rx.State):
     current_page: int = 0
 
     def next_page(self):
@@ -20,78 +20,19 @@ class ShipmentFormState(rx.State):
 class DataTableState(rx.State):
     """The app state."""
 
-    cols: list[dict] = [
-        {"title": "First Name", "type": "str"},
-        {"title": "Last Name", "type": "str"},
-        {"title": "Team", "type": "str"},
+    columns: List[str] = [
+        "Date",
+        "Tracking #",
+        "Package Type",
+        "Quantity",
+        "Weight",
+        "Sender",
+        "Recipient",
+        "Recipient Company",
+        "Recipient Address",
     ]
-    data = [
-        ["Lionel", "Messi", "PSG"],
-        ["Christiano", "Ronaldo", "Al-Nasir"],
-    ]
 
-
-class GuideState(rx.State):
-    # Datos del remitente
-    name_sender: str = ""
-    last_name_sender: str = ""
-    phone_sender: str = ""
-    department_sender: str = ""
-    # Datos del destinatario
-    company_recipient: str = ""
-    name_recipient: str = ""
-    last_name_recipient: str = ""
-    address_recipient: str = ""
-    neighborhood_recipient: str = ""
-    city_recipient: str = ""
-    state_recipient: str = ""
-    country_recipient: str = ""
-    phone_recipient: str = ""
-    # Datos del paquete
-    service_type: str = ""
-    weight: float = 0.0
-    quantity: int = 0
-    declared_value: float = 0.0
-    is_international: bool = False
-
-    def toggle_international(self, value):
-        self.is_international = value
-
-    @rx.background
-    async def add_guide(self):
-        guide_data = {
-            "name_sender": self.name_sender,
-            "last_name_sender": self.last_name_sender,
-            "phone_sender": self.phone_sender,
-            "department_sender": self.department_sender,
-            "company_recipient": self.company_recipient,
-            "name_recipient": self.name_recipient,
-            "last_name_recipient": self.last_name_recipient,
-            "address_recipient": self.address_recipient,
-            "neighborhood_recipient": self.neighborhood_recipient,
-            "city_recipient": self.city_recipient,
-            "state_recipient": self.state_recipient,
-            "country_recipient": self.country_recipient,
-            "phone_recipient": self.phone_recipient,
-            "service_type": self.service_type,
-            "weight": self.weight,
-            "quantity": self.quantity,
-            "declared_value": self.declared_value,
-            "is_international": self.is_international,
-        }
-        result = guides_controller.create_guide(guide_data)
-        if result:
-            yield rx.toast.success(
-                "Registro exitoso! Redirigiendo a la lista de guías...",
-                duration=5000,
-            )
-            await rx.sleep(3)
-            yield StatePage.current_route("guides")
-        else:
-            yield rx.toast.error(
-                "Registro fallido. Por favor, intenta de nuevo.",
-                duration=5000,
-            )
+    data: List = []
 
 
 @rx.page(route="/app/guides", title="App | Guides")
@@ -119,26 +60,31 @@ def guides_view():
                         rx.box(
                             # boton para abrir el modal de registro de guía
                             rx.dialog.root(
-                                rx.dialog.title(""),
+                                rx.dialog.title("", fontSize="0px", margin="0"),
                                 rx.dialog.trigger(
-                                    rx.button(
-                                        rx.icon("plus"),
-                                        rx.text("Nueva guía", color="white"),
-                                        color="white",
-                                        style={
-                                            "color": "white",
-                                            "backgroundColor": "black",
-                                            "border": "none",
-                                            "padding": "1em 2em",
-                                            "borderRadius": "1em",
-                                            "cursor": "pointer",
-                                            "fontSize": "20px",
-                                            "_hover": {
-                                                "backgroundColor": "#333333",
-                                                "transform": "scale(1.05)",
-                                                "transition": "transform 0.2s ease",
+                                    rx.box(
+                                        rx.button(
+                                            rx.icon("plus"),
+                                            rx.text("Nueva guía", color="white"),
+                                            color="white",
+                                            style={
+                                                "color": "white",
+                                                "backgroundColor": "black",
+                                                "border": "none",
+                                                "padding": "1em 2em",
+                                                "borderRadius": "1em",
+                                                "cursor": "pointer",
+                                                "fontSize": "20px",
+                                                "_hover": {
+                                                    "backgroundColor": "#333333",
+                                                    "transform": "scale(1.05)",
+                                                    "transition": "transform 0.2s ease",
+                                                },
                                             },
-                                        },
+                                        ),
+                                        width="100%",
+                                        align="center",
+                                        justify="center",
                                     ),
                                 ),
                                 rx.dialog.content(
@@ -202,12 +148,13 @@ def guides_view():
                         ),
                         rx.box(
                             rx.data_table(
-                                columns=DataTableState.cols,
+                                columns=DataTableState.columns,
                                 data=DataTableState.data,
                                 pagination=True,
                                 search=True,
                                 sort=True,
                             ),
+                            height="-webkit-fill-available",
                         ),
                         width="100%",
                     ),
@@ -235,7 +182,7 @@ def new_shipment_guide_view() -> rx.Component:
         rx.form(
             rx.vstack(
                 rx.match(
-                    ShipmentFormState.current_page,
+                    ModalPageState.current_page,
                     (0, rx.box(sender_section(), width="100%", height="100%")),
                     (1, rx.box(recipient_section(), width="100%", height="100%")),
                     (2, rx.box(package_section(), width="100%", height="100%")),
@@ -261,11 +208,11 @@ def new_shipment_guide_view() -> rx.Component:
                                 },
                             },
                         },
-                        on_click=ShipmentFormState.prev_page,
-                        is_disabled=ShipmentFormState.current_page == 0,
+                        on_click=ModalPageState.prev_page,
+                        is_disabled=ModalPageState.current_page == 0,
                     ),
                     rx.cond(
-                        ShipmentFormState.current_page == 2,
+                        ModalPageState.current_page == 2,
                         rx.button(
                             rx.icon("save", color="rgba(0,0,0,.5)", stroke_width="1"),
                             rx.text(
@@ -294,7 +241,7 @@ def new_shipment_guide_view() -> rx.Component:
                                     },
                                 },
                             },
-                            on_click=GuideState.add_guide,
+                            # on_click=GuideState.add_guide,
                         ),
                         rx.button(
                             rx.icon(
@@ -318,8 +265,8 @@ def new_shipment_guide_view() -> rx.Component:
                                     },
                                 },
                             },
-                            on_click=ShipmentFormState.next_page,
-                            is_disabled=ShipmentFormState.current_page == 2,
+                            on_click=ModalPageState.next_page,
+                            is_disabled=ModalPageState.current_page == 2,
                         ),
                     ),
                 ),
@@ -351,7 +298,7 @@ def sender_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
-                        on_change=GuideState.set_name_sender,
+                        on_change=lambda v: ShipmentGuideState.update_sender("name", v),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -375,7 +322,9 @@ def sender_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
-                        on_change=GuideState.set_last_name_sender,
+                        on_change=lambda v: ShipmentGuideState.update_sender(
+                            "last_name", v
+                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -399,7 +348,9 @@ def sender_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
-                        on_change=GuideState.set_phone_sender,
+                        on_change=lambda v: ShipmentGuideState.update_sender(
+                            "phone", v
+                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -462,7 +413,9 @@ def sender_section() -> rx.Component:
                         size="3",
                         color_scheme="orange",
                         variant="surface",
-                        on_change=GuideState.set_department_sender,
+                        on_change=lambda v: ShipmentGuideState.update_sender(
+                            "department", v
+                        ),
                     ),
                 ),
                 columns="2",
@@ -496,6 +449,9 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        on_change=lambda v: ShipmentGuideState.update_recipient(
+                            "company", v
+                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -505,7 +461,6 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
-                        on_change=GuideState.set_company_recipient,
                     ),
                 ),
                 rx.vstack(
@@ -522,6 +477,9 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        on_change=lambda v: ShipmentGuideState.update_recipient(
+                            "name", v
+                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -531,7 +489,6 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
-                        on_change=GuideState.set_name_recipient,
                     ),
                 ),
                 rx.vstack(
@@ -548,6 +505,9 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        on_change=lambda v: ShipmentGuideState.update_recipient(
+                            "last_name", v
+                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -557,7 +517,6 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
-                        on_change=GuideState.set_last_name_recipient,
                     ),
                 ),
                 rx.accordion.root(
@@ -579,6 +538,9 @@ def recipient_section() -> rx.Component:
                                 variant="surface",
                                 radius="full",
                                 required=True,
+                                on_change=lambda v: ShipmentGuideState.update_recipient(
+                                    "street", v
+                                ),
                                 style={
                                     "color": "black",
                                     "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -588,7 +550,6 @@ def recipient_section() -> rx.Component:
                                         "color": "rgba(0, 0, 0, 0.6)",
                                     },
                                 },
-                                on_change=GuideState.set_address_recipient,
                             ),
                             rx.input(
                                 rx.input.slot(
@@ -603,6 +564,9 @@ def recipient_section() -> rx.Component:
                                 variant="surface",
                                 radius="full",
                                 required=True,
+                                on_change=lambda v: ShipmentGuideState.update_recipient(
+                                    "neighborhood", v
+                                ),
                                 style={
                                     "color": "black",
                                     "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -612,8 +576,8 @@ def recipient_section() -> rx.Component:
                                         "color": "rgba(0, 0, 0, 0.6)",
                                     },
                                 },
-                                on_change=GuideState.set_neighborhood_recipient,
                             ),
+                            # Pendiente por implementar el atrapar el estado
                             rx.vstack(
                                 rx.box(
                                     rx.input(
@@ -629,8 +593,14 @@ def recipient_section() -> rx.Component:
                                         variant="surface",
                                         radius="full",
                                         required=True,
+                                        # Tengo setear el valor de DepartmentState.city_input a city_recipient
                                         value=DepartmentState.city_input,
-                                        on_change=DepartmentState.filter_cities,
+                                        on_change=lambda v: [
+                                            DepartmentState.filter_cities(v),
+                                            ShipmentGuideState.update_recipient(
+                                                "city", v
+                                            ),
+                                        ],
                                         style={
                                             "color": "black",
                                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -738,8 +708,11 @@ def recipient_section() -> rx.Component:
                                 size="3",
                                 color_scheme="orange",
                                 variant="surface",
-                                on_change=GuideState.set_department_sender,
+                                on_change=lambda v: ShipmentGuideState.update_recipient(
+                                    "state", v
+                                ),
                             ),
+                            # Pendiente por implementar el atrapar el país
                             rx.vstack(
                                 rx.box(
                                     rx.input(
@@ -755,8 +728,14 @@ def recipient_section() -> rx.Component:
                                         variant="surface",
                                         radius="full",
                                         required=True,
+                                        # Tengo setear el valor de Countrystate.country_input a country_recipient
                                         value=Countrystate.country_input,
-                                        on_change=Countrystate.filter_countrys,
+                                        on_change=lambda v: [
+                                            Countrystate.filter_countries(v),
+                                            ShipmentGuideState.update_recipient(
+                                                "country", v
+                                            ),
+                                        ],
                                         style={
                                             "color": "black",
                                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -849,6 +828,9 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        on_change=lambda v: ShipmentGuideState.update_recipient(
+                            "phones", v
+                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -858,7 +840,6 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
-                        on_change=GuideState.set_phone_recipient,
                     ),
                 ),
                 columns="2",
@@ -878,6 +859,7 @@ def package_section() -> rx.Component:
                 color="black",
             ),
             rx.grid(
+                # Pendiente por implementar el atrapar el tipo de servicio
                 rx.vstack(
                     rx.text("Tipo de servicio", color="black"),
                     rx.select.root(
@@ -943,7 +925,7 @@ def package_section() -> rx.Component:
                         size="3",
                         color_scheme="orange",
                         variant="surface",
-                        on_change=GuideState.set_service_type,
+                        on_change=ShipmentGuideState.update_service_type,
                     ),
                 ),
                 rx.vstack(
@@ -960,6 +942,7 @@ def package_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        on_change=ShipmentGuideState.update_weight,
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -969,7 +952,6 @@ def package_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
-                        on_change=GuideState.set_weight,
                     ),
                 ),
                 rx.vstack(
@@ -995,7 +977,7 @@ def package_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
-                        on_change=GuideState.set_quantity,
+                        on_change=ShipmentGuideState.update_quantity,
                     ),
                 ),
                 rx.vstack(
@@ -1012,6 +994,7 @@ def package_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        on_change=ShipmentGuideState.update_declared_value,
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -1021,15 +1004,14 @@ def package_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
-                        on_change=GuideState.set_declared_value,
                     ),
                 ),
                 rx.hstack(
                     rx.checkbox(
                         color_scheme="orange",
                         variant="surface",
-                        on_change=GuideState.toggle_international,
-                        is_checked=GuideState.is_international,
+                        on_change=ShipmentGuideState.update_international,
+                        is_checked=ShipmentGuideState.is_international,
                     ),
                     rx.text("¿Es un envío internacional?", color="black"),
                 ),

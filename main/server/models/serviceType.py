@@ -1,54 +1,37 @@
-from abc import ABC, abstractmethod
-
-
-# Interfaz para el Strategy
-class CostStrategy(ABC):
-    @abstractmethod
-    def calculateCost(
-        self, baseRate: float, weight: float, isInternational: bool
-    ) -> float:
-        pass
-
-
-# Estrategia para LETTER
-class LetterCostStrategy(CostStrategy):
-    def calculateCost(
-        self, baseRate: float, weight: float, isInternational: bool
-    ) -> float:
-        cost = baseRate + 10000.0  # Documento adicional
-        if isInternational:
-            cost += cost * 0.25
-        return cost
-
-
-# Estrategia para PACKAGE
-class PackageCostStrategy(CostStrategy):
-    def calculateCost(
-        self, baseRate: float, weight: float, isInternational: bool
-    ) -> float:
-        cost = baseRate * weight
-        if isInternational:
-            cost += cost * 0.25
-        return cost
-
-
-# Estrategia para BOX
-class BoxCostStrategy(CostStrategy):
-    def calculateCost(
-        self, baseRate: float, weight: float, isInternational: bool
-    ) -> float:
-        cost = baseRate * weight + 25000.0  # Caja adicional
-        if isInternational:
-            cost += cost * 0.25
-        return cost
-
-
-# Clase principal ServiceType
+# Patron de diseño Factory Method
 class ServiceType:
-    def __init__(self, nameType: str, strategy: CostStrategy):
-        self.__nameType = nameType
-        self.__baseRate = 5000.0
-        self.__strategy = strategy
+    def __init__(
+        self,
+        nameType: str,  # Nombre del tipo de servicio (Caja, Paquete, Sobre)
+        weight: float,
+        quantity: int,
+        declared_value: float,
+        is_international: bool = False,
+    ):
+        self.nameType = nameType
+        self.weight = weight
+        self.quantity = quantity
+        self.declared_value = declared_value
+        self.is_international = is_international
+        self.baseRate = 5000.0
 
-    def calculateCost(self, weight: float, isInternational: bool = False) -> float:
-        return self.__strategy.calculateCost(self.__baseRate, weight, isInternational)
+    # Función para calcular el costo basado en el tipo de servicio
+    def calculateCost(self) -> float:
+        cost = 0.0
+
+        # Lógica para calcular el costo según el tipo de servicio
+        if self.nameType == "Caja":
+            cost = self.baseRate * self.weight + 25000.0  # Caja adicional
+        elif self.nameType == "Paquete":
+            cost = self.baseRate * self.weight
+        elif self.nameType == "Sobre":
+            cost = self.baseRate + 10000.0  # Documento adicional
+
+        # Si es internacional, se añade un 25% al costo
+        if self.is_international:
+            cost += cost * 0.25
+
+        # Multiplicar el costo por la cantidad de paquetes
+        total_cost = cost * self.quantity
+
+        return total_cost

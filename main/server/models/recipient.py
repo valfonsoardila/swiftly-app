@@ -2,7 +2,8 @@
 class Recipient:
     def __init__(
         self,
-        fullName: str,
+        name: str,
+        lastname: str,
         company: str,
         street: str,
         neighborhood: str,
@@ -12,7 +13,8 @@ class Recipient:
         postalCode: str,
         phones: list[str],
     ):
-        self.__fullName = fullName
+        self.__name = name
+        self.__lastName = lastname
         self.__company = company
         self.__street = street
         self.__neighborhood = neighborhood
@@ -22,11 +24,17 @@ class Recipient:
         self.__postalCode = postalCode
         self.__phones = phones
 
-    def getFullName(self) -> str:
-        return self.__fullName
+    def getName(self) -> str:
+        return self.__name
 
-    def setFullName(self, fullName: str):
-        self.__fullName = fullName
+    def setName(self, name: str):
+        self.__name = name
+
+    def getLastName(self) -> str:
+        return self.__lastName
+
+    def setLastName(self, lastName: str):
+        self.__lastName = lastName
 
     def getCompany(self) -> str:
         return self.__company
@@ -78,7 +86,8 @@ class Recipient:
 
     def toJson(self):
         return {
-            "full_name": self.__fullName,
+            "name": self.__name,
+            "lastname": self.__lastName,
             "company": self.__company,
             "street": self.__street,
             "neighborhood": self.__neighborhood,
@@ -92,7 +101,8 @@ class Recipient:
     @staticmethod
     def fromJson(data):
         recipient = Recipient(
-            data.get("full_name"),
+            data.get("name"),
+            data.get("lastname"),
             data.get("company"),
             data.get("street"),
             data.get("neighborhood"),
