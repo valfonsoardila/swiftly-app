@@ -177,6 +177,7 @@ def guides_view():
     )
 
 
+# Steper del modal de registro de guía
 def new_shipment_guide_view() -> rx.Component:
     return rx.box(
         rx.form(
@@ -307,6 +308,8 @@ def sender_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        value=ShipmentGuideStateV2.sender_name,
+                        on_change=ShipmentGuideStateV2.set_sender_name,
                     ),
                 ),
                 rx.vstack(
@@ -330,6 +333,8 @@ def sender_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        value=ShipmentGuideStateV2.sender_lastName,
+                        on_change=ShipmentGuideStateV2.set_sender_lastName,
                     ),
                 ),
                 rx.vstack(
@@ -353,6 +358,8 @@ def sender_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        value=ShipmentGuideStateV2.sender_phone,
+                        on_change=ShipmentGuideStateV2.set_sender_phone,
                     ),
                 ),
                 rx.vstack(
@@ -406,6 +413,8 @@ def sender_section() -> rx.Component:
                         size="3",
                         color_scheme="orange",
                         variant="surface",
+                        value=ShipmentGuideStateV2.sender_state,
+                        on_change=ShipmentGuideStateV2.set_sender_state,
                     ),
                 ),
                 columns="2",
@@ -448,6 +457,8 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        value=ShipmentGuideStateV2.recipient_company,
+                        on_change=ShipmentGuideStateV2.set_recipient_company,
                     ),
                 ),
                 rx.vstack(
@@ -473,6 +484,8 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        value=ShipmentGuideStateV2.recipient_name,
+                        on_change=ShipmentGuideStateV2.set_recipient_name,
                     ),
                 ),
                 rx.vstack(
@@ -498,6 +511,8 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        value=ShipmentGuideStateV2.recipient_lastName,
+                        on_change=ShipmentGuideStateV2.set_recipient_lastName,
                     ),
                 ),
                 rx.accordion.root(
@@ -528,6 +543,8 @@ def recipient_section() -> rx.Component:
                                         "color": "rgba(0, 0, 0, 0.6)",
                                     },
                                 },
+                                value=ShipmentGuideStateV2.recipient_street,
+                                on_change=ShipmentGuideStateV2.set_recipient_street,
                             ),
                             rx.input(
                                 rx.input.slot(
@@ -551,8 +568,9 @@ def recipient_section() -> rx.Component:
                                         "color": "rgba(0, 0, 0, 0.6)",
                                     },
                                 },
+                                value=ShipmentGuideStateV2.recipient_neighborhood,
+                                on_change=ShipmentGuideStateV2.set_recipient_neighborhood,
                             ),
-                            # Pendiente por implementar el atrapar el estado
                             rx.vstack(
                                 rx.box(
                                     rx.input(
@@ -572,6 +590,9 @@ def recipient_section() -> rx.Component:
                                         value=DepartmentState.city_input,
                                         on_change=lambda v: [
                                             DepartmentState.filter_cities(v),
+                                            ShipmentGuideStateV2.update_recipient_city(
+                                                v
+                                            ),
                                         ],
                                         style={
                                             "color": "black",
@@ -680,6 +701,8 @@ def recipient_section() -> rx.Component:
                                 size="3",
                                 color_scheme="orange",
                                 variant="surface",
+                                value=ShipmentGuideStateV2.recipient_state,
+                                on_change=ShipmentGuideStateV2.set_recipient_state,
                             ),
                             # Pendiente por implementar el atrapar el país
                             rx.vstack(
@@ -701,6 +724,9 @@ def recipient_section() -> rx.Component:
                                         value=Countrystate.country_input,
                                         on_change=lambda v: [
                                             Countrystate.filter_countries(v),
+                                            ShipmentGuideStateV2.update_recipient_country(
+                                                v
+                                            ),
                                         ],
                                         style={
                                             "color": "black",
@@ -803,6 +829,8 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        value=ShipmentGuideStateV2.recipient_phone,
+                        on_change=ShipmentGuideStateV2.set_recipient_phone,
                     ),
                 ),
                 columns="2",
@@ -888,6 +916,8 @@ def package_section() -> rx.Component:
                         size="3",
                         color_scheme="orange",
                         variant="surface",
+                        value=ShipmentGuideStateV2.service_type,
+                        on_change=ShipmentGuideStateV2.set_service_type,
                     ),
                 ),
                 rx.vstack(
@@ -913,6 +943,8 @@ def package_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        value=ShipmentGuideStateV2.weight,
+                        on_change=ShipmentGuideStateV2.set_weight,
                     ),
                 ),
                 rx.vstack(
@@ -938,6 +970,8 @@ def package_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        value=ShipmentGuideStateV2.quantity,
+                        on_change=ShipmentGuideStateV2.set_quantity,
                     ),
                 ),
                 rx.vstack(
@@ -963,12 +997,16 @@ def package_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
+                        value=ShipmentGuideStateV2.declared_value,
+                        on_change=ShipmentGuideStateV2.set_declared_value,
                     ),
                 ),
                 rx.hstack(
                     rx.checkbox(
                         color_scheme="orange",
                         variant="surface",
+                        checked=ShipmentGuideStateV2.is_international,
+                        on_change=ShipmentGuideStateV2.set_is_international,
                     ),
                     rx.text("¿Es un envío internacional?", color="black"),
                 ),

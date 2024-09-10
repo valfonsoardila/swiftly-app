@@ -30,14 +30,6 @@ class ShipmentGuideStateV1(rx.State):
         ),  # Enviar un objeto Recipient vacío o predeterminado
     )
 
-    def next_page(self):
-        if self.current_page < 2:
-            self.current_page += 1
-
-    def prev_page(self):
-        if self.current_page > 0:
-            self.current_page -= 1
-
     def update_sender(self, field: str, value: str):
         if field == "name":
             self.sender.setName(value)

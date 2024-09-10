@@ -1,20 +1,52 @@
 from datetime import datetime
-from Guide import Guide
+from .Guide import Guide
 import json
 from .GuideStatus import GuideStatus
 from .Sender import Sender
 from .Recipient import Recipient
 
+
 class Package(Guide):
-    def __init__(self, guide_number: int, date: datetime, description: str, weight: float, declared_value: float, international: bool,
-                 sender_name: str, sender_department: str, sender_phone: list,
-                 recipient_name: str, recipient_company: str, recipient_street: str, recipient_neighborhood: str, 
-                 recipient_city: str, recipient_state: str, recipient_country: str, recipient_postal_code: str,
-                 additional_fee: float):
-        super().__init__(guide_number, date, description, weight, declared_value, international,
-                         sender_name, sender_department, sender_phone,
-                         recipient_name, recipient_company, recipient_street, recipient_neighborhood,
-                         recipient_city, recipient_state, recipient_country, recipient_postal_code)
+    def __init__(
+        self,
+        guide_number: int,
+        date: datetime,
+        description: str,
+        weight: float,
+        declared_value: float,
+        international: bool,
+        sender_name: str,
+        sender_department: str,
+        sender_phone: list,
+        recipient_name: str,
+        recipient_company: str,
+        recipient_street: str,
+        recipient_neighborhood: str,
+        recipient_city: str,
+        recipient_state: str,
+        recipient_country: str,
+        recipient_postal_code: str,
+        additional_fee: float,
+    ):
+        super().__init__(
+            guide_number,
+            date,
+            description,
+            weight,
+            declared_value,
+            international,
+            sender_name,
+            sender_department,
+            sender_phone,
+            recipient_name,
+            recipient_company,
+            recipient_street,
+            recipient_neighborhood,
+            recipient_city,
+            recipient_state,
+            recipient_country,
+            recipient_postal_code,
+        )
         self.__additional_fee = additional_fee
 
     # Getters y setters para atributos heredados
@@ -85,7 +117,7 @@ class Package(Guide):
             "type": "package",
             "sender": self.get_sender().to_json(),
             "recipient": self.get_recipient().to_json(),
-            "status": self.get_status().to_json()
+            "status": self.get_status().to_json(),
         }
 
     @classmethod
@@ -107,9 +139,24 @@ class Package(Guide):
         status = GuideStatus.from_json(status_data)
 
         # Crear instancia de Package
-        package = cls(guide_number, date, description, weight, declared_value, international,
-                      sender.get_name(), sender.get_department(), sender.get_phones(),
-                      recipient.get_name(), recipient.get_company(), recipient.get_street(), recipient.get_neighborhood(),
-                      recipient.get_city(), recipient.get_state(), recipient.get_country(), recipient.get_postal_code(),
-                      additional_fee)
+        package = cls(
+            guide_number,
+            date,
+            description,
+            weight,
+            declared_value,
+            international,
+            sender.get_name(),
+            sender.get_department(),
+            sender.get_phones(),
+            recipient.get_name(),
+            recipient.get_company(),
+            recipient.get_street(),
+            recipient.get_neighborhood(),
+            recipient.get_city(),
+            recipient.get_state(),
+            recipient.get_country(),
+            recipient.get_postal_code(),
+            additional_fee,
+        )
         return package

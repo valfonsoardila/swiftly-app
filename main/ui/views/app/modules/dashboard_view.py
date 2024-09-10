@@ -27,98 +27,83 @@ def dashboard_view() -> rx.Component:
         rx.vstack(
             rx.hstack(
                 rx.vstack(
-                    rx.box(
-                        rx.card(
-                            rx.vstack(
-                                # Titulo
-                                rx.box(
-                                    rx.heading(
-                                        "Cantidad de Guias por mes",
-                                        size="2xl",
-                                        color="rgba(0, 0, 0, 0.8)",
-                                        align="center",
-                                    ),
-                                    width="100%",
+                    rx.card(
+                        rx.vstack(
+                            # Titulo
+                            rx.box(
+                                rx.heading(
+                                    "Cantidad de Guias por mes",
+                                    size="2xl",
+                                    color="rgba(0, 0, 0, 0.8)",
+                                    align="center",
                                 ),
-                                # Contenido
-                                rx.box(
-                                    rx.vstack(
-                                        rx.recharts.bar_chart(
-                                            rx.recharts.graphing_tooltip(),
-                                            rx.recharts.bar(
-                                                data_key="uv",
-                                                stroke="#8884d8",
-                                                fill="#8884d8",
-                                            ),
-                                            rx.recharts.bar(
-                                                data_key="pv",
-                                                stroke="#82ca9d",
-                                                fill="#82ca9d",
-                                            ),
-                                            rx.recharts.x_axis(data_key="name"),
-                                            rx.recharts.y_axis(),
-                                            data=data,
-                                            sync_id="1",
-                                            width="100%",
-                                            height=200,
+                                width="100%",
+                            ),
+                            # Contenido
+                            rx.box(
+                                rx.vstack(
+                                    rx.recharts.bar_chart(
+                                        rx.recharts.graphing_tooltip(),
+                                        rx.recharts.bar(
+                                            data_key="uv",
+                                            stroke="#8884d8",
+                                            fill="#8884d8",
                                         ),
-                                        rx.recharts.composed_chart(
-                                            rx.recharts.area(
-                                                data_key="uv",
-                                                stroke="#8884d8",
-                                                fill="#8884d8",
-                                            ),
-                                            rx.recharts.line(
-                                                data_key="pv",
-                                                type_="monotone",
-                                                stroke="#ff7300",
-                                            ),
-                                            rx.recharts.x_axis(data_key="name"),
-                                            rx.recharts.y_axis(),
-                                            rx.recharts.graphing_tooltip(),
-                                            rx.recharts.brush(
-                                                data_key="name",
-                                                height=30,
-                                                stroke="#8884d8",
-                                            ),
-                                            data=data,
-                                            sync_id="1",
-                                            width="100%",
-                                            height=250,
+                                        rx.recharts.bar(
+                                            data_key="pv",
+                                            stroke="#82ca9d",
+                                            fill="#82ca9d",
                                         ),
+                                        rx.recharts.x_axis(data_key="name"),
+                                        rx.recharts.y_axis(),
+                                        data=data,
+                                        sync_id="1",
                                         width="100%",
-                                        height="100%",
-                                        align="center",
-                                        justify="center",
+                                        height=200,
+                                    ),
+                                    rx.recharts.composed_chart(
+                                        rx.recharts.area(
+                                            data_key="uv",
+                                            stroke="#8884d8",
+                                            fill="#8884d8",
+                                        ),
+                                        rx.recharts.line(
+                                            data_key="pv",
+                                            type_="monotone",
+                                            stroke="#ff7300",
+                                        ),
+                                        rx.recharts.x_axis(data_key="name"),
+                                        rx.recharts.y_axis(),
+                                        rx.recharts.graphing_tooltip(),
+                                        rx.recharts.brush(
+                                            data_key="name",
+                                            height=30,
+                                            stroke="#8884d8",
+                                        ),
+                                        data=data,
+                                        sync_id="1",
+                                        width="100%",
+                                        height=250,
                                     ),
                                     width="100%",
                                     height="100%",
+                                    align="center",
+                                    justify="center",
                                 ),
-                                direction="column",
+                                width="100%",
                                 height="100%",
                             ),
-                            height="95%",
-                            width="95%",
-                            style={
-                                "border": "none !important",
-                                "borderRadius": "none",
-                                "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                                "_hover": {
-                                    "height": "100%",
-                                    "width": "100%",
-                                    "transition": "height 0.4s, width 0.5s",
-                                    "cursor": "pointer",
-                                },
-                            },
-                            background_color="rgba(255, 255, 255, 0.5)",
+                            direction="column",
+                            height="100%",
                         ),
                         height="70%",
                         width="100%",
                         style={
-                            "display": "flex",
-                            "alignItems": "center",
-                            "justifyContent": "center",
+                            "border": "none !important",
+                            "borderRadius": "none",
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                         },
+                        background_color="rgba(255, 255, 255, 0.5)",
                     ),
                     rx.card(
                         rx.vstack(
