@@ -1,21 +1,23 @@
 import reflex as rx
 from main.ui.states.userState import UserState
-from main.server.models.guide import Guide
-from main.server.models.sender import Sender
+from main.server.models.v1.Guide import Guide
+from main.server.models.v1.Sender import Sender
 from main.ui.views.app.modules.guides_view import guides_view
 from main.ui.views.app.modules.senders_view import senders_view
 from main.ui.views.app.modules.clients_view import clients_view
 from main.ui.views.app.modules.dashboard_view import dashboard_view
 from main.ui.views.app.modules.settings_view import settings_view
 
-# import models
-from main.server.models.guide import Guide
-from main.server.models.sender import Sender
+# import models v1
+from main.server.models.v1.Guide import Guide
+from main.server.models.v1.Sender import Sender
+from main.server.models.v1.Recipient import Recipient
+
+# import models v2
+from main.server.models.v2.Guide import Guide
 
 # import states
 from main.ui.states.pageState import StatePage
-
-# logica para implemetar los estados de las guias y los clientes o senders
 
 
 class StateSidebar(rx.State):

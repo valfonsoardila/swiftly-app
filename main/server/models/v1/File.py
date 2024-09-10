@@ -1,6 +1,6 @@
 from typing import Optional
-from main.server.models.v1.recipient import Recipient
-from main.server.models.v1.guide import Guide
+from main.server.models.v1.Recipient import Recipient
+from main.server.models.v1.Guide import Guide
 
 
 # Posible Patron de diseño: Singleton

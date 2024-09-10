@@ -6,10 +6,10 @@ from datetime import date
 from main.server.controllers import guides_controller
 
 # Clases para crear objetos de estado
-from main.server.models.guide import Guide
-from main.server.models.sender import Sender
-from main.server.models.recipient import Recipient
-from main.server.models.serviceType import ServiceType
+from main.server.models.v1.Guide import Guide
+from main.server.models.v1.Sender import Sender
+from main.server.models.v1.Recipient import Recipient
+from main.server.models.v1.ServiceType import ServiceType
 
 
 class ShipmentGuideStateV1(rx.State):

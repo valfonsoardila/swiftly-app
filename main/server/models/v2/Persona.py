@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-import json
 import uuid
+
 
 class Persona(ABC):
     def __init__(self, name: str, phones: list):
@@ -35,11 +35,7 @@ class Persona(ABC):
         return self.__phones
 
     def to_json(self):
-        return {
-            "id": self.__id,
-            "name": self.__name,
-            "phones": self.__phones
-        }
+        return {"id": self.__id, "name": self.__name, "phones": self.__phones}
 
     @classmethod
     def from_json(cls, data):

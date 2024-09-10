@@ -1,8 +1,8 @@
 from datetime import date
 from typing import Optional
-from main.server.models.v1.recipient import Recipient
-from main.server.models.v1.sender import Sender
-from main.server.models.v1.serviceType import ServiceType
+from main.server.models.v1.Recipient import Recipient
+from main.server.models.v1.Sender import Sender
+from main.server.models.v1.ServiceType import ServiceType
 
 
 # Patron de diseño Active Record
