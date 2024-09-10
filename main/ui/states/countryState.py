@@ -17,7 +17,7 @@ class Countrystate(rx.State):
         )  # Remove await if this function is not async
         return self.contrys
 
-    def filter_countrys(self, value: str):
+    def filter_countries(self, value: str):
         self.country_input = value
         if (
             value.strip()

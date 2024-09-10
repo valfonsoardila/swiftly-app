@@ -1,7 +1,7 @@
 import reflex as rx
 from main.ui.states.deparmentState import DepartmentState
-from main.ui.states.contryState import Countrystate
-from main.ui.states.shipmentGuideStateV1 import ShipmentGuideStateV1
+from main.ui.states.countryState import Countrystate
+from main.ui.states.shipmentGuideStateV2 import ShipmentGuideStateV2
 from typing import List
 
 
@@ -298,9 +298,6 @@ def sender_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
-                        on_change=lambda v: ShipmentGuideStateV1.update_sender(
-                            "name", v
-                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -324,9 +321,6 @@ def sender_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
-                        on_change=lambda v: ShipmentGuideStateV1.update_sender(
-                            "last_name", v
-                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -350,9 +344,6 @@ def sender_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
-                        on_change=lambda v: ShipmentGuideStateV1.update_sender(
-                            "phone", v
-                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -415,9 +406,6 @@ def sender_section() -> rx.Component:
                         size="3",
                         color_scheme="orange",
                         variant="surface",
-                        on_change=lambda v: ShipmentGuideStateV1.update_sender(
-                            "department", v
-                        ),
                     ),
                 ),
                 columns="2",
@@ -451,9 +439,6 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
-                        on_change=lambda v: ShipmentGuideStateV1.update_recipient(
-                            "company", v
-                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -479,9 +464,6 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
-                        on_change=lambda v: ShipmentGuideStateV1.update_recipient(
-                            "name", v
-                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -507,9 +489,6 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
-                        on_change=lambda v: ShipmentGuideStateV1.update_recipient(
-                            "last_name", v
-                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -540,9 +519,6 @@ def recipient_section() -> rx.Component:
                                 variant="surface",
                                 radius="full",
                                 required=True,
-                                on_change=lambda v: ShipmentGuideStateV1.update_recipient(
-                                    "street", v
-                                ),
                                 style={
                                     "color": "black",
                                     "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -566,9 +542,6 @@ def recipient_section() -> rx.Component:
                                 variant="surface",
                                 radius="full",
                                 required=True,
-                                on_change=lambda v: ShipmentGuideStateV1.update_recipient(
-                                    "neighborhood", v
-                                ),
                                 style={
                                     "color": "black",
                                     "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -599,9 +572,6 @@ def recipient_section() -> rx.Component:
                                         value=DepartmentState.city_input,
                                         on_change=lambda v: [
                                             DepartmentState.filter_cities(v),
-                                            ShipmentGuideStateV1.update_recipient(
-                                                "city", v
-                                            ),
                                         ],
                                         style={
                                             "color": "black",
@@ -710,9 +680,6 @@ def recipient_section() -> rx.Component:
                                 size="3",
                                 color_scheme="orange",
                                 variant="surface",
-                                on_change=lambda v: ShipmentGuideStateV1.update_recipient(
-                                    "state", v
-                                ),
                             ),
                             # Pendiente por implementar el atrapar el país
                             rx.vstack(
@@ -734,9 +701,6 @@ def recipient_section() -> rx.Component:
                                         value=Countrystate.country_input,
                                         on_change=lambda v: [
                                             Countrystate.filter_countries(v),
-                                            ShipmentGuideStateV1.update_recipient(
-                                                "country", v
-                                            ),
                                         ],
                                         style={
                                             "color": "black",
@@ -830,9 +794,6 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
-                        on_change=lambda v: ShipmentGuideStateV1.update_recipient(
-                            "phones", v
-                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -927,7 +888,6 @@ def package_section() -> rx.Component:
                         size="3",
                         color_scheme="orange",
                         variant="surface",
-                        on_change=ShipmentGuideStateV1.update_service_type,
                     ),
                 ),
                 rx.vstack(
@@ -944,7 +904,6 @@ def package_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
-                        on_change=ShipmentGuideStateV1.update_weight,
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -979,7 +938,6 @@ def package_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
-                        on_change=ShipmentGuideStateV1.update_quantity,
                     ),
                 ),
                 rx.vstack(
@@ -996,7 +954,6 @@ def package_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
-                        on_change=ShipmentGuideStateV1.update_declared_value,
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -1012,8 +969,6 @@ def package_section() -> rx.Component:
                     rx.checkbox(
                         color_scheme="orange",
                         variant="surface",
-                        on_change=ShipmentGuideStateV1.update_international,
-                        is_checked=ShipmentGuideStateV1.is_international,
                     ),
                     rx.text("¿Es un envío internacional?", color="black"),
                 ),

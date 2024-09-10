@@ -14,7 +14,7 @@ from main.ui.views.tracking.tracking_view import tracking_view
 
 # inicializamos los estados
 from main.ui.states.deparmentState import DepartmentState
-from main.ui.states.contryState import Countrystate
+from main.ui.states.countryState import Countrystate
 
 # inicializo el servicio de firebase
 from main.server.api.firebase.firebase_config import Firebase_Config
@@ -37,7 +37,7 @@ class InitialState(rx.State):
         self.countries = await country_state.on_load()
 
 
-@rx.page(on_load=InitialState.on_load, title="Guides")
+@rx.page(on_load=InitialState.on_load, title="Swiftly App")
 def index() -> rx.Component:
     return intro_view()
 
