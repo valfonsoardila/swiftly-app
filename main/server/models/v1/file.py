@@ -1,20 +1,15 @@
-from typing import Any, Optional
-from .guide import Guide
-from .recipient import Recipient
+from typing import Optional
+from main.server.models.v1.recipient import Recipient
+from main.server.models.v1.guide import Guide
+
+
+# Posible Patron de diseño: Singleton
 class File:
-    def __init__(self,id, year: int, month: int):
-        self.__id = id
+    def __init__(self, year: int, month: int):
         self.__year = year
         self.__month = month
         self.__guideList = list[Guide] = []
 
-
-    def getId(self)->str:
-        return self.__id
-    
-    def setId(self, id: str):
-        self.__id = id
-    
     def getYear(self) -> int:
         return self.__year
 

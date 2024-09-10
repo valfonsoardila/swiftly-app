@@ -1,10 +1,18 @@
 import reflex as rx
 from main.ui.states.pageState import StatePage
+from main.server.controllers.user_controller import read_all_users
+from typing import List, Dict
 
 # from reflex_simpleicons import simpleicons
 
 
-@rx.page(route="/app/dashboard", title="App | Dashboard")
+class DashboardState(rx.State):
+    users: List[Dict[str, str]] = []
+
+    def load_users(self):
+        self.users = read_all_users()
+
+
 def dashboard_view() -> rx.Component:
     data = [
         {"name": "Page A", "uv": 4000, "pv": 2400, "amt": 2400},
@@ -108,13 +116,15 @@ def dashboard_view() -> rx.Component:
                                     align="center",
                                 ),
                                 width="100%",
+                                height="10%",
                             ),
                             # Contenido
                             rx.box(
                                 rx.vstack(
                                     rx.hstack(
-                                        item_list_client(
-                                            "/logo.png", "Cliente 1", "clients"
+                                        rx.foreach(
+                                            DashboardState.users,
+                                            lambda user: item_list_client(user),
                                         ),
                                         height="100%",
                                         width="100%",
@@ -124,7 +134,7 @@ def dashboard_view() -> rx.Component:
                                     height="100%",
                                     width="100%",
                                 ),
-                                height="100%",
+                                height="90%",
                                 width="100%",
                                 display="flex",
                             ),
@@ -187,6 +197,7 @@ def dashboard_view() -> rx.Component:
             ),
             width="100%",
             height="100%",
+            on_mount=DashboardState.load_users,
         ),
     )
 
@@ -224,33 +235,57 @@ def item_list_guide(icon: str, text: str, href: str) -> rx.Component:
     )
 
 
-def item_list_client(img: str, text: str, href: str) -> rx.Component:
+# componente para la lista de clientes
+def item_list_client(user: dict, href="clients") -> rx.Component:
     return rx.link(
         rx.hstack(
-            # cargare la imagen desde la base de datos
-            rx.image(src=img, width="2.25em", height="auto", border_radius="25%"),
-            rx.text(text, color="black"),
-            padding_x="0.5rem",
-            padding_y="0.75rem",
-            margin_x="0.5rem",
-            align="center",
-            justify="center",
-            style={
-                "_hover": {
-                    "bg": "rgba(225, 225, 225, 0.6)",
+            rx.box(
+                rx.vstack(
+                    rx.image(
+                        src=f"data:image/jpeg;base64,{user['image']}",
+                        height="-webkit-fill-available",
+                        object_fit="cover",  # Asegura que la imagen cubra el contenedor sin distorsión
+                        width="-webkit-fill-available",
+                    ),
+                    rx.text(
+                        user["username"],
+                        color="white",  # Color del texto blanco para destacar sobre la imagen
+                        background_color="rgba(0, 0, 0, 0.4)",  # Fondo semitransparente para que el texto sea legible
+                        filter="brightness(0.5)",  # Oscurece la imagen para que el texto sea legible
+                        padding="0.5rem",
+                        text_align="center",
+                        position="absolute",  # Posiciona el texto sobre la imagen
+                        bottom="14px",  # El texto se coloca en la parte inferior
+                        _hover={
+                            "filter": "brightness(1)"
+                        },  # Al pasar el mouse, la imagen se aclara
+                    ),
+                    padding_x="0.5rem",
+                    align="center",
+                    justify="center",
+                    width="100%",
+                    height="100%",
+                ),
+                width="100%",
+                height="100%",
+                style={
+                    "_hover": {
+                        # verde claro
+                        "bg": "rgba(225, 225, 225, 0.6)",
+                        "borderRadius": "0.5rem",
+                        "color": "orange",
+                        "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                        "cursor": "pointer",
+                        "transition": "all 0.3s",
+                    },
                     "borderRadius": "0.5rem",
-                    "color": "orange",
+                    "border": "1px solid #ccc",
                     "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                    "cursor": "pointer",
-                    "transition": "all 0.3s",
                 },
-                "borderRadius": "0.5rem",
-                "border": "1px solid #ccc",
-                "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-            },
+            ),
             background_color="rgba(255, 255, 255, 0.5)",
             height="90%",
-            width="30%",
+            width="20%",
             direction="column",
         ),
         align_items="center",

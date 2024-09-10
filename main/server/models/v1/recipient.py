@@ -1,7 +1,20 @@
-# Clase Recipient
+# Patrón de diseño DTO (Data Transfer Object)
 class Recipient:
-    def __init__(self, fullName: str, company: str, street: str, neighborhood: str, city: str,state: str, country: str, postalCode: str, phones: list[str]):
-        self.__fullName = fullName
+    def __init__(
+        self,
+        name: str,
+        lastname: str,
+        company: str,
+        street: str,
+        neighborhood: str,
+        city: str,
+        state: str,
+        country: str,
+        postalCode: str,
+        phones: list[str],
+    ):
+        self.__name = name
+        self.__lastName = lastname
         self.__company = company
         self.__street = street
         self.__neighborhood = neighborhood
@@ -11,11 +24,17 @@ class Recipient:
         self.__postalCode = postalCode
         self.__phones = phones
 
-    def getFullName(self) -> str:
-        return self.__fullName
+    def getName(self) -> str:
+        return self.__name
 
-    def setFullName(self, fullName: str):
-        self.__fullName = fullName
+    def setName(self, name: str):
+        self.__name = name
+
+    def getLastName(self) -> str:
+        return self.__lastName
+
+    def setLastName(self, lastName: str):
+        self.__lastName = lastName
 
     def getCompany(self) -> str:
         return self.__company
@@ -66,30 +85,31 @@ class Recipient:
         self.__phones = phones
 
     def toJson(self):
-            return {
-                "full_name": self.__fullName,
-                "company": self.__company,
-                "street": self.__street,
-                "neighborhood": self.__neighborhood,
-                "city": self.__city,
-                "state": self.__state,
-                "country": self.__country,
-                "postal_code": self.__postalCode,
-                "phones": self.__phones
-            }
+        return {
+            "name": self.__name,
+            "lastname": self.__lastName,
+            "company": self.__company,
+            "street": self.__street,
+            "neighborhood": self.__neighborhood,
+            "city": self.__city,
+            "state": self.__state,
+            "country": self.__country,
+            "postal_code": self.__postalCode,
+            "phones": self.__phones,
+        }
 
     @staticmethod
     def fromJson(data):
         recipient = Recipient(
-            data.get('full_name'),
-            data.get('company'),
-            data.get('street'),
-            data.get('neighborhood'),
-            data.get('city'),
-            data.get('state'),
-            data.get('country'),
-            data.get('postal_code'),
-            data.get('phones')
+            data.get("name"),
+            data.get("lastname"),
+            data.get("company"),
+            data.get("street"),
+            data.get("neighborhood"),
+            data.get("city"),
+            data.get("state"),
+            data.get("country"),
+            data.get("postal_code"),
+            data.get("phones"),
         )
         return recipient
-    

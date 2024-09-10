@@ -1,7 +1,8 @@
 from main.server.api.firebase.firebase_config import Firebase_Config
 from google.cloud.firestore_v1 import FieldFilter
 
-db =Firebase_Config.initialize_firebase()
+# obtener la instancia de la base de datos
+db = Firebase_Config().get_db()
 
 
 def create_user(user_data):
@@ -37,3 +38,20 @@ def delete_user(user_id):
     user_ref = db.collection("users").document(user_id)
     user_ref.delete()
     return "User deleted successfully"
+
+
+def delete_all_users():
+    users_ref = db.collection("users")
+    users = users_ref.get()
+    for user in users:
+        user.reference.delete()
+    return "All users deleted successfully"
+
+
+def read_all_users():
+    users_ref = db.collection("users")
+    users = users_ref.get()
+    users_list = []
+    for user in users:
+        users_list.append(user.to_dict())
+    return users_list

@@ -1,7 +1,7 @@
 from main.server.api.firebase.firebase_config import Firebase_Config
-from google.cloud.firestore_v1 import FieldFilter
 
-db =Firebase_Config.initialize_firebase()
+# obtener la instancia de la base de datos
+db = Firebase_Config().get_db()
 
 
 def create_guide(guide_data):

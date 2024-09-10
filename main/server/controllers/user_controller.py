@@ -22,3 +22,13 @@ def update_user(user_id, update_data):
 def delete_user(user_id):
     result = user_request.delete_user(user_id)
     return result
+
+
+def delete_all_users():
+    result = user_request.delete_all_users()
+    return result
+
+
+def read_all_users():
+    result = user_request.read_all_users()
+    return result

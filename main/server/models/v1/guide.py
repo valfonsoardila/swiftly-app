@@ -1,10 +1,11 @@
 from datetime import date
 from typing import Optional
-from main.server.models.recipient import Recipient
-from main.server.models.sender import Sender
-from main.server.models.serviceType import ServiceType
+from main.server.models.v1.recipient import Recipient
+from main.server.models.v1.sender import Sender
+from main.server.models.v1.serviceType import ServiceType
 
 
+# Patron de diseño Active Record
 class Guide:
     def __init__(
         self,
@@ -29,7 +30,7 @@ class Guide:
         self.__isInternational = isInternational
         self.__deliveryCost = self.calculateDeliveryCost()
         self.__recipient = recipient
-        self.__sender = credits
+        self.__sender = sender
 
     def getGuideNumber(self) -> str:
         return self.__guideNumber

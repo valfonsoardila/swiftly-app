@@ -100,6 +100,7 @@ def app_view() -> rx.Component:
                     rx.drawer.portal(
                         rx.drawer.content(
                             rx.dialog.title(""),  # Título del diálogo (necesario)
+                            rx.dialog.description(""),
                             rx.flex(
                                 rx.drawer.close(
                                     rx.box(

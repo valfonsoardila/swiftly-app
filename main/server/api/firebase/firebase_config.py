@@ -1,5 +1,5 @@
 import firebase_admin
-from firebase_admin import credentials, firestore, _apps
+from firebase_admin import credentials, firestore
 from dotenv import load_dotenv
 import os
 
@@ -18,19 +18,11 @@ class Firebase_Config:
         return cls._instance
 
     @classmethod
-    def initialize_firebase(cls):
-        # Verificar si ya hay una instancia de Firebase inicializada
-        if len(_apps) > 0:
-            return firestore.client()  # Devuelve la instancia existente
-
-        # Si no hay una instancia inicializada, procede a inicializarla
-        load_dotenv(override=True)  # Cargar el archivo .env
-        credentialsUser = cls.create_json_acces()  # Cargar las credenciales desde un archivo .json
+    def _initialize_firebase(self, cls):
+        credentialsUser = cls._create_json_access()
         cred = credentials.Certificate(credentialsUser)
-        
-        firebase_admin.initialize_app(cred)  # Inicializar la app de Firebase
-        db = firestore.client()  # Obtener la referencia de Firestore
-        return db
+        firebase_admin.initialize_app(cred)
+        cls._db = firestore.client()
 
     @classmethod
     def _create_json_access(cls):

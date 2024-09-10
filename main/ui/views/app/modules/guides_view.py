@@ -1,9 +1,11 @@
 import reflex as rx
-from main.server.controllers import guides_controller
-from main.ui.states.pageState import StatePage
+from main.ui.states.deparmentState import DepartmentState
+from main.ui.states.contryState import Countrystate
+from main.ui.states.shipmentGuideStateV1 import ShipmentGuideStateV1
+from typing import List
 
 
-class ShipmentFormState(rx.State):
+class ModalPageState(rx.State):
     current_page: int = 0
 
     def next_page(self):
@@ -18,78 +20,19 @@ class ShipmentFormState(rx.State):
 class DataTableState(rx.State):
     """The app state."""
 
-    cols: list[dict] = [
-        {"title": "First Name", "type": "str"},
-        {"title": "Last Name", "type": "str"},
-        {"title": "Team", "type": "str"},
+    columns: List[str] = [
+        "Date",
+        "Tracking #",
+        "Package Type",
+        "Quantity",
+        "Weight",
+        "Sender",
+        "Recipient",
+        "Recipient Company",
+        "Recipient Address",
     ]
-    data = [
-        ["Lionel", "Messi", "PSG"],
-        ["Christiano", "Ronaldo", "Al-Nasir"],
-    ]
 
-
-class GuideState(rx.State):
-    # Datos del remitente
-    name_sender: str = ""
-    last_name_sender: str = ""
-    phone_sender: str = ""
-    department_sender: str = ""
-    # Datos del destinatario
-    company_recipient: str = ""
-    name_recipient: str = ""
-    last_name_recipient: str = ""
-    address_recipient: str = ""
-    neighborhood_recipient: str = ""
-    city_recipient: str = ""
-    state_recipient: str = ""
-    country_recipient: str = ""
-    phone_recipient: str = ""
-    # Datos del paquete
-    service_type: str = ""
-    weight: float = 0.0
-    quantity: int = 0
-    declared_value: float = 0.0
-    is_international: bool = False
-
-    def toggle_international(self, value):
-        self.is_international = value
-
-    @rx.background
-    async def add_guide(self):
-        guide_data = {
-            "name_sender": self.name_sender,
-            "last_name_sender": self.last_name_sender,
-            "phone_sender": self.phone_sender,
-            "department_sender": self.department_sender,
-            "company_recipient": self.company_recipient,
-            "name_recipient": self.name_recipient,
-            "last_name_recipient": self.last_name_recipient,
-            "address_recipient": self.address_recipient,
-            "neighborhood_recipient": self.neighborhood_recipient,
-            "city_recipient": self.city_recipient,
-            "state_recipient": self.state_recipient,
-            "country_recipient": self.country_recipient,
-            "phone_recipient": self.phone_recipient,
-            "service_type": self.service_type,
-            "weight": self.weight,
-            "quantity": self.quantity,
-            "declared_value": self.declared_value,
-            "is_international": self.is_international,
-        }
-        result = guides_controller.create_guide(guide_data)
-        if result:
-            yield rx.toast.success(
-                "Registro exitoso! Redirigiendo a la lista de guías...",
-                duration=5000,
-            )
-            await rx.sleep(3)
-            yield StatePage.current_route("guides")
-        else:
-            yield rx.toast.error(
-                "Registro fallido. Por favor, intenta de nuevo.",
-                duration=5000,
-            )
+    data: List = []
 
 
 @rx.page(route="/app/guides", title="App | Guides")
@@ -117,26 +60,31 @@ def guides_view():
                         rx.box(
                             # boton para abrir el modal de registro de guía
                             rx.dialog.root(
-                                rx.dialog.title(""),
+                                rx.dialog.title("", fontSize="0px", margin="0"),
                                 rx.dialog.trigger(
-                                    rx.button(
-                                        rx.icon("plus"),
-                                        rx.text("Nueva guía", color="white"),
-                                        color="white",
-                                        style={
-                                            "color": "white",
-                                            "backgroundColor": "black",
-                                            "border": "none",
-                                            "padding": "1em 2em",
-                                            "borderRadius": "1em",
-                                            "cursor": "pointer",
-                                            "fontSize": "20px",
-                                            "_hover": {
-                                                "backgroundColor": "#333333",
-                                                "transform": "scale(1.05)",
-                                                "transition": "transform 0.2s ease",
+                                    rx.box(
+                                        rx.button(
+                                            rx.icon("plus"),
+                                            rx.text("Nueva guía", color="white"),
+                                            color="white",
+                                            style={
+                                                "color": "white",
+                                                "backgroundColor": "black",
+                                                "border": "none",
+                                                "padding": "1em 2em",
+                                                "borderRadius": "1em",
+                                                "cursor": "pointer",
+                                                "fontSize": "20px",
+                                                "_hover": {
+                                                    "backgroundColor": "#333333",
+                                                    "transform": "scale(1.05)",
+                                                    "transition": "transform 0.2s ease",
+                                                },
                                             },
-                                        },
+                                        ),
+                                        width="100%",
+                                        align="center",
+                                        justify="center",
                                     ),
                                 ),
                                 rx.dialog.content(
@@ -185,7 +133,7 @@ def guides_view():
                                     ),
                                     style={
                                         "paddingTop": "90px",
-                                        "paddingBottom": "50px",
+                                        "paddingBottom": "38px",
                                         "paddingLeft": "65px",
                                         "paddingRight": "65px",
                                         "borderRadius": "40px",
@@ -200,12 +148,13 @@ def guides_view():
                         ),
                         rx.box(
                             rx.data_table(
-                                columns=DataTableState.cols,
+                                columns=DataTableState.columns,
                                 data=DataTableState.data,
                                 pagination=True,
                                 search=True,
                                 sort=True,
                             ),
+                            height="-webkit-fill-available",
                         ),
                         width="100%",
                     ),
@@ -233,67 +182,91 @@ def new_shipment_guide_view() -> rx.Component:
         rx.form(
             rx.vstack(
                 rx.match(
-                    ShipmentFormState.current_page,
+                    ModalPageState.current_page,
                     (0, rx.box(sender_section(), width="100%", height="100%")),
                     (1, rx.box(recipient_section(), width="100%", height="100%")),
                     (2, rx.box(package_section(), width="100%", height="100%")),
                 ),
                 rx.hstack(
                     rx.button(
-                        rx.icon("arrow-left"),
+                        rx.icon(
+                            "chevron-left", color="rgba(0,0,0,.4)", stroke_width="1"
+                        ),
                         style={
                             "color": "white",
-                            "backgroundColor": "black",
+                            "backgroundColor": "transparent",
                             "border": "none",
                             "borderRadius": "1em",
                             "cursor": "pointer",
                             "fontSize": "20px",
                             "_hover": {
-                                "backgroundColor": "#333333",
+                                "backgroundColor": "transparent",
                                 "transform": "scale(1.05)",
                                 "transition": "transform 0.2s ease",
+                                "svg": {
+                                    "color": "rgba(0,0,0,.9)",
+                                },
                             },
                         },
-                        on_click=ShipmentFormState.prev_page,
-                        is_disabled=ShipmentFormState.current_page == 0,
+                        on_click=ModalPageState.prev_page,
+                        is_disabled=ModalPageState.current_page == 0,
                     ),
                     rx.cond(
-                        ShipmentFormState.current_page == 2,
+                        ModalPageState.current_page == 2,
                         rx.button(
-                            rx.icon("save"),
-                            rx.text("Guardar", color="white"),
+                            rx.icon("save", color="rgba(0,0,0,.5)", stroke_width="1"),
+                            rx.text(
+                                "Guardar",
+                                color="rgba(0,0,0,.6)",
+                                fontWeigh="normal",
+                                fontSize="16px",
+                            ),
                             style={
                                 "color": "white",
-                                "backgroundColor": "black",
+                                "backgroundColor": "transparent",
                                 "border": "none",
                                 "borderRadius": "1em",
                                 "cursor": "pointer",
-                                "fontSize": "20px",
                                 "_hover": {
-                                    "backgroundColor": "#333333",
+                                    "backgroundColor": "transparent",
+                                    "border": "1px solid rgba(0, 0, 0, 0.8)",
                                     "transform": "scale(1.05)",
                                     "transition": "transform 0.2s ease",
+                                    "p": {
+                                        "fontWeight": "normal",
+                                        "color": "rgba(0,0,0,.9)",
+                                    },
+                                    "svg": {
+                                        "color": "rgba(0,0,0,.9)",
+                                    },
                                 },
                             },
-                            on_click=GuideState.add_guide,
+                            # on_click=GuideState.add_guide,
                         ),
                         rx.button(
-                            rx.icon("arrow-right"),
+                            rx.icon(
+                                "chevron-right",
+                                color="rgba(0,0,0,.5)",
+                                stroke_width="1",
+                            ),
                             style={
                                 "color": "white",
-                                "backgroundColor": "black",
+                                "backgroundColor": "transparent",
                                 "border": "none",
                                 "borderRadius": "1em",
                                 "cursor": "pointer",
                                 "fontSize": "20px",
                                 "_hover": {
-                                    "backgroundColor": "#333333",
+                                    "backgroundColor": "transparent",
                                     "transform": "scale(1.05)",
                                     "transition": "transform 0.2s ease",
+                                    "svg": {
+                                        "color": "rgba(0,0,0,.9)",
+                                    },
                                 },
                             },
-                            on_click=ShipmentFormState.next_page,
-                            is_disabled=ShipmentFormState.current_page == 2,
+                            on_click=ModalPageState.next_page,
+                            is_disabled=ModalPageState.current_page == 2,
                         ),
                     ),
                 ),
@@ -325,7 +298,9 @@ def sender_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
-                        on_change=GuideState.set_name_sender,
+                        on_change=lambda v: ShipmentGuideStateV1.update_sender(
+                            "name", v
+                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -349,7 +324,9 @@ def sender_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
-                        on_change=GuideState.set_last_name_sender,
+                        on_change=lambda v: ShipmentGuideStateV1.update_sender(
+                            "last_name", v
+                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -373,7 +350,9 @@ def sender_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
-                        on_change=GuideState.set_phone_sender,
+                        on_change=lambda v: ShipmentGuideStateV1.update_sender(
+                            "phone", v
+                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -389,7 +368,7 @@ def sender_section() -> rx.Component:
                     rx.text("Departamento", color="black"),
                     rx.select.root(
                         rx.select.trigger(
-                            placeholder="Selecciona una opción",
+                            placeholder="Selecciona un estado",
                             color_scheme="orange",
                             color="black",
                             width="100%",
@@ -400,7 +379,8 @@ def sender_section() -> rx.Component:
                                 "borderRadius": "20px",
                                 "fontSize": "20px",
                                 "span": {
-                                    "color": "rgba(0, 0, 0, 0.8)",
+                                    "color": "rgba(0, 0, 0, 0.6)",
+                                    "fontSize": "16px",
                                 },
                                 "svg": {
                                     "height": "20px",
@@ -410,38 +390,23 @@ def sender_section() -> rx.Component:
                             },
                         ),
                         rx.select.content(
-                            rx.select.item(
-                                rx.hstack(
-                                    rx.icon("box", color="black", position="left"),
-                                    rx.text("Caja"),
-                                    style={
-                                        "display": "flex",
-                                        "alignItems": "center",
-                                    },
+                            rx.foreach(
+                                DepartmentState.departments,
+                                lambda department: rx.select.item(
+                                    rx.hstack(
+                                        rx.icon(
+                                            "map-pin", color="black", position="left"
+                                        ),
+                                        rx.text(
+                                            department["departamento"], color="black"
+                                        ),
+                                        style={
+                                            "display": "flex",
+                                            "alignItems": "center",
+                                        },
+                                    ),
+                                    value=department["id"],
                                 ),
-                                value="1",
-                            ),
-                            rx.select.item(
-                                rx.hstack(
-                                    rx.icon("package", color="black", position="left"),
-                                    rx.text("Paquete"),
-                                    style={
-                                        "display": "flex",
-                                        "alignItems": "center",
-                                    },
-                                ),
-                                value="2",
-                            ),
-                            rx.select.item(
-                                rx.hstack(
-                                    rx.icon("mail", color="black", position="left"),
-                                    rx.text("Sobre"),
-                                    style={
-                                        "display": "flex",
-                                        "alignItems": "center",
-                                    },
-                                ),
-                                value="3",
                             ),
                             color_scheme="orange",
                             background_color="white",
@@ -450,7 +415,9 @@ def sender_section() -> rx.Component:
                         size="3",
                         color_scheme="orange",
                         variant="surface",
-                        on_change=GuideState.set_department_sender,
+                        on_change=lambda v: ShipmentGuideStateV1.update_sender(
+                            "department", v
+                        ),
                     ),
                 ),
                 columns="2",
@@ -484,6 +451,9 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        on_change=lambda v: ShipmentGuideStateV1.update_recipient(
+                            "company", v
+                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -493,7 +463,6 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
-                        on_change=GuideState.set_company_recipient,
                     ),
                 ),
                 rx.vstack(
@@ -510,6 +479,9 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        on_change=lambda v: ShipmentGuideStateV1.update_recipient(
+                            "name", v
+                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -519,7 +491,6 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
-                        on_change=GuideState.set_name_recipient,
                     ),
                 ),
                 rx.vstack(
@@ -536,6 +507,9 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        on_change=lambda v: ShipmentGuideStateV1.update_recipient(
+                            "last_name", v
+                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -545,12 +519,14 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
-                        on_change=GuideState.set_last_name_recipient,
                     ),
                 ),
                 rx.accordion.root(
                     rx.accordion.item(
-                        header=rx.text("Dirección", color="rgba(0,0,0,0.6)"),
+                        header=rx.hstack(
+                            rx.icon("navigation", color="black"),
+                            rx.text("Dirección", color="rgba(0, 0, 0, 0.6)"),
+                        ),
                         content=rx.vstack(
                             rx.input(
                                 rx.input.slot(
@@ -564,6 +540,9 @@ def recipient_section() -> rx.Component:
                                 variant="surface",
                                 radius="full",
                                 required=True,
+                                on_change=lambda v: ShipmentGuideStateV1.update_recipient(
+                                    "street", v
+                                ),
                                 style={
                                     "color": "black",
                                     "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -573,7 +552,6 @@ def recipient_section() -> rx.Component:
                                         "color": "rgba(0, 0, 0, 0.6)",
                                     },
                                 },
-                                on_change=GuideState.set_address_recipient,
                             ),
                             rx.input(
                                 rx.input.slot(
@@ -588,29 +566,9 @@ def recipient_section() -> rx.Component:
                                 variant="surface",
                                 radius="full",
                                 required=True,
-                                style={
-                                    "color": "black",
-                                    "border": "1px solid rgba(0, 0, 0, 0.8)",
-                                    "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                                    "backgroundColor": "rgba(235, 235, 235, 0.4)",
-                                    "& input::placeholder": {
-                                        "color": "rgba(0, 0, 0, 0.6)",
-                                    },
-                                },
-                                on_change=GuideState.set_neighborhood_recipient,
-                            ),
-                            rx.input(
-                                rx.input.slot(
-                                    rx.icon("hotel", color="black"), position="left"
+                                on_change=lambda v: ShipmentGuideStateV1.update_recipient(
+                                    "neighborhood", v
                                 ),
-                                placeholder="Ciudad o municipio",
-                                type="text",
-                                size="3",
-                                width="100%",
-                                color_scheme="orange",
-                                variant="surface",
-                                radius="full",
-                                required=True,
                                 style={
                                     "color": "black",
                                     "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -620,59 +578,130 @@ def recipient_section() -> rx.Component:
                                         "color": "rgba(0, 0, 0, 0.6)",
                                     },
                                 },
-                                on_change=GuideState.set_city_recipient,
+                            ),
+                            # Pendiente por implementar el atrapar el estado
+                            rx.vstack(
+                                rx.box(
+                                    rx.input(
+                                        rx.input.slot(
+                                            rx.icon("hotel", color="black"),
+                                            position="left",
+                                        ),
+                                        placeholder="Ciudad o municipio",
+                                        type="text",
+                                        size="3",
+                                        width="100%",
+                                        color_scheme="orange",
+                                        variant="surface",
+                                        radius="full",
+                                        required=True,
+                                        # Tengo setear el valor de DepartmentState.city_input a city_recipient
+                                        value=DepartmentState.city_input,
+                                        on_change=lambda v: [
+                                            DepartmentState.filter_cities(v),
+                                            ShipmentGuideStateV1.update_recipient(
+                                                "city", v
+                                            ),
+                                        ],
+                                        style={
+                                            "color": "black",
+                                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                                            "& input::placeholder": {
+                                                "color": "rgba(0, 0, 0, 0.6)",
+                                            },
+                                        },
+                                    ),
+                                    position="relative",
+                                    width="100%",
+                                ),
+                                rx.cond(
+                                    DepartmentState.show_suggestions,
+                                    rx.box(
+                                        rx.vstack(
+                                            rx.foreach(
+                                                DepartmentState.filtered_cities,
+                                                lambda city: rx.text(
+                                                    city,
+                                                    on_click=lambda: DepartmentState.set_city_input(
+                                                        city
+                                                    ),
+                                                    color="black",
+                                                    cursor="pointer",
+                                                    _hover={
+                                                        "background": "rgba(250, 250, 250, 0.3)",
+                                                        "border": "none",
+                                                        "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                                        "borderRadius": "10px",
+                                                    },
+                                                    align="center",
+                                                    width="100%",
+                                                ),
+                                            ),
+                                            max_height="200px",
+                                            overflow="auto",
+                                        ),
+                                        position="absolute",
+                                        top="100%",
+                                        left="0",
+                                        width="100%",
+                                        bg="white",
+                                        z_index="1",
+                                        style={
+                                            "border": "none",
+                                            "borderRadius": "10px",
+                                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                        },
+                                    ),
+                                ),
+                                position="relative",
+                                width="100%",
                             ),
                             rx.select.root(
                                 rx.select.trigger(
-                                    placeholder="Estado",
+                                    placeholder="Departamento",
                                     color_scheme="orange",
                                     color="black",
                                     width="100%",
                                     style={
-                                        "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                                        "backgroundColor": "rgba(255, 255, 255, 0.4)",
                                         "border": "1px solid rgba(0, 0, 0, 0.8)",
                                         "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                                         "borderRadius": "20px",
-                                        "fontSize": "18px",
+                                        "fontSize": "20px",
                                         "span": {
+                                            "color": "rgba(0, 0, 0, 0.6)",
                                             "fontSize": "16px",
-                                            "color": "rgba(0, 0, 0, 0.8)",
+                                        },
+                                        "svg": {
+                                            "height": "20px",
+                                            "width": "20px",
+                                            "fontWeight": "bold !important",
                                         },
                                     },
                                 ),
                                 rx.select.content(
-                                    rx.select.item(
-                                        rx.hstack(
-                                            rx.icon("box", color="black"),
-                                            rx.text("Caja"),
-                                            style={
-                                                "display": "flex",
-                                                "alignItems": "center",
-                                            },
+                                    rx.foreach(
+                                        DepartmentState.departments,
+                                        lambda department: rx.select.item(
+                                            rx.hstack(
+                                                rx.icon(
+                                                    "map-pin",
+                                                    color="black",
+                                                    position="left",
+                                                ),
+                                                rx.text(
+                                                    department["departamento"],
+                                                    color="black",
+                                                ),
+                                                style={
+                                                    "display": "flex",
+                                                    "alignItems": "center",
+                                                },
+                                            ),
+                                            value=department["id"],
                                         ),
-                                        value="1",
-                                    ),
-                                    rx.select.item(
-                                        rx.hstack(
-                                            rx.icon("package", color="black"),
-                                            rx.text("Paquete"),
-                                            style={
-                                                "display": "flex",
-                                                "alignItems": "center",
-                                            },
-                                        ),
-                                        value="2",
-                                    ),
-                                    rx.select.item(
-                                        rx.hstack(
-                                            rx.icon("mail", color="black"),
-                                            rx.text("Sobre"),
-                                            style={
-                                                "display": "flex",
-                                                "alignItems": "center",
-                                            },
-                                        ),
-                                        value="3",
                                     ),
                                     color_scheme="orange",
                                     background_color="white",
@@ -681,30 +710,88 @@ def recipient_section() -> rx.Component:
                                 size="3",
                                 color_scheme="orange",
                                 variant="surface",
-                                on_change=GuideState.set_state_recipient,
-                            ),
-                            rx.input(
-                                rx.input.slot(
-                                    rx.icon("compass", color="black"), position="left"
+                                on_change=lambda v: ShipmentGuideStateV1.update_recipient(
+                                    "state", v
                                 ),
-                                placeholder="Pais",
-                                type="text",
-                                size="3",
+                            ),
+                            # Pendiente por implementar el atrapar el país
+                            rx.vstack(
+                                rx.box(
+                                    rx.input(
+                                        rx.input.slot(
+                                            rx.icon("compass", color="black"),
+                                            position="left",
+                                        ),
+                                        placeholder="Pais",
+                                        type="text",
+                                        size="3",
+                                        width="100%",
+                                        color_scheme="orange",
+                                        variant="surface",
+                                        radius="full",
+                                        required=True,
+                                        # Tengo setear el valor de Countrystate.country_input a country_recipient
+                                        value=Countrystate.country_input,
+                                        on_change=lambda v: [
+                                            Countrystate.filter_countries(v),
+                                            ShipmentGuideStateV1.update_recipient(
+                                                "country", v
+                                            ),
+                                        ],
+                                        style={
+                                            "color": "black",
+                                            "border": "1px solid rgba(0, 0, 0, 0.8)",
+                                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                            "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                                            "& input::placeholder": {
+                                                "color": "rgba(0, 0, 0, 0.6)",
+                                            },
+                                        },
+                                    ),
+                                    position="relative",
+                                    width="100%",
+                                ),
+                                rx.cond(
+                                    Countrystate.show_suggestions,
+                                    rx.box(
+                                        rx.vstack(
+                                            rx.foreach(
+                                                Countrystate.filtered_country,
+                                                lambda country: rx.text(
+                                                    country,
+                                                    on_click=lambda: Countrystate.set_country_input(
+                                                        country
+                                                    ),
+                                                    color="black",
+                                                    cursor="pointer",
+                                                    _hover={
+                                                        "background": "rgba(250, 250, 250, 0.3)",
+                                                        "border": "none",
+                                                        "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                                        "borderRadius": "10px",
+                                                    },
+                                                    align="center",
+                                                    width="100%",
+                                                ),
+                                            ),
+                                            max_height="200px",
+                                            overflow="auto",
+                                        ),
+                                        position="fixed",  # Change to fixed
+                                        width="10%",
+                                        bg="white",
+                                        z_index="9999",  # Increase z-index
+                                        style={
+                                            "border": "none",
+                                            "borderRadius": "10px",
+                                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                        },
+                                        # Add an ID to the box for JavaScript targeting
+                                        id="country-suggestions",
+                                    ),
+                                ),
+                                position="relative",
                                 width="100%",
-                                color_scheme="orange",
-                                variant="surface",
-                                radius="full",
-                                required=True,
-                                style={
-                                    "color": "black",
-                                    "border": "1px solid rgba(0, 0, 0, 0.8)",
-                                    "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                                    "backgroundColor": "rgba(235, 235, 235, 0.4)",
-                                    "& input::placeholder": {
-                                        "color": "rgba(0, 0, 0, 0.6)",
-                                    },
-                                },
-                                on_change=GuideState.set_country_recipient,
                             ),
                             spacing="1",
                         ),  # content
@@ -743,6 +830,9 @@ def recipient_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        on_change=lambda v: ShipmentGuideStateV1.update_recipient(
+                            "phones", v
+                        ),
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -752,7 +842,6 @@ def recipient_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
-                        on_change=GuideState.set_phone_recipient,
                     ),
                 ),
                 columns="2",
@@ -772,6 +861,7 @@ def package_section() -> rx.Component:
                 color="black",
             ),
             rx.grid(
+                # Pendiente por implementar el atrapar el tipo de servicio
                 rx.vstack(
                     rx.text("Tipo de servicio", color="black"),
                     rx.select.root(
@@ -837,7 +927,7 @@ def package_section() -> rx.Component:
                         size="3",
                         color_scheme="orange",
                         variant="surface",
-                        on_change=GuideState.set_service_type,
+                        on_change=ShipmentGuideStateV1.update_service_type,
                     ),
                 ),
                 rx.vstack(
@@ -854,6 +944,7 @@ def package_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        on_change=ShipmentGuideStateV1.update_weight,
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -863,7 +954,6 @@ def package_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
-                        on_change=GuideState.set_weight,
                     ),
                 ),
                 rx.vstack(
@@ -889,7 +979,7 @@ def package_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
-                        on_change=GuideState.set_quantity,
+                        on_change=ShipmentGuideStateV1.update_quantity,
                     ),
                 ),
                 rx.vstack(
@@ -906,6 +996,7 @@ def package_section() -> rx.Component:
                         variant="surface",
                         radius="full",
                         required=True,
+                        on_change=ShipmentGuideStateV1.update_declared_value,
                         style={
                             "color": "black",
                             "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -915,14 +1006,14 @@ def package_section() -> rx.Component:
                                 "color": "rgba(0, 0, 0, 0.6)",
                             },
                         },
-                        on_change=GuideState.set_declared_value,
                     ),
                 ),
                 rx.hstack(
                     rx.checkbox(
-                        rx.icon("check"),
-                        on_change=GuideState.toggle_international,
-                        is_checked=GuideState.is_international,
+                        color_scheme="orange",
+                        variant="surface",
+                        on_change=ShipmentGuideStateV1.update_international,
+                        is_checked=ShipmentGuideStateV1.is_international,
                     ),
                     rx.text("¿Es un envío internacional?", color="black"),
                 ),
