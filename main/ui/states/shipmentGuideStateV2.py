@@ -43,18 +43,28 @@ class ShipmentGuideStateV2(rx.State):
     recipient_section_complete: bool = False
     package_section_complete: bool = False
 
+    # Actualizar estado de la guía
     def update_recipient_city(self, city: str):
         self.recipient_city = city
 
     def update_recipient_country(self, country: str):
         self.recipient_country = country
 
-    @rx.var
-    def all_sections_complete(self) -> bool:
-        return all(
-            [
-                self.sender_section_complete,
-                self.recipient_section_complete,
-                self.package_section_complete,
-            ]
-        )
+    def handle_sender_submit(self, form_data: dict):
+        # Validate and update sender data
+        if all(form_data.values()):
+            # Update state variables
+            self.sender_name = form_data["sender_name"]
+            # ... (update other sender fields) ...
+            ModalPageState.next_page()
+        else:
+            return rx.window_alert("Please fill all required fields")
+
+    def handle_recipient_submit(self, form_data: dict):
+        # Similar logic for recipient data
+        pass
+
+    def handle_package_submit(self, form_data: dict):
+        # Similar logic for package data
+        # This is where you'd call your add_guide method
+        pass
