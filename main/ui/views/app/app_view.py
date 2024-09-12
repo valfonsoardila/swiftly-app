@@ -60,15 +60,30 @@ def app_view() -> rx.Component:
                                         border_radius="md",
                                         transition="all 0.2s ease",
                                     ),
-                                    rx.text(
-                                        StatePage.labael_component_route,
-                                        text_align="center",
-                                        flex="1",
-                                        background_color="rgba(0, 0, 0, 0.8)",
-                                        background_clip="text",
-                                        webkit_background_clip="text",  # Soporte para navegadores basados en WebKit
-                                        text_fill_color="transparent",  # Hacer el texto transparente para mostrar el gradiente
-                                        font_size="2xl",  # Opcional: ajustar el tamaño de la fuente
+                                    rx.box(
+                                        rx.hstack(
+                                            rx.text(
+                                                StatePage.labael_component_route,
+                                                text_align="center",
+                                                align="center",
+                                                font_size="30px",
+                                            ),
+                                            style={
+                                                "color": "rgba(255, 255, 255, 0.9)",
+                                                "transition": "all 0.3s ease",
+                                                "_hover": {
+                                                    "color": "none",
+                                                    "backgroundImage": "linear-gradient(145deg, #F27405 10%, #F20505 90%)",
+                                                    "WebkitBackgroundClip": "text",
+                                                    "WebkitTextFillColor": "transparent",
+                                                    "transition": "all 0.3s ease",
+                                                },
+                                            },
+                                            align="center",
+                                            justify="center",
+                                        ),
+                                        height="100%",
+                                        width="-webkit-fill-available",
                                     ),
                                     rx.box(
                                         width="24px"
@@ -238,6 +253,7 @@ def sidebar_item(
         _hover={
             "bg": "rgba(220, 220, 220, 0.8)",
             "color": "rgba(242, 116, 5, 0.9)",
+            "cursor": "pointer",
         },
         border_radius="0.5rem",
     )
