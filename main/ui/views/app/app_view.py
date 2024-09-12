@@ -3,7 +3,7 @@ from main.ui.states.userState import UserState
 from main.server.models.v1.Guide import Guide
 from main.server.models.v1.Sender import Sender
 from main.ui.views.app.modules.guides_view import guides_view
-from main.ui.views.app.modules.senders_view import senders_view
+from main.ui.views.app.modules.shipping_view import shipping_view
 from main.ui.views.app.modules.clients_view import clients_view
 from main.ui.views.app.modules.dashboard_view import dashboard_view
 from main.ui.views.app.modules.settings_view import settings_view
@@ -27,7 +27,7 @@ class StateSidebar(rx.State):
         self.show_sidebar = not self.show_sidebar
 
 
-@rx.page(route="/app", title="App | Dashboard")
+@rx.page(route="/app", title="Dashboard")
 def app_view() -> rx.Component:
     return rx.box(  # Contenedor principal adaptado a toda la pantalla
         rx.flex(  # Flexbox para centrar el contenido con dimensiones en porcentajes
@@ -61,7 +61,7 @@ def app_view() -> rx.Component:
                                         transition="all 0.2s ease",
                                     ),
                                     rx.text(
-                                        "Dashboard",
+                                        StatePage.labael_component_route,
                                         text_align="center",
                                         flex="1",
                                         background_color="rgba(0, 0, 0, 0.8)",
@@ -164,8 +164,10 @@ def app_view() -> rx.Component:
                                     rx.box(guides_view(), width="100%", height="100%"),
                                 ),
                                 (
-                                    "senders",
-                                    rx.box(senders_view(), width="100%", height="100%"),
+                                    "shipping",
+                                    rx.box(
+                                        shipping_view(), width="100%", height="100%"
+                                    ),
                                 ),
                                 (
                                     "clients",
@@ -245,7 +247,7 @@ def sidebar_items() -> rx.Component:
     return rx.vstack(
         sidebar_item("Dashboard", "layout-dashboard", "dashboard"),
         sidebar_item("Guias", "book", "guides"),
-        sidebar_item("Envios", "route", "senders"),
+        sidebar_item("Envios", "route", "shipping"),
         sidebar_item("Clientes", "user", "clients"),
         spacing="1",
         width="100%",
