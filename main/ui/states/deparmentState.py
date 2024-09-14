@@ -11,6 +11,7 @@ class DepartmentState(rx.State):
     departments: List[Dict[str, str]] = []
     filtered_cities: List[str] = []
     city_input: str = ""
+    department_input: str = ""
     show_suggestions: bool = False
 
     # Cargar departamentos de la base de datos a la aplicacion

@@ -17,9 +17,9 @@ class ShipmentGuideStateV2(rx.State):
     recipient_company: str = ""
     recipient_street: str = ""
     recipient_neighborhood: str = ""
-    recipient_city: str = ""
+    recipient_city: str = DepartmentState.city_input
     recipient_state: str = ""
-    recipient_country: str = ""
+    recipient_country: str = CountriesState.country_input
     recipient_postalCode: str = ""
     recipient_phone: str = ""
 
@@ -237,7 +237,7 @@ def guides_view():
                                         padding_bottom="10px",
                                     ),
                                     style={
-                                        "paddingTop": "68px",
+                                        "paddingTop": "90px",
                                         "paddingBottom": "0px",
                                         "paddingLeft": "65px",
                                         "paddingRight": "65px",
@@ -279,7 +279,10 @@ def guides_view():
         width="100%",
         height="100%",
         padding="20px",
-        on_mount=DepartmentState.on_read_storage,
+        on_mount=[
+            DepartmentState.on_read_storage,
+            CountriesState.on_read_storage,
+        ],
     )
 
 
@@ -726,6 +729,7 @@ def recipient_section() -> rx.Component:
                                                     v
                                                 ),
                                             ],
+                                            value=DepartmentState.city_input,
                                             style={
                                                 "color": "black",
                                                 "border": "1px solid rgba(0, 0, 0, 0.8)",
@@ -837,6 +841,7 @@ def recipient_section() -> rx.Component:
                                     color_scheme="orange",
                                     variant="surface",
                                 ),
+                                width="-webkit-fill-available",
                                 name="recipient_state",
                             ),
                             # Pendiente por implementar el atrapar el país
@@ -863,6 +868,7 @@ def recipient_section() -> rx.Component:
                                                     v
                                                 ),
                                             ],
+                                            value=CountriesState.country_input,
                                             style={
                                                 "color": "black",
                                                 "border": "1px solid rgba(0, 0, 0, 0.8)",
