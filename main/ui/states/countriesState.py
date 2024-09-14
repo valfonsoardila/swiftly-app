@@ -1,21 +1,28 @@
 import reflex as rx
 from typing import List, Dict
+import json
 
 # Creacion de departamentos sino existen en la base de datos
-from main.server.controllers.countrys_controller import check_and_create_countrys
+from main.server.controllers.countries_controller import check_and_create_countries
 
 
-class Countrystate(rx.State):
-    contrys: List[Dict[str, str]] = []
+class CountriesState(rx.State):
+    storage: List[Dict[str, str]] = rx.LocalStorage([], name="countries_data")
+    contries: List[Dict[str, str]] = []
     filtered_country: List[str] = []
     country_input: str = ""
     show_suggestions: bool = False
 
+    # Cargar paises de la base de datos a la aplicacion
     async def on_load(self):
-        self.contrys = (
-            check_and_create_countrys()
-        )  # Remove await if this function is not async
-        return self.contrys
+        self.storage = json.dumps(check_and_create_countries())
+        if storage := self.storage:
+            self.contries = storage
+            # prints de verificacion aqui
+        return self.contries
+
+    async def on_read_storage(self):
+        self.contries = json.loads(self.storage)
 
     def filter_countries(self, value: str):
         self.country_input = value
@@ -24,7 +31,7 @@ class Countrystate(rx.State):
         ):  # Comprueba si el input no está vacío después de quitar espacios en blanco
             self.filtered_country = [
                 dept["name"]
-                for dept in self.contrys
+                for dept in self.contries
                 if value.lower() in dept["name"].lower()
             ]
             self.show_suggestions = len(self.filtered_country) > 0

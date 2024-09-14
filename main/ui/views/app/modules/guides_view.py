@@ -1,6 +1,6 @@
 import reflex as rx
 from main.ui.states.deparmentState import DepartmentState
-from main.ui.states.countryState import Countrystate
+from main.ui.states.countriesState import CountriesState
 from typing import List
 
 
@@ -308,7 +308,8 @@ def new_shipment_guide_view() -> rx.Component:
                             "transform": "scale(1.05)",
                             "transition": "transform 0.2s ease",
                             "svg": {
-                                "color": "rgba(0,0,0,.9)",
+                                "color": "black",
+                                "strokeWidth": "2",
                             },
                         },
                     },
@@ -322,7 +323,7 @@ def new_shipment_guide_view() -> rx.Component:
                             rx.icon("save", color="rgba(0,0,0,.5)", stroke_width="1"),
                             rx.text(
                                 "Guardar",
-                                color="rgba(0,0,0,.6)",
+                                color="rgba(0,0,0,.5)",
                                 fontWeigh="normal",
                                 fontSize="16px",
                             ),
@@ -367,7 +368,8 @@ def new_shipment_guide_view() -> rx.Component:
                                     "transform": "scale(1.05)",
                                     "transition": "transform 0.2s ease",
                                     "svg": {
-                                        "color": "rgba(0,0,0,.9)",
+                                        "color": "black",
+                                        "strokeWidth": "2",
                                     },
                                 },
                             },
@@ -642,8 +644,12 @@ def recipient_section() -> rx.Component:
                 rx.accordion.root(
                     rx.accordion.item(
                         header=rx.hstack(
-                            rx.icon("navigation", color="black"),
-                            rx.text("Dirección", color="rgba(0, 0, 0, 0.6)"),
+                            rx.icon("navigation", color="black", size=20),
+                            rx.text(
+                                "Dirección",
+                                color="rgba(0, 0, 0, 0.6)",
+                                font_size="16px",
+                            ),
                         ),
                         content=rx.vstack(
                             rx.form.field(
@@ -852,7 +858,7 @@ def recipient_section() -> rx.Component:
                                             required=True,
                                             # Tengo setear el valor de Countrystate.country_input a country_recipient
                                             on_change=lambda v: [
-                                                Countrystate.filter_countries(v),
+                                                CountriesState.filter_countries(v),
                                                 ShipmentGuideStateV2.update_recipient_country(
                                                     v
                                                 ),
@@ -873,14 +879,14 @@ def recipient_section() -> rx.Component:
                                     width="100%",
                                 ),
                                 rx.cond(
-                                    Countrystate.show_suggestions,
+                                    CountriesState.show_suggestions,
                                     rx.box(
                                         rx.vstack(
                                             rx.foreach(
-                                                Countrystate.filtered_country,
+                                                CountriesState.filtered_country,
                                                 lambda country: rx.text(
                                                     country,
-                                                    on_click=lambda: Countrystate.set_country_input(
+                                                    on_click=lambda: CountriesState.set_country_input(
                                                         country
                                                     ),
                                                     color="black",
@@ -1148,12 +1154,30 @@ def package_section() -> rx.Component:
                             variant="surface",
                             value=str(ShipmentGuideStateV2.is_international).lower(),
                             on_change=ShipmentGuideStateV2.update_is_international,
+                            style={
+                                "borderRadius": "20%",
+                                "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                "cursor": "pointer",
+                            },
                         ),
+                        style={
+                            "label": {
+                                "--line-height": "none",
+                            },
+                            "margin": "0",
+                            "padding": "0",
+                            "border": "none",
+                        },
                         name="is_international",
                     ),
                     rx.text(
                         "¿Es un envío internacional?", color="black", font_size="14px"
                     ),
+                    style={
+                        "padding": "10px 0",
+                    },
+                    align="center",
+                    justify="center",
                 ),
                 columns="2",
                 spacing="4",

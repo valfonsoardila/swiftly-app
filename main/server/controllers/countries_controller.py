@@ -1,4 +1,4 @@
-from main.server.api.firebase.requests import countrys_request
+from main.server.api.firebase.requests import countries_request
 import uuid
 
 countrys_data = [
@@ -31,16 +31,16 @@ countrys_data = [
 
 
 # Función para verificar si la colección ya tiene registros
-def check_and_create_countrys():
+def check_and_create_countries():
     # Leer todos los registros en la colección 'countrys'
-    existing_countrys = countrys_request.read_countrys()
+    existing_countries = countries_request.read_countrys()
 
     # Si la colección está vacía, se crea y se llenan los datos
-    if len(existing_countrys) == 0:
+    if len(existing_countries) == 0:
         create_countrys()
         return False
     else:
-        return existing_countrys
+        return existing_countries
 
 
 def create_countrys():
@@ -49,25 +49,25 @@ def create_countrys():
     for contry in countrys_data:
         # Asignar un UUID único a cada departamento
         contry["id"] = str(uuid.uuid4())
-        countrys_request.create_countrys(contry["name"], contry)
+        countries_request.create_countrys(contry["name"], contry)
     return True
 
 
 def read_countrys():
-    result = countrys_request.read_countrys()
+    result = countries_request.read_countrys()
     return result
 
 
 def read_contry(codigo_postal):
-    result = countrys_request.read_contry(codigo_postal)
+    result = countries_request.read_contry(codigo_postal)
     return result
 
 
 def update_contry(codigo_postal, update_data):
-    result = countrys_request.update_contry(codigo_postal, update_data)
+    result = countries_request.update_contry(codigo_postal, update_data)
     return result
 
 
 def delete_contry(codigo_postal):
-    result = countrys_request.delete_contry(codigo_postal)
+    result = countries_request.delete_contry(codigo_postal)
     return result
