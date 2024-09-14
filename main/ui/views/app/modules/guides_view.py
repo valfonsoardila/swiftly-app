@@ -233,18 +233,19 @@ def guides_view():
                                         ),
                                         justify="end",
                                         spacing="2",
-                                        padding="15px",
+                                        padding_top="0px",
+                                        padding_bottom="10px",
                                     ),
                                     style={
-                                        "paddingTop": "90px",
-                                        "paddingBottom": "38px",
+                                        "paddingTop": "68px",
+                                        "paddingBottom": "0px",
                                         "paddingLeft": "65px",
                                         "paddingRight": "65px",
                                         "borderRadius": "40px",
                                         "border": "none",
                                         "backgroundImage": "url('/img/portapapeles.png')",
                                         "backgroundSize": "cover",
-                                        "backgroundPosition": "0px -60px",
+                                        "backgroundPosition": "0px -70px",
                                         "backgroundRepeat": "no-repeat",
                                     },
                                 ),
@@ -375,7 +376,7 @@ def new_shipment_guide_view() -> rx.Component:
                     ),
                 ),
             ),
-            spacing="4",
+            spacing="0",
         ),
     )
 
@@ -913,7 +914,7 @@ def recipient_section() -> rx.Component:
                                 position="relative",
                                 width="100%",
                             ),
-                            spacing="1",
+                            spacing="0",
                         ),  # content
                         value="direccion",
                     ),
@@ -967,8 +968,9 @@ def recipient_section() -> rx.Component:
                     ),
                 ),
                 columns="2",
-                spacing="4",
+                spacing="2",
             ),
+            spacing="0",
         ),
         on_submit=ShipmentGuideStateV2.handle_recipient_submit,
     )
@@ -1149,7 +1151,9 @@ def package_section() -> rx.Component:
                         ),
                         name="is_international",
                     ),
-                    rx.text("¿Es un envío internacional?", color="black"),
+                    rx.text(
+                        "¿Es un envío internacional?", color="black", font_size="14px"
+                    ),
                 ),
                 columns="2",
                 spacing="4",
