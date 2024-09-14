@@ -2,6 +2,9 @@ import reflex as rx
 from main.ui.states.pageState import StatePage
 from main.server.controllers.user_controller import read_all_users
 from typing import List, Dict
+from reflex.components.radix.themes.base import (
+    LiteralAccentColor,
+)
 
 # from reflex_simpleicons import simpleicons
 
@@ -13,7 +16,13 @@ class DashboardState(rx.State):
         self.users = read_all_users()
 
 
-def dashboard_view() -> rx.Component:
+def dashboard_view(
+    stat_name: str = "Users",
+    value: int = 4200,
+    prev_value: int = 3000,
+    icon: str = "users",
+    badge_color: LiteralAccentColor = "blue",
+) -> rx.Component:
     data = [
         {"name": "Page A", "uv": 4000, "pv": 2400, "amt": 2400},
         {"name": "Page B", "uv": 3000, "pv": 1398, "amt": 2210},
@@ -23,6 +32,14 @@ def dashboard_view() -> rx.Component:
         {"name": "Page F", "uv": 2390, "pv": 3800, "amt": 2500},
         {"name": "Page G", "uv": 3490, "pv": 4300, "amt": 2100},
     ]
+    percentage_change = (
+        round(((value - prev_value) / prev_value) * 100, 2)
+        if prev_value != 0
+        else 0 if value == 0 else float("inf")
+    )
+    change = "increase" if value > prev_value else "decrease"
+    arrow_icon = "trending-up" if value > prev_value else "trending-down"
+    arrow_color = "grass" if value > prev_value else "tomato"
     return (
         rx.vstack(
             rx.hstack(
@@ -106,39 +123,201 @@ def dashboard_view() -> rx.Component:
                         background_color="rgba(255, 255, 255, 0.5)",
                     ),
                     rx.card(
-                        rx.vstack(
-                            # Titulo
-                            rx.box(
-                                rx.heading(
-                                    "Clientes",
-                                    size="2xl",
-                                    color="rgba(0, 0, 0, 0.8)",
-                                    align="center",
+                        rx.hstack(
+                            rx.vstack(
+                                # Titulo
+                                rx.box(
+                                    rx.heading(
+                                        "Clientes",
+                                        size="2xl",
+                                        color="rgba(0, 0, 0, 0.8)",
+                                        align="center",
+                                    ),
+                                    width="100%",
+                                    height="10%",
                                 ),
-                                width="100%",
-                                height="10%",
-                            ),
-                            # Contenido
-                            rx.box(
-                                rx.vstack(
-                                    rx.hstack(
-                                        rx.foreach(
-                                            DashboardState.users,
-                                            lambda user: item_list_client(user),
+                                # Contenido
+                                rx.box(
+                                    rx.vstack(
+                                        rx.hstack(
+                                            rx.foreach(
+                                                DashboardState.users,
+                                                lambda user: item_list_client(user),
+                                            ),
+                                            height="100%",
+                                            width="100%",
+                                            align="center",
+                                            justify="center",
                                         ),
                                         height="100%",
                                         width="100%",
-                                        align="center",
-                                        justify="center",
                                     ),
-                                    height="100%",
+                                    height="90%",
                                     width="100%",
+                                    display="flex",
                                 ),
-                                height="90%",
-                                width="100%",
-                                display="flex",
+                                direction="column",
+                                width="60%",
+                                height="100%",
                             ),
-                            direction="column",
+                            rx.vstack(
+                                # Cards estadisticas de la aplicacion
+                                rx.card(
+                                    rx.vstack(
+                                        rx.hstack(
+                                            rx.badge(
+                                                rx.icon(tag=icon, size=28),
+                                                color_scheme=badge_color,
+                                                radius="full",
+                                                padding="0.7rem",
+                                            ),
+                                            rx.vstack(
+                                                rx.heading(
+                                                    f"{value:,}",
+                                                    size="6",
+                                                    weight="bold",
+                                                    color="black",
+                                                    font_size="20px",
+                                                ),
+                                                rx.text(
+                                                    stat_name,
+                                                    weight="medium",
+                                                    color="black",
+                                                    font_size="16px",
+                                                ),
+                                                spacing="1",
+                                                height="100%",
+                                                align_items="start",
+                                                width="100%",
+                                            ),
+                                            height="100%",
+                                            spacing="5",
+                                            align="center",
+                                            width="100%",
+                                        ),
+                                        rx.hstack(
+                                            rx.hstack(
+                                                rx.icon(
+                                                    tag=arrow_icon,
+                                                    size=20,
+                                                    color=rx.color(arrow_color, 9),
+                                                ),
+                                                rx.text(
+                                                    f"{percentage_change}%",
+                                                    size="3",
+                                                    color="black",
+                                                    weight="medium",
+                                                    font_size="16px",
+                                                ),
+                                                spacing="2",
+                                                align="center",
+                                            ),
+                                            rx.text(
+                                                f"{change} from last month",
+                                                size="2",
+                                                color="black",
+                                            ),
+                                            align="center",
+                                            width="100%",
+                                        ),
+                                        spacing="0",
+                                    ),
+                                    style={
+                                        "_hover": {
+                                            "backgroundColor": "",
+                                            "cursor": "pointer",
+                                        }
+                                    },
+                                    size="3",
+                                    background_color="rgba(255, 255, 255, 0.5)",
+                                    height="45%",
+                                    width="100%",
+                                    paddingTop="5px",
+                                    paddingBottom="5px",
+                                    paddingleft="20px",
+                                    paddingRight="20px",
+                                ),
+                                rx.card(
+                                    rx.vstack(
+                                        rx.hstack(
+                                            rx.badge(
+                                                rx.icon(tag=icon, size=28),
+                                                color_scheme=badge_color,
+                                                radius="full",
+                                                padding="0.7rem",
+                                            ),
+                                            rx.vstack(
+                                                rx.heading(
+                                                    f"{value:,}",
+                                                    size="6",
+                                                    weight="bold",
+                                                    color="black",
+                                                    font_size="20px",
+                                                ),
+                                                rx.text(
+                                                    stat_name,
+                                                    weight="medium",
+                                                    color="black",
+                                                    font_size="16px",
+                                                ),
+                                                spacing="1",
+                                                height="100%",
+                                                align_items="start",
+                                                width="100%",
+                                            ),
+                                            height="100%",
+                                            spacing="5",
+                                            align="center",
+                                            width="100%",
+                                        ),
+                                        rx.hstack(
+                                            rx.hstack(
+                                                rx.icon(
+                                                    tag=arrow_icon,
+                                                    size=20,
+                                                    color=rx.color(arrow_color, 9),
+                                                ),
+                                                rx.text(
+                                                    f"{percentage_change}%",
+                                                    size="3",
+                                                    color="black",
+                                                    weight="medium",
+                                                    font_size="16px",
+                                                ),
+                                                spacing="2",
+                                                align="center",
+                                            ),
+                                            rx.text(
+                                                f"{change} from last month",
+                                                size="2",
+                                                color="black",
+                                            ),
+                                            align="center",
+                                            width="100%",
+                                        ),
+                                        spacing="0",
+                                    ),
+                                    style={
+                                        "_hover": {
+                                            "backgroundColor": "",
+                                            "cursor": "pointer",
+                                        }
+                                    },
+                                    size="3",
+                                    background_color="rgba(255, 255, 255, 0.5)",
+                                    height="45%",
+                                    width="100%",
+                                    paddingTop="5px",
+                                    paddingBottom="5px",
+                                    paddingleft="20px",
+                                    paddingRight="20px",
+                                ),
+                                height="100%",
+                                width="40%",
+                                justify="center",
+                                align="center",
+                            ),
+                            width="100%",
                             height="100%",
                         ),
                         height="30%",
@@ -254,7 +433,7 @@ def item_list_client(user: dict, href="clients") -> rx.Component:
                         padding="0.5rem",
                         text_align="center",
                         position="absolute",  # Posiciona el texto sobre la imagen
-                        bottom="14px",  # El texto se coloca en la parte inferior
+                        bottom="20px",  # El texto se coloca en la parte inferior
                     ),
                     padding_x="0.5rem",
                     align="center",
@@ -274,7 +453,7 @@ def item_list_client(user: dict, href="clients") -> rx.Component:
                         "cursor": "pointer",
                         "transition": "all 0.3s",
                         "p": {
-                            "background": "rgba(0, 0, 0, 0.5)",
+                            "background": "rgba(0, 0, 0, 0.6)",
                             "filter": "brightness(1)",
                         },
                     },
@@ -285,11 +464,11 @@ def item_list_client(user: dict, href="clients") -> rx.Component:
             ),
             background_color="#E8F5E9",
             height="90%",
-            width="20%",
+            width="40%",
             style={
                 "borderRadius": "0.5rem",
                 "_hover": {
-                    "width": "22%",
+                    "width": "42%",
                     "height": "92%",
                     "transition": "all 0.3s",
                 },

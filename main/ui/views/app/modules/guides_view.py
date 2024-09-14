@@ -135,6 +135,7 @@ class DataTableState(rx.State):
         "Recipient",
         "Recipient Company",
         "Recipient Address",
+        "Options",
     ]
 
     data: List = []
