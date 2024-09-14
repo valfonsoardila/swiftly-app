@@ -17,9 +17,9 @@ class ShipmentGuideStateV2(rx.State):
     recipient_company: str = ""
     recipient_street: str = ""
     recipient_neighborhood: str = ""
-    recipient_city: str = DepartmentState.city_input
+    recipient_city: str = ""
     recipient_state: str = ""
-    recipient_country: str = Countrystate.country_input
+    recipient_country: str = ""
     recipient_postalCode: str = ""
     recipient_phone: str = ""
 
@@ -140,7 +140,6 @@ class DataTableState(rx.State):
     data: List = []
 
 
-@rx.page(route="/app/guides", title="App | Guides")
 def guides_view():
     return rx.box(
         rx.flex(
@@ -279,6 +278,7 @@ def guides_view():
         width="100%",
         height="100%",
         padding="20px",
+        on_mount=DepartmentState.on_read_storage,
     )
 
 

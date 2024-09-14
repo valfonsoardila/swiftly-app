@@ -68,17 +68,6 @@ def app_view() -> rx.Component:
                                                 align="center",
                                                 font_size="30px",
                                             ),
-                                            style={
-                                                "color": "rgba(255, 255, 255, 0.9)",
-                                                "transition": "all 0.3s ease",
-                                                "_hover": {
-                                                    "color": "none",
-                                                    "backgroundImage": "linear-gradient(145deg, #F27405 10%, #F20505 90%)",
-                                                    "WebkitBackgroundClip": "text",
-                                                    "WebkitTextFillColor": "transparent",
-                                                    "transition": "all 0.3s ease",
-                                                },
-                                            },
                                             align="center",
                                             justify="center",
                                         ),
@@ -88,6 +77,17 @@ def app_view() -> rx.Component:
                                     rx.box(
                                         width="24px"
                                     ),  # Espacio para equilibrar el botón
+                                    style={
+                                        "color": "rgba(255, 255, 255, 0.9)",
+                                        "transition": "all 0.3s ease",
+                                        "_hover": {
+                                            "color": "none",
+                                            "backgroundImage": "linear-gradient(145deg, #F27405 10%, #F20505 90%)",
+                                            "WebkitBackgroundClip": "text",
+                                            "WebkitTextFillColor": "transparent",
+                                            "transition": "all 0.3s ease",
+                                        },
+                                    },
                                     width="100%",
                                     justify="space-between",
                                     align="center",
