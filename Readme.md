@@ -2,16 +2,18 @@
 
 ![Intro](https://github.com/user-attachments/assets/5d35f8a3-a4b9-4edb-b016-063ce30bb174)
 
+## Descripcion del proyecto
+
+![Dashboard_view](https://github.com/user-attachments/assets/5bbfae94-3839-4ab5-afad-0eeeef7b11ca)
+
+
+
 ## Diagrama de clases
 
 ### `V1`
 ![Diagrama de clases](https://github.com/user-attachments/assets/f807f06a-9172-4f20-8d20-4f592d91842e)
 ### `V2`
 ![Diagrama_V2](https://github.com/user-attachments/assets/cd227320-a348-4977-83f5-f0de6cb54b26)
-
-## Descripcion del proyecto
-
-![Dashboard_view](https://github.com/user-attachments/assets/5bbfae94-3839-4ab5-afad-0eeeef7b11ca)
 
 Este es un proyecto hecho en Reflex - instalada cuando ejecutas `reflex init`.
 Al iniciar este comando tome una plantilla en blanco de todas las plantillas disponibles `--template blank`
