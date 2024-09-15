@@ -199,7 +199,7 @@ def app_view() -> rx.Component:
                             width="100%",
                         ),
                         style={
-                            "background": "rgba(255, 255, 255, 0.82)",
+                            "background": "rgba(255, 255, 255, 0.6)",
                             "border": "1px solid #ccc",
                             "borderRadius": "20px",
                             "boxShadow": "0 0.5px 2px rgba(0, 0, 0, 0.4)",
