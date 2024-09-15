@@ -16,13 +16,7 @@ class DashboardState(rx.State):
         self.users = read_all_users()
 
 
-def dashboard_view(
-    stat_name: str = "Users",
-    value: int = 4200,
-    prev_value: int = 3000,
-    icon: str = "users",
-    badge_color: LiteralAccentColor = "blue",
-) -> rx.Component:
+def dashboard_view() -> rx.Component:
     data = [
         {"name": "Page A", "uv": 4000, "pv": 2400, "amt": 2400},
         {"name": "Page B", "uv": 3000, "pv": 1398, "amt": 2210},
@@ -32,14 +26,6 @@ def dashboard_view(
         {"name": "Page F", "uv": 2390, "pv": 3800, "amt": 2500},
         {"name": "Page G", "uv": 3490, "pv": 4300, "amt": 2100},
     ]
-    percentage_change = (
-        round(((value - prev_value) / prev_value) * 100, 2)
-        if prev_value != 0
-        else 0 if value == 0 else float("inf")
-    )
-    change = "increase" if value > prev_value else "decrease"
-    arrow_icon = "trending-up" if value > prev_value else "trending-down"
-    arrow_color = "grass" if value > prev_value else "tomato"
     return (
         rx.vstack(
             rx.hstack(
@@ -162,155 +148,35 @@ def dashboard_view(
                             ),
                             rx.vstack(
                                 # Cards estadisticas de la aplicacion
-                                rx.card(
-                                    rx.vstack(
-                                        rx.hstack(
-                                            rx.badge(
-                                                rx.icon(tag=icon, size=28),
-                                                color_scheme=badge_color,
-                                                radius="full",
-                                                padding="0.7rem",
-                                            ),
-                                            rx.vstack(
-                                                rx.heading(
-                                                    f"{value:,}",
-                                                    size="6",
-                                                    weight="bold",
-                                                    color="black",
-                                                    font_size="20px",
-                                                ),
-                                                rx.text(
-                                                    stat_name,
-                                                    weight="medium",
-                                                    color="black",
-                                                    font_size="16px",
-                                                ),
-                                                spacing="1",
-                                                height="100%",
-                                                align_items="start",
-                                                width="100%",
-                                            ),
-                                            height="100%",
-                                            spacing="5",
-                                            align="center",
-                                            width="100%",
-                                        ),
-                                        rx.hstack(
-                                            rx.hstack(
-                                                rx.icon(
-                                                    tag=arrow_icon,
-                                                    size=20,
-                                                    color=rx.color(arrow_color, 9),
-                                                ),
-                                                rx.text(
-                                                    f"{percentage_change}%",
-                                                    size="3",
-                                                    color="black",
-                                                    weight="medium",
-                                                    font_size="16px",
-                                                ),
-                                                spacing="2",
-                                                align="center",
-                                            ),
-                                            rx.text(
-                                                f"{change} from last month",
-                                                size="2",
-                                                color="black",
-                                            ),
-                                            align="center",
-                                            width="100%",
-                                        ),
-                                        spacing="0",
+                                rx.box(
+                                    rx.heading(
+                                        "Estadisticas",
+                                        size="2xl",
+                                        color="rgba(0, 0, 0, 0.8)",
+                                        align="center",
                                     ),
-                                    style={
-                                        "_hover": {
-                                            "backgroundColor": "",
-                                            "cursor": "pointer",
-                                        }
-                                    },
-                                    size="3",
-                                    background_color="rgba(255, 255, 255, 0.5)",
-                                    height="45%",
                                     width="100%",
-                                    paddingTop="5px",
-                                    paddingBottom="5px",
-                                    paddingleft="20px",
-                                    paddingRight="20px",
+                                    height="10%",
                                 ),
-                                rx.card(
+                                # Contenido
+                                rx.box(
                                     rx.vstack(
-                                        rx.hstack(
-                                            rx.badge(
-                                                rx.icon(tag=icon, size=28),
-                                                color_scheme=badge_color,
-                                                radius="full",
-                                                padding="0.7rem",
-                                            ),
-                                            rx.vstack(
-                                                rx.heading(
-                                                    f"{value:,}",
-                                                    size="6",
-                                                    weight="bold",
-                                                    color="black",
-                                                    font_size="20px",
-                                                ),
-                                                rx.text(
-                                                    stat_name,
-                                                    weight="medium",
-                                                    color="black",
-                                                    font_size="16px",
-                                                ),
-                                                spacing="1",
-                                                height="100%",
-                                                align_items="start",
-                                                width="100%",
-                                            ),
-                                            height="100%",
-                                            spacing="5",
-                                            align="center",
-                                            width="100%",
+                                        item_stat_card(
+                                            "Guias",
+                                            100,
+                                            0,
+                                            "book",
+                                            "green",
                                         ),
-                                        rx.hstack(
-                                            rx.hstack(
-                                                rx.icon(
-                                                    tag=arrow_icon,
-                                                    size=20,
-                                                    color=rx.color(arrow_color, 9),
-                                                ),
-                                                rx.text(
-                                                    f"{percentage_change}%",
-                                                    size="3",
-                                                    color="black",
-                                                    weight="medium",
-                                                    font_size="16px",
-                                                ),
-                                                spacing="2",
-                                                align="center",
-                                            ),
-                                            rx.text(
-                                                f"{change} from last month",
-                                                size="2",
-                                                color="black",
-                                            ),
-                                            align="center",
-                                            width="100%",
+                                        item_stat_card(
+                                            "Clientes",
+                                            100,
+                                            0,
+                                            "users",
+                                            "orange",
                                         ),
-                                        spacing="0",
                                     ),
-                                    style={
-                                        "_hover": {
-                                            "backgroundColor": "",
-                                            "cursor": "pointer",
-                                        }
-                                    },
-                                    size="3",
-                                    background_color="rgba(255, 255, 255, 0.5)",
-                                    height="45%",
                                     width="100%",
-                                    paddingTop="5px",
-                                    paddingBottom="5px",
-                                    paddingleft="20px",
-                                    paddingRight="20px",
                                 ),
                                 height="100%",
                                 width="40%",
@@ -377,6 +243,101 @@ def dashboard_view(
             width="100%",
             height="100%",
             on_mount=DashboardState.load_users,
+        ),
+    )
+
+
+# componente para la lista de tarjetas de estadisticas
+def item_stat_card(
+    stat_name: str = "Users",
+    value: int = 4200,
+    prev_value: int = 3000,
+    icon: str = "users",
+    badge_color: LiteralAccentColor = "blue",
+) -> rx.Component:
+    percentage_change = (
+        round(((value - prev_value) / prev_value) * 100, 2)
+        if prev_value != 0
+        else 0 if value == 0 else float("inf")
+    )
+    change = "increase" if value > prev_value else "decrease"
+    arrow_icon = "trending-up" if value > prev_value else "trending-down"
+    arrow_color = "grass" if value > prev_value else "tomato"
+    return (
+        rx.card(
+            rx.vstack(
+                rx.hstack(
+                    rx.badge(
+                        rx.icon(tag=icon, size=28),
+                        color_scheme=badge_color,
+                        radius="full",
+                        padding="0.7rem",
+                    ),
+                    rx.vstack(
+                        rx.heading(
+                            f"{value:,}",
+                            size="6",
+                            weight="bold",
+                            color="black",
+                            font_size="20px",
+                        ),
+                        rx.text(
+                            stat_name,
+                            weight="medium",
+                            color="black",
+                            font_size="16px",
+                        ),
+                        spacing="1",
+                        height="100%",
+                        align_items="start",
+                        width="100%",
+                    ),
+                    height="100%",
+                    spacing="5",
+                    align="center",
+                    width="100%",
+                ),
+                rx.hstack(
+                    rx.hstack(
+                        rx.icon(
+                            tag=arrow_icon,
+                            size=20,
+                            color=rx.color(arrow_color, 9),
+                        ),
+                        rx.text(
+                            f"{percentage_change}%",
+                            size="3",
+                            color="black",
+                            weight="medium",
+                            font_size="16px",
+                        ),
+                        spacing="2",
+                        align="center",
+                    ),
+                    rx.text(
+                        f"{change} from last month",
+                        size="2",
+                        color="black",
+                    ),
+                    align="center",
+                    width="100%",
+                ),
+                spacing="0",
+            ),
+            style={
+                "_hover": {
+                    "backgroundColor": "",
+                    "cursor": "pointer",
+                }
+            },
+            size="3",
+            background_color="rgba(255, 255, 255, 0.5)",
+            height="45%",
+            width="100%",
+            paddingTop="5px",
+            paddingBottom="5px",
+            paddingleft="20px",
+            paddingRight="20px",
         ),
     )
 
