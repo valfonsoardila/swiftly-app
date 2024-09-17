@@ -47,18 +47,23 @@ class ShipmentGuideStateV2(rx.State):
 
     def handle_sender_submit(self, form_data: dict):
         print("Datos del remitente capturados:", form_data)
-        # Validate and update sender data
         if self.validate_sender_data(form_data):
-            # Update state variables
-            self.sender_name = form_data["sender_name"]
-            self.sender_lastName = form_data["sender_lastName"]
-            self.sender_phone = form_data["sender_phone"]
-            self.sender_state = form_data["sender_state"]
-            # ... (update other sender fields) ...
+            self.sender_name = form_data.get("sender_name", "")
+            self.sender_lastName = form_data.get("sender_lastName", "")
+            self.sender_phone = form_data.get("sender_phone", "")
+            self.sender_state = form_data.get("sender_state", "")
             self.sender_section_complete = True
-            ModalPageState.next_page()
         else:
             return rx.window_alert("Please fill all required fields")
+
+    def validate_sender_data(self, form_data: dict) -> bool:
+        required_fields = [
+            "sender_name",
+            "sender_lastName",
+            "sender_phone",
+            "sender_state",
+        ]
+        return all(form_data.get(field) for field in required_fields)
 
     def handle_recipient_submit(self, form_data: dict):
         print("Datos del destinatario capturados:", form_data)
@@ -77,9 +82,23 @@ class ShipmentGuideStateV2(rx.State):
             self.recipient_phone = form_data["recipient_phone"]
             # ... (update other recipient fields) ...
             self.recipient_section_complete = True
-            ModalPageState.next_page()
         else:
             return rx.window_alert("Please fill all required fields")
+
+    def validate_recipient_data(self, form_data: dict) -> bool:
+        required_fields = [
+            "recipient_name",
+            "recipient_company",
+            "recipient_lastName",
+            "recipient_street",
+            "recipient_neighborhood",
+            "recipient_city",
+            "recipient_state",
+            "recipient_country",
+            "recipient_postalCode",
+            "recipient_phone",
+        ]
+        return all(form_data.get(field) for field in required_fields)
 
     def handle_package_submit(self, form_data: dict):
         print("Datos del paquete capturados:", form_data)
@@ -93,21 +112,12 @@ class ShipmentGuideStateV2(rx.State):
             self.is_international = form_data["is_international"].lower() == "true"
             # ... (update other package fields) ...
             self.package_section_complete = True
-            ModalPageState.next_page()
         else:
             return rx.window_alert("Please fill all required fields")
 
-    def validate_sender_data(self, form_data: dict) -> bool:
-        # Implement validation logic
-        return all(form_data.values())
-
-    def validate_recipient_data(self, form_data: dict) -> bool:
-        # Implement validation logic
-        return all(form_data.values())
-
     def validate_package_data(self, form_data: dict) -> bool:
-        # Implement validation logic
-        return all(form_data.values())
+        required_fields = ["service_type", "weight", "quantity", "declared_value"]
+        return all(form_data.get(field) for field in required_fields)
 
 
 class ModalPageState(rx.State):
@@ -141,6 +151,7 @@ class DataTableState(rx.State):
     data: List = []
 
 
+# Vista de la página de guías
 def guides_view():
     return rx.box(
         rx.flex(
@@ -298,27 +309,32 @@ def new_shipment_guide_view() -> rx.Component:
                 (2, rx.box(package_section(), width="100%", height="100%")),
             ),
             rx.hstack(
-                rx.button(
-                    rx.icon("chevron-left", color="rgba(0,0,0,.4)", stroke_width="1"),
-                    style={
-                        "color": "white",
-                        "backgroundColor": "transparent",
-                        "border": "none",
-                        "borderRadius": "1em",
-                        "cursor": "pointer",
-                        "fontSize": "20px",
-                        "_hover": {
+                rx.form.submit(
+                    rx.button(
+                        rx.icon(
+                            "chevron-left", color="rgba(0,0,0,.4)", stroke_width="1"
+                        ),
+                        type="submit",
+                        on_click=ModalPageState.prev_page,
+                        style={
+                            "color": "white",
                             "backgroundColor": "transparent",
-                            "transform": "scale(1.05)",
-                            "transition": "transform 0.2s ease",
-                            "svg": {
-                                "color": "black",
-                                "strokeWidth": "2",
+                            "border": "none",
+                            "borderRadius": "1em",
+                            "cursor": "pointer",
+                            "fontSize": "20px",
+                            "_hover": {
+                                "backgroundColor": "transparent",
+                                "transform": "scale(1.05)",
+                                "transition": "transform 0.2s ease",
+                                "svg": {
+                                    "color": "black",
+                                    "strokeWidth": "2",
+                                },
                             },
                         },
-                    },
-                    on_click=ModalPageState.prev_page,
-                    is_disabled=ModalPageState.current_page == 0,
+                        is_disabled=ModalPageState.current_page == 0,
+                    ),
                 ),
                 rx.cond(
                     ModalPageState.current_page == 2,
@@ -330,6 +346,16 @@ def new_shipment_guide_view() -> rx.Component:
                                 color="rgba(0,0,0,.5)",
                                 fontWeigh="normal",
                                 fontSize="16px",
+                            ),
+                            type="submit",
+                            form=rx.cond(
+                                ModalPageState.current_page == 0,
+                                "sender_form",
+                                rx.cond(
+                                    ModalPageState.current_page == 1,
+                                    "recipient_form",
+                                    "package_form",
+                                ),
                             ),
                             style={
                                 "color": "white",
@@ -360,6 +386,17 @@ def new_shipment_guide_view() -> rx.Component:
                                 color="rgba(0,0,0,.5)",
                                 stroke_width="1",
                             ),
+                            type="submit",
+                            form=rx.cond(
+                                ModalPageState.current_page == 0,
+                                "sender_form",
+                                rx.cond(
+                                    ModalPageState.current_page == 1,
+                                    "recipient_form",
+                                    "package_form",
+                                ),
+                            ),
+                            on_click=ModalPageState.next_page,
                             style={
                                 "color": "white",
                                 "backgroundColor": "transparent",
@@ -378,7 +415,6 @@ def new_shipment_guide_view() -> rx.Component:
                                 },
                             },
                         ),
-                        on_click=ModalPageState.next_page,
                     ),
                 ),
             ),
@@ -387,6 +423,8 @@ def new_shipment_guide_view() -> rx.Component:
     )
 
 
+# Secciones del formulario de registro de guía
+# Seccion de datos del remitente
 def sender_section() -> rx.Component:
     return rx.form.root(
         rx.vstack(
@@ -421,8 +459,9 @@ def sender_section() -> rx.Component:
                                     "color": "rgba(0, 0, 0, 0.6)",
                                 },
                             },
+                            name="sender_name",
+                            id="sender_name",
                         ),
-                        name="sender_name",
                     ),
                 ),
                 rx.vstack(
@@ -449,8 +488,9 @@ def sender_section() -> rx.Component:
                                     "color": "rgba(0, 0, 0, 0.6)",
                                 },
                             },
+                            name="sender_lastName",
+                            id="sender_lastName",
                         ),
-                        name="sender_lastName",
                     ),
                 ),
                 rx.vstack(
@@ -477,78 +517,79 @@ def sender_section() -> rx.Component:
                                     "color": "rgba(0, 0, 0, 0.6)",
                                 },
                             },
+                            name="sender_phone",
+                            id="sender_phone",
                         ),
-                        name="sender_phone",
                     ),
                 ),
                 rx.vstack(
                     rx.text("Departamento", color="black"),
-                    rx.form.field(
-                        rx.select.root(
-                            rx.select.trigger(
-                                placeholder="Selecciona un estado",
-                                color_scheme="orange",
-                                color="black",
-                                width="100%",
-                                style={
-                                    "backgroundColor": "rgba(255, 255, 255, 0.4)",
-                                    "border": "1px solid rgba(0, 0, 0, 0.8)",
-                                    "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                                    "borderRadius": "20px",
-                                    "fontSize": "20px",
-                                    "span": {
-                                        "color": "rgba(0, 0, 0, 0.6)",
-                                        "fontSize": "16px",
-                                    },
-                                    "svg": {
-                                        "height": "20px",
-                                        "width": "20px",
-                                        "fontWeight": "bold !important",
-                                    },
-                                },
-                            ),
-                            rx.select.content(
-                                rx.foreach(
-                                    DepartmentState.departments,
-                                    lambda department: rx.select.item(
-                                        rx.hstack(
-                                            rx.icon(
-                                                "map-pin",
-                                                color="black",
-                                                position="left",
-                                            ),
-                                            rx.text(
-                                                department["departamento"],
-                                                color="black",
-                                            ),
-                                            style={
-                                                "display": "flex",
-                                                "alignItems": "center",
-                                            },
-                                        ),
-                                        value=department["id"],
-                                    ),
-                                ),
-                                color_scheme="orange",
-                                background_color="white",
-                                color="black",
-                            ),
-                            size="3",
+                    rx.select.root(
+                        rx.select.trigger(
+                            placeholder="Selecciona un estado",
                             color_scheme="orange",
-                            variant="surface",
+                            color="black",
+                            width="100%",
+                            style={
+                                "backgroundColor": "rgba(255, 255, 255, 0.4)",
+                                "border": "1px solid rgba(0, 0, 0, 0.8)",
+                                "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                "borderRadius": "20px",
+                                "fontSize": "20px",
+                                "span": {
+                                    "color": "rgba(0, 0, 0, 0.6)",
+                                    "fontSize": "16px",
+                                },
+                                "svg": {
+                                    "height": "20px",
+                                    "width": "20px",
+                                    "fontWeight": "bold !important",
+                                },
+                            },
                         ),
+                        rx.select.content(
+                            rx.foreach(
+                                DepartmentState.departments,
+                                lambda department: rx.select.item(
+                                    rx.hstack(
+                                        rx.icon(
+                                            "map-pin",
+                                            color="black",
+                                            position="left",
+                                        ),
+                                        rx.text(
+                                            department["departamento"],
+                                            color="black",
+                                        ),
+                                        style={
+                                            "display": "flex",
+                                            "alignItems": "center",
+                                        },
+                                    ),
+                                    value=department["id"],
+                                ),
+                            ),
+                            color_scheme="orange",
+                            background_color="white",
+                            color="black",
+                        ),
+                        size="3",
+                        color_scheme="orange",
+                        variant="surface",
                         name="sender_state",
-                        width="-webkit-fill-available",
                     ),
+                    width="-webkit-fill-available",
                 ),
                 columns="2",
                 spacing="2",
             ),
         ),
         on_submit=ShipmentGuideStateV2.handle_sender_submit,
+        id="sender_form",
     )
 
 
+# Seccion de datos del destinatario
 def recipient_section() -> rx.Component:
     return rx.form.root(
         rx.vstack(
@@ -583,8 +624,9 @@ def recipient_section() -> rx.Component:
                                     "color": "rgba(0, 0, 0, 0.6)",
                                 },
                             },
+                            name="recipient_company",
+                            id="recipient_company",
                         ),
-                        name="recipient_company",
                     ),
                 ),
                 rx.vstack(
@@ -612,8 +654,9 @@ def recipient_section() -> rx.Component:
                                     "color": "rgba(0, 0, 0, 0.6)",
                                 },
                             },
+                            name="recipient_name",
+                            id="recipient_name",
                         ),
-                        name="recipient_name",
                     ),
                 ),
                 rx.vstack(
@@ -641,8 +684,9 @@ def recipient_section() -> rx.Component:
                                     "color": "rgba(0, 0, 0, 0.6)",
                                 },
                             },
+                            name="recipient_lastName",
+                            id="recipient_lastName",
                         ),
-                        name="recipient_lastName",
                     ),
                 ),
                 rx.accordion.root(
@@ -679,8 +723,9 @@ def recipient_section() -> rx.Component:
                                             "color": "rgba(0, 0, 0, 0.6)",
                                         },
                                     },
+                                    name="recipient_street",
+                                    id="recipient_street",
                                 ),
-                                name="recipient_street",
                             ),
                             rx.form.field(
                                 rx.input(
@@ -705,8 +750,9 @@ def recipient_section() -> rx.Component:
                                             "color": "rgba(0, 0, 0, 0.6)",
                                         },
                                     },
+                                    name="recipient_neighborhood",
+                                    id="recipient_neighborhood",
                                 ),
-                                name="recipient_neighborhood",
                             ),
                             rx.vstack(
                                 rx.box(
@@ -740,8 +786,9 @@ def recipient_section() -> rx.Component:
                                                     "color": "rgba(0, 0, 0, 0.6)",
                                                 },
                                             },
+                                            name="recipient_city",
+                                            id="recipient_city",
                                         ),
-                                        name="recipient_city",
                                     ),
                                     position="relative",
                                     width="100%",
@@ -841,9 +888,9 @@ def recipient_section() -> rx.Component:
                                     size="3",
                                     color_scheme="orange",
                                     variant="surface",
+                                    name="recipient_state",
                                 ),
                                 width="-webkit-fill-available",
-                                name="recipient_state",
                             ),
                             # Pendiente por implementar el atrapar el país
                             rx.vstack(
@@ -879,8 +926,9 @@ def recipient_section() -> rx.Component:
                                                     "color": "rgba(0, 0, 0, 0.6)",
                                                 },
                                             },
+                                            name="recipient_country",
+                                            id="recipient_country",
                                         ),
-                                        name="recipient_country",
                                     ),
                                     position="relative",
                                     width="100%",
@@ -976,8 +1024,38 @@ def recipient_section() -> rx.Component:
                                     "color": "rgba(0, 0, 0, 0.6)",
                                 },
                             },
+                            name="recipient_phone",
+                            id="recipient_phone",
                         ),
-                        name="recipient_phone",
+                    ),
+                ),
+                rx.vstack(
+                    rx.text("Codigo Postal", color="black"),
+                    rx.form.field(
+                        rx.input(
+                            rx.input.slot(
+                                rx.icon("book-copy", color="black"), position="left"
+                            ),
+                            placeholder="Ingresa el código postal del destinatario",
+                            type="text",
+                            size="3",
+                            width="100%",
+                            color_scheme="orange",
+                            variant="surface",
+                            radius="full",
+                            required=True,
+                            style={
+                                "color": "black",
+                                "border": "1px solid rgba(0, 0, 0, 0.8)",
+                                "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                "backgroundColor": "rgba(235, 235, 235, 0.4)",
+                                "& input::placeholder": {
+                                    "color": "rgba(0, 0, 0, 0.6)",
+                                },
+                            },
+                            name="recipient_postalCode",
+                            id="recipient_postalCode",
+                        ),
                     ),
                 ),
                 columns="2",
@@ -986,9 +1064,11 @@ def recipient_section() -> rx.Component:
             spacing="0",
         ),
         on_submit=ShipmentGuideStateV2.handle_recipient_submit,
+        id="recipient_form",
     )
 
 
+# Seccion de datos del paquete
 def package_section() -> rx.Component:
     return rx.form.root(
         rx.vstack(
@@ -1066,8 +1146,8 @@ def package_section() -> rx.Component:
                             size="3",
                             color_scheme="orange",
                             variant="surface",
+                            name="service_type",
                         ),
-                        name="service_type",
                     ),
                 ),
                 rx.vstack(
@@ -1094,8 +1174,9 @@ def package_section() -> rx.Component:
                                     "color": "rgba(0, 0, 0, 0.6)",
                                 },
                             },
+                            name="weight",
+                            id="weight",
                         ),
-                        name="weight",
                     ),
                 ),
                 rx.vstack(
@@ -1122,8 +1203,9 @@ def package_section() -> rx.Component:
                                     "color": "rgba(0, 0, 0, 0.6)",
                                 },
                             },
+                            name="quantity",
+                            id="quantity",
                         ),
-                        name="quantity",
                     ),
                 ),
                 rx.vstack(
@@ -1150,8 +1232,9 @@ def package_section() -> rx.Component:
                                     "color": "rgba(0, 0, 0, 0.6)",
                                 },
                             },
+                            name="declared_value",
+                            id="declared_value",
                         ),
-                        name="declared_value",
                     ),
                 ),
                 rx.hstack(
@@ -1166,6 +1249,8 @@ def package_section() -> rx.Component:
                                 "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                                 "cursor": "pointer",
                             },
+                            name="is_international",
+                            id="is_international",
                         ),
                         style={
                             "label": {
@@ -1175,7 +1260,6 @@ def package_section() -> rx.Component:
                             "padding": "0",
                             "border": "none",
                         },
-                        name="is_international",
                     ),
                     rx.text(
                         "¿Es un envío internacional?", color="black", font_size="14px"
@@ -1191,4 +1275,5 @@ def package_section() -> rx.Component:
             ),
         ),
         on_submit=ShipmentGuideStateV2.handle_package_submit,
+        id="package_form",
     )

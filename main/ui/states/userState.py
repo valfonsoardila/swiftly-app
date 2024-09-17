@@ -15,7 +15,7 @@ class UserState(rx.State):
     image_data: str = (
         ""  # Variable para almacenar los datos de la imagen como una cadena codificada
     )
-    image: str = "/ico/avatar.png"
+    image: str = ""
 
     async def handle_upload_image_profile(self, files: list[rx.UploadFile]):
         for file in files:
