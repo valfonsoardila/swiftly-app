@@ -122,7 +122,7 @@ class ShipmentGuideStateV2(rx.State):
             self.weight = form_data["weight"]
             self.quantity = form_data["quantity"]
             self.declared_value = form_data["declared_value"]
-            self.is_international = form_data["is_international"].lower() == "true"
+            self.is_international = form_data["is_international"] == "true"
             # ... (update other package fields) ...
             self.package_section_complete = True
         else:
@@ -133,7 +133,8 @@ class ShipmentGuideStateV2(rx.State):
         return all(form_data.get(field) for field in required_fields)
 
     @rx.background
-    async def on_signup_button_click(self):
+    async def on_save_guide(self) -> Any:
+        # Crear objeto de guía
         guide_data = (
             {
                 "sender_name": self.sender_name,
@@ -157,7 +158,7 @@ class ShipmentGuideStateV2(rx.State):
                 "is_international": self.is_international,
             },
         )
-        # VAlidar si todos los campos están completos
+        # Validar si todos los campos están completos
         if (
             self.sender_section_complete
             and self.recipient_section_complete
@@ -176,6 +177,9 @@ class ShipmentGuideStateV2(rx.State):
                     "Guide creation failed. Please try again.", duration=5000
                 )
         else:
+            print(self.sender_section_complete)
+            print(self.recipient_section_complete)
+            print(self.package_section_complete)
             yield rx.toast.error(
                 "Please fill all the fields.",
                 duration=5000,

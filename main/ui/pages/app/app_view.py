@@ -2,11 +2,11 @@ import reflex as rx
 from main.ui.states.userState import UserState
 from main.server.models.v1.Guide import Guide
 from main.server.models.v1.Sender import Sender
-from main.ui.views.app.modules.guides_view import guides_view
-from main.ui.views.app.modules.shipping_view import shipping_view
-from main.ui.views.app.modules.clients_view import clients_view
-from main.ui.views.app.modules.dashboard_view import dashboard_view
-from main.ui.views.app.modules.settings_view import settings_view
+from main.ui.pages.app.views.guides_view import guides_view
+from main.ui.pages.app.views.shipping_view import shipping_view
+from main.ui.pages.app.views.clients_view import clients_view
+from main.ui.pages.app.views.dashboard_view import dashboard_view
+from main.ui.pages.app.views.settings_view import settings_view
 
 # import models v1
 from main.server.models.v1.Guide import Guide
