@@ -37,7 +37,10 @@ def dashboard_view() -> rx.Component:
                                 rx.heading(
                                     "Cantidad de Guias por mes",
                                     size="2xl",
-                                    color="rgba(0, 0, 0, 0.8)",
+                                    color=rx.color_mode_cond(
+                                        light="rgba(0, 0, 0, 0.8)",
+                                        dark="rgba(255, 255, 255, 0.8)",
+                                    ),
                                     align="center",
                                 ),
                                 width="100%",
@@ -104,9 +107,19 @@ def dashboard_view() -> rx.Component:
                         style={
                             "border": "none !important",
                             "borderRadius": "none",
-                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                            "backgroundColor": rx.color_mode_cond(
+                                light="rgba(255, 255, 255, 0.5)",
+                                dark=rx.color("grass", 3, alpha=True),
+                            ),
+                            "_hover": {
+                                "backgroundColor": rx.color_mode_cond(
+                                    light="rgba(255, 255, 255, 0.5)",
+                                    dark=rx.color("grass", 5, alpha=True),
+                                ),
+                                "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                "cursor": "pointer",
+                            },
                         },
-                        background_color="rgba(255, 255, 255, 0.5)",
                     ),
                     rx.card(
                         rx.hstack(
@@ -116,7 +129,10 @@ def dashboard_view() -> rx.Component:
                                     rx.heading(
                                         "Clientes",
                                         size="2xl",
-                                        color="rgba(0, 0, 0, 0.8)",
+                                        color=rx.color_mode_cond(
+                                            light="rgba(0, 0, 0, 0.8)",
+                                            dark="rgba(255, 255, 255, 0.8)",
+                                        ),
                                         align="center",
                                     ),
                                     width="100%",
@@ -189,6 +205,10 @@ def dashboard_view() -> rx.Component:
                         height="30%",
                         width="100%",
                         style={
+                            "backgroundColor": rx.color_mode_cond(
+                                light="rgba(255, 255, 255, 0.4)",
+                                dark="rgba(0, 0, 0, 0.1)",
+                            ),
                             "border": "none !important",
                             "--card-border-width": "0",
                         },
@@ -206,7 +226,10 @@ def dashboard_view() -> rx.Component:
                                     rx.heading(
                                         "Guias Pendientes",
                                         size="2xl",
-                                        color="rgba(0, 0, 0, 0.8)",
+                                        color=rx.color_mode_cond(
+                                            light="rgba(0, 0, 0, 0.8)",
+                                            dark="rgba(255, 255, 255, 0.8)",
+                                        ),
                                         align="center",
                                     ),
                                     width="100%",
@@ -326,12 +349,13 @@ def item_stat_card(
             ),
             style={
                 "_hover": {
-                    "backgroundColor": "",
+                    "bg": "rgba(225, 225, 225, 0.55)",
+                    "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                     "cursor": "pointer",
-                }
+                },
+                "backgroundColor": "rgba(255, 255, 255, 0.5)",
             },
             size="3",
-            background_color="rgba(255, 255, 255, 0.5)",
             height="45%",
             width="100%",
             paddingTop="5px",
@@ -355,7 +379,7 @@ def item_list_guide(icon: str, text: str, href: str) -> rx.Component:
             justify="center",
             style={
                 "_hover": {
-                    "bg": "rgba(225, 225, 225, 0.6)",
+                    "bg": "rgba(225, 225, 225, 0.55)",
                     "borderRadius": "0.5rem",
                     "color": "orange",
                     "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
@@ -364,10 +388,9 @@ def item_list_guide(icon: str, text: str, href: str) -> rx.Component:
                 },
                 "borderRadius": "0.5rem",
                 "border": "1px solid #ccc",
-                "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                "backgroundColor": "rgba(255, 255, 255, 0.5)",
             },
         ),
-        background_color="rgba(255, 255, 255, 0.5)",
         on_click=StatePage.set_current_route(href),
         underline="none",
         weight="medium",

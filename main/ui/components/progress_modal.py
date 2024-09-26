@@ -14,9 +14,12 @@ class ModalPageState(rx.State):
         if self.current_page > 0:
             self.current_page -= 1
 
+    def set_sections(self, sections: list[rx.Component]):
+        self.list_sections = sections
+
     @rx.var
     def total_pages(self) -> int:
-        return 3  # Since you have 3 sections
+        return len(self.list_sections)
 
 
 def progress_modal(
@@ -254,4 +257,5 @@ def container_sections(
             ),
             spacing="0",
         ),
+        on_mount=lambda: ModalPageState.set_sections(list_sections),
     )

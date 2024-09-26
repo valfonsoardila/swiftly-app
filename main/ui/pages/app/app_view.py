@@ -33,11 +33,11 @@ def app_view() -> rx.Component:
         rx.flex(  # Flexbox para centrar el contenido con dimensiones en porcentajes
             rx.vstack(
                 # Header
-                rx.drawer.root(
-                    rx.drawer.trigger(
+                rx.hstack(
+                    rx.heading(
                         rx.hstack(
-                            rx.heading(
-                                rx.hstack(
+                            rx.drawer.root(
+                                rx.drawer.trigger(
                                     rx.button(
                                         rx.icon(tag="menu", color="black"),
                                         size="sm",
@@ -60,107 +60,113 @@ def app_view() -> rx.Component:
                                         border_radius="md",
                                         transition="all 0.2s ease",
                                     ),
-                                    rx.box(
-                                        rx.hstack(
-                                            rx.text(
-                                                StatePage.labael_component_route,
-                                                text_align="center",
-                                                align="center",
-                                                font_size="30px",
-                                            ),
-                                            align="center",
-                                            justify="center",
-                                        ),
-                                        height="100%",
-                                        width="-webkit-fill-available",
-                                    ),
-                                    rx.box(
-                                        width="24px"
-                                    ),  # Espacio para equilibrar el botón
-                                    style={
-                                        "color": "rgba(255, 255, 255, 0.9)",
-                                        "transition": "all 0.3s ease",
-                                        "_hover": {
-                                            "color": "none",
-                                            "backgroundImage": "linear-gradient(145deg, #F27405 10%, #F20505 90%)",
-                                            "WebkitBackgroundClip": "text",
-                                            "WebkitTextFillColor": "transparent",
-                                            "transition": "all 0.3s ease",
-                                        },
-                                    },
-                                    width="100%",
-                                    justify="space-between",
-                                    align="center",
                                 ),
-                                size="2xl",
-                                background_color="rgba(255, 255, 255, 0.4)",
-                                _hover={
-                                    "backgroundColor": "rgba(255, 255, 255, 0.82)",
-                                    "cursor": "pointer",
-                                },
-                                border="none",
-                                box_shadow="0 2px 4px rgba(0, 0, 0, 0.4)",
-                                border_radius="20px",
-                                width="100%",
-                                margin="0",
-                                fontWeihgt="bold",
-                                fontFamily="Arial",
-                                fontSize="2rem",
-                                lineHeight="1.5",
+                                rx.drawer.overlay(z_index="5"),
+                                rx.drawer.portal(
+                                    rx.drawer.content(
+                                        rx.dialog.title(
+                                            ""
+                                        ),  # Título del diálogo (necesario)
+                                        rx.dialog.description(""),
+                                        rx.flex(
+                                            rx.drawer.close(
+                                                rx.box(
+                                                    rx.button(
+                                                        # icono flecha izquierda
+                                                        rx.icon(
+                                                            tag="arrow-left",
+                                                            color="black",
+                                                        ),
+                                                        size="sm",
+                                                        background_color="transparent",
+                                                        on_click=StateSidebar.toggle_sidebar,
+                                                        style={
+                                                            "_hover": {
+                                                                "background_color": rx.color_mode_cond(
+                                                                    light="transparent",
+                                                                    dark="transparent",
+                                                                ),
+                                                                "color": rx.color_mode_cond(
+                                                                    light="#000",
+                                                                    dark="#fff",
+                                                                ),
+                                                                "cursor": "pointer",
+                                                                "box_shadow": "0 4px 6px rgba(0, 0, 0, 0.4)",
+                                                                "transform": "translateY(-2px)",
+                                                                "transition": "all 0.3s ease",
+                                                            },
+                                                            "border": "1px solid transparent",
+                                                            "border_radius": "md",
+                                                            "transition": "all 0.2s ease",
+                                                        },
+                                                    )
+                                                )
+                                            ),
+                                            sidebar_bottom_profile(),
+                                            align_items="start",
+                                            direction="column",
+                                        ),
+                                        top="auto",
+                                        right="auto",
+                                        height="100%",
+                                        width="20em",
+                                        padding="2em",
+                                        background_color="rgba(255, 255, 255, 0.9)",
+                                    )
+                                ),
+                                direction="left",
                             ),
+                            rx.box(
+                                rx.hstack(
+                                    rx.text(
+                                        StatePage.labael_component_route,
+                                        text_align="center",
+                                        align="center",
+                                        font_size="30px",
+                                    ),
+                                    align="center",
+                                    justify="center",
+                                ),
+                                height="100%",
+                                width="-webkit-fill-available",
+                            ),
+                            rx.box(width="24px"),  # Espacio para equilibrar el botón
+                            rx.spacer(),  # Esto empujará el botón hacia la derecha
+                            rx.color_mode.button("Cambiar tema"),
+                            style={
+                                "color": "rgba(255, 255, 255, 0.9)",
+                                "transition": "all 0.3s ease",
+                                "_hover": {
+                                    "color": "none",
+                                    "backgroundImage": "linear-gradient(145deg, #F27405 10%, #F20505 90%)",
+                                    "WebkitBackgroundClip": "text",
+                                    "WebkitTextFillColor": "transparent",
+                                    "transition": "all 0.3s ease",
+                                },
+                            },
                             width="100%",
                             justify="space-between",
                             align="center",
-                        )
+                        ),
+                        size="2xl",
+                        background_color="rgba(255, 255, 255, 0.4)",
+                        _hover={
+                            "backgroundColor": "rgba(255, 255, 255, 0.82)",
+                            "cursor": "pointer",
+                        },
+                        border="none",
+                        box_shadow="0 2px 4px rgba(0, 0, 0, 0.4)",
+                        border_radius="20px",
+                        width="100%",
+                        margin="0",
+                        fontWeihgt="bold",
+                        fontFamily="Arial",
+                        fontSize="2rem",
+                        lineHeight="1.5",
                     ),
-                    rx.drawer.overlay(z_index="5"),
-                    rx.drawer.portal(
-                        rx.drawer.content(
-                            rx.dialog.title(""),  # Título del diálogo (necesario)
-                            rx.dialog.description(""),
-                            rx.flex(
-                                rx.drawer.close(
-                                    rx.box(
-                                        rx.button(
-                                            # icono flecha izquierda
-                                            rx.icon(tag="arrow-left", color="black"),
-                                            size="sm",
-                                            background_color="transparent",
-                                            on_click=StateSidebar.toggle_sidebar,
-                                            style={
-                                                "_hover": {
-                                                    "background_color": rx.color_mode_cond(
-                                                        light="transparent",
-                                                        dark="transparent",
-                                                    ),
-                                                    "color": rx.color_mode_cond(
-                                                        light="#000", dark="#fff"
-                                                    ),
-                                                    "cursor": "pointer",
-                                                    "box_shadow": "0 4px 6px rgba(0, 0, 0, 0.4)",
-                                                    "transform": "translateY(-2px)",
-                                                    "transition": "all 0.3s ease",
-                                                },
-                                                "border": "1px solid transparent",
-                                                "border_radius": "md",
-                                                "transition": "all 0.2s ease",
-                                            },
-                                        )
-                                    )
-                                ),
-                                sidebar_bottom_profile(),
-                                align_items="start",
-                                direction="column",
-                            ),
-                            top="auto",
-                            right="auto",
-                            height="100%",
-                            width="20em",
-                            padding="2em",
-                            background_color="rgba(255, 255, 255, 0.9)",
-                        )
-                    ),
-                    direction="left",
+                    width="100%",
+                    justify="space-between",
+                    align="center",
                 ),
                 # Main Content with two vertical sections side by side
                 rx.hstack(
@@ -199,8 +205,14 @@ def app_view() -> rx.Component:
                             width="100%",
                         ),
                         style={
-                            "background": "rgba(255, 255, 255, 0.6)",
-                            "border": "1px solid #ccc",
+                            "background": rx.color_mode_cond(
+                                light="rgba(255, 255, 255, 0.6)",
+                                dark="rgba(0, 0, 0, 0.4)",
+                            ),
+                            "border": rx.color_mode_cond(
+                                light="1px solid rgba(255, 255, 255, 0.3)",
+                                dark="1px solid rgba(100, 100, 100, 0.3)",
+                            ),
                             "borderRadius": "20px",
                             "boxShadow": "0 0.5px 2px rgba(0, 0, 0, 0.4)",
                         },
@@ -221,7 +233,10 @@ def app_view() -> rx.Component:
         width="100%",
         height="100vh",  # Esto hará que el box ocupe toda la altura de la pantalla
         # imagen de fondo
-        background_image="url('/img/bg.jpg')",
+        background_image=rx.color_mode_cond(
+            light="url('/img/bg.jpg')",
+            dark="url('/img/bg_dark2.jpg')",
+        ),
         style={
             "backgroundSize": "cover",
             "backgroundPosition": "center",

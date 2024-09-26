@@ -647,7 +647,7 @@ def tracking_view() -> rx.Component:
             width="100%",
             height="100%",
             style={
-                "background": "rgba(255, 255, 255, 0.3)",
+                "background": "rgba(5, 5, 5, 0.08)",
             },
         ),
         position="relative",

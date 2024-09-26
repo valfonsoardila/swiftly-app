@@ -1,44 +1,9 @@
 import reflex as rx
 from main.ui.states.deparmentState import DepartmentState
 from main.ui.states.countriesState import CountriesState
-from typing import List
 from main.ui.components.progress_modal import progress_modal
+from main.ui.components.table_interactive import table_interactive
 from main.ui.states.shipmentGuideStateV2 import ShipmentGuideStateV2
-
-
-# class ModalPageState(rx.State):
-#     current_page: int = 0
-
-#     def next_page(self):
-#         if self.current_page < 2:
-#             self.current_page += 1
-
-#     def prev_page(self):
-#         if self.current_page > 0:
-#             self.current_page -= 1
-
-#     @rx.var
-#     def total_pages(self) -> int:
-#         return 3  # Since you have 3 sections
-
-
-class DataTableState(rx.State):
-    """The app state."""
-
-    columns: List[str] = [
-        "Date",
-        "Tracking #",
-        "Package Type",
-        "Quantity",
-        "Weight",
-        "Sender",
-        "Recipient",
-        "Recipient Company",
-        "Recipient Address",
-        "Options",
-    ]
-
-    data: List = []
 
 
 # Vista de la página de guías
@@ -162,14 +127,9 @@ def guides_view():
                             ),
                         ),
                         rx.box(
-                            rx.data_table(
-                                columns=DataTableState.columns,
-                                data=DataTableState.data,
-                                pagination=True,
-                                search=True,
-                                sort=True,
-                            ),
+                            table_interactive(),
                             height="-webkit-fill-available",
+                            width="100%",
                         ),
                         width="100%",
                     ),
@@ -194,140 +154,6 @@ def guides_view():
             CountriesState.on_read_storage,
         ],
     )
-
-
-# Step-By-Step del modal de registro de guía
-# def new_shipment_guide_view() -> rx.Component:
-#     return rx.box(
-#         rx.vstack(
-#             rx.match(
-#                 ModalPageState.current_page,
-#                 (0, rx.box(sender_section(), width="100%", height="100%")),
-#                 (1, rx.box(recipient_section(), width="100%", height="100%")),
-#                 (2, rx.box(package_section(), width="100%", height="100%")),
-#             ),
-#             rx.hstack(
-#                 rx.form.submit(
-#                     rx.button(
-#                         rx.icon(
-#                             "chevron-left", color="rgba(0,0,0,.4)", stroke_width="1"
-#                         ),
-#                         type="submit",
-#                         on_click=ModalPageState.prev_page,
-#                         style={
-#                             "color": "white",
-#                             "backgroundColor": "transparent",
-#                             "border": "none",
-#                             "borderRadius": "1em",
-#                             "cursor": "pointer",
-#                             "fontSize": "20px",
-#                             "_hover": {
-#                                 "backgroundColor": "transparent",
-#                                 "transform": "scale(1.05)",
-#                                 "transition": "transform 0.2s ease",
-#                                 "svg": {
-#                                     "color": "black",
-#                                     "strokeWidth": "2",
-#                                 },
-#                             },
-#                         },
-#                         is_disabled=ModalPageState.current_page == 0,
-#                     ),
-#                 ),
-#                 rx.text(
-#                     f"{ModalPageState.current_page + 1}/{ModalPageState.total_pages}",
-#                     color="black",
-#                     font_size="16px",
-#                     font_weight="bold",
-#                 ),
-#                 rx.cond(
-#                     ModalPageState.current_page == 2,
-#                     rx.form.submit(
-#                         rx.button(
-#                             rx.icon("save", color="rgba(0,0,0,.5)", stroke_width="1"),
-#                             rx.text(
-#                                 "Guardar",
-#                                 color="rgba(0,0,0,.5)",
-#                                 fontWeigh="normal",
-#                                 fontSize="16px",
-#                             ),
-#                             type="submit",
-#                             form=rx.cond(
-#                                 ModalPageState.current_page == 0,
-#                                 "sender_form",
-#                                 rx.cond(
-#                                     ModalPageState.current_page == 1,
-#                                     "recipient_form",
-#                                     "package_form",
-#                                 ),
-#                             ),
-#                             on_click=ShipmentGuideStateV2.on_save_guide,
-#                             style={
-#                                 "color": "white",
-#                                 "backgroundColor": "transparent",
-#                                 "border": "none",
-#                                 "borderRadius": "1em",
-#                                 "cursor": "pointer",
-#                                 "_hover": {
-#                                     "backgroundColor": "transparent",
-#                                     "border": "1px solid rgba(0, 0, 0, 0.8)",
-#                                     "transform": "scale(1.05)",
-#                                     "transition": "transform 0.2s ease",
-#                                     "p": {
-#                                         "fontWeight": "normal",
-#                                         "color": "rgba(0,0,0,.9)",
-#                                     },
-#                                     "svg": {
-#                                         "color": "rgba(0,0,0,.9)",
-#                                     },
-#                                 },
-#                             },
-#                         ),
-#                     ),
-#                     rx.form.submit(
-#                         rx.button(
-#                             rx.icon(
-#                                 "chevron-right",
-#                                 color="rgba(0,0,0,.5)",
-#                                 stroke_width="1",
-#                             ),
-#                             type="submit",
-#                             form=rx.cond(
-#                                 ModalPageState.current_page == 0,
-#                                 "sender_form",
-#                                 rx.cond(
-#                                     ModalPageState.current_page == 1,
-#                                     "recipient_form",
-#                                     "package_form",
-#                                 ),
-#                             ),
-#                             on_click=ModalPageState.next_page,
-#                             style={
-#                                 "color": "white",
-#                                 "backgroundColor": "transparent",
-#                                 "border": "none",
-#                                 "borderRadius": "1em",
-#                                 "cursor": "pointer",
-#                                 "fontSize": "20px",
-#                                 "_hover": {
-#                                     "backgroundColor": "transparent",
-#                                     "transform": "scale(1.05)",
-#                                     "transition": "transform 0.2s ease",
-#                                     "svg": {
-#                                         "color": "black",
-#                                         "strokeWidth": "2",
-#                                     },
-#                                 },
-#                             },
-#                         ),
-#                     ),
-#                 ),
-#                 justify="space-between",
-#                 width="100%",
-#             ),
-#             spacing="0",
-#         ),
-#     )
 
 
 # Secciones del formulario de registro de guía
@@ -369,6 +195,7 @@ def sender_section() -> rx.Component:
                             name="sender_name",
                             id="sender_name",
                         ),
+                        width="-webkit-fill-available",
                     ),
                 ),
                 rx.vstack(
@@ -398,6 +225,7 @@ def sender_section() -> rx.Component:
                             name="sender_lastName",
                             id="sender_lastName",
                         ),
+                        width="-webkit-fill-available",
                     ),
                 ),
                 rx.vstack(
@@ -427,6 +255,7 @@ def sender_section() -> rx.Component:
                             name="sender_phone",
                             id="sender_phone",
                         ),
+                        width="-webkit-fill-available",
                     ),
                 ),
                 rx.vstack(
@@ -534,6 +363,7 @@ def recipient_section() -> rx.Component:
                             name="recipient_company",
                             id="recipient_company",
                         ),
+                        width="-webkit-fill-available",
                     ),
                 ),
                 rx.vstack(
@@ -564,6 +394,7 @@ def recipient_section() -> rx.Component:
                             name="recipient_name",
                             id="recipient_name",
                         ),
+                        width="-webkit-fill-available",
                     ),
                 ),
                 rx.vstack(
@@ -594,6 +425,7 @@ def recipient_section() -> rx.Component:
                             name="recipient_lastName",
                             id="recipient_lastName",
                         ),
+                        width="-webkit-fill-available",
                     ),
                 ),
                 rx.accordion.root(
@@ -633,6 +465,7 @@ def recipient_section() -> rx.Component:
                                     name="recipient_street",
                                     id="recipient_street",
                                 ),
+                                width="-webkit-fill-available",
                             ),
                             rx.form.field(
                                 rx.input(
@@ -660,6 +493,7 @@ def recipient_section() -> rx.Component:
                                     name="recipient_neighborhood",
                                     id="recipient_neighborhood",
                                 ),
+                                width="-webkit-fill-available",
                             ),
                             rx.vstack(
                                 rx.box(
@@ -696,6 +530,7 @@ def recipient_section() -> rx.Component:
                                             name="recipient_city",
                                             id="recipient_city",
                                         ),
+                                        width="-webkit-fill-available",
                                     ),
                                     position="relative",
                                     width="100%",
@@ -836,6 +671,7 @@ def recipient_section() -> rx.Component:
                                             name="recipient_country",
                                             id="recipient_country",
                                         ),
+                                        width="-webkit-fill-available",
                                     ),
                                     position="relative",
                                     width="100%",
@@ -934,6 +770,7 @@ def recipient_section() -> rx.Component:
                             name="recipient_phone",
                             id="recipient_phone",
                         ),
+                        width="-webkit-fill-available",
                     ),
                 ),
                 rx.vstack(
@@ -963,6 +800,7 @@ def recipient_section() -> rx.Component:
                             name="recipient_postalCode",
                             id="recipient_postalCode",
                         ),
+                        width="-webkit-fill-available",
                     ),
                 ),
                 columns="2",
@@ -1055,6 +893,7 @@ def package_section() -> rx.Component:
                             variant="surface",
                             name="service_type",
                         ),
+                        width="-webkit-fill-available",
                     ),
                 ),
                 rx.vstack(
@@ -1084,6 +923,7 @@ def package_section() -> rx.Component:
                             name="weight",
                             id="weight",
                         ),
+                        width="-webkit-fill-available",
                     ),
                 ),
                 rx.vstack(
@@ -1113,6 +953,7 @@ def package_section() -> rx.Component:
                             name="quantity",
                             id="quantity",
                         ),
+                        width="-webkit-fill-available",
                     ),
                 ),
                 rx.vstack(
@@ -1142,6 +983,7 @@ def package_section() -> rx.Component:
                             name="declared_value",
                             id="declared_value",
                         ),
+                        width="-webkit-fill-available",
                     ),
                 ),
                 rx.hstack(
