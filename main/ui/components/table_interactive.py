@@ -161,6 +161,13 @@ def show_item(item: List[str]):
     )
 
 
+class SearchBarState(rx.State):
+    state: bool = False
+
+    def toggle_status(self):
+        self.state = not self.state
+
+
 def table_interactive() -> rx.Component:
     return rx.box(
         rx.vstack(
@@ -185,7 +192,7 @@ def table_interactive() -> rx.Component:
                                         "display": "flex",
                                         "justifyContent": "center",
                                         "alignItems": "center",
-                                        "width": "100%",
+                                        "width": "20px",
                                         "height": "100%",
                                         "border": "none",
                                         "borderRadius": "20px 0 0 20px",
@@ -198,7 +205,11 @@ def table_interactive() -> rx.Component:
                                     "justifyContent": "center",
                                     "alignItems": "center",
                                 },
-                                width="20px",
+                                width=rx.cond(
+                                    SearchBarState.state,
+                                    "100%",
+                                    "5%",
+                                ),
                                 height="100%",
                             ),
                             # ? Input para la busqueda
@@ -213,6 +224,11 @@ def table_interactive() -> rx.Component:
                                         light="black",
                                         dark="white",
                                     ),
+                                    "display": rx.cond(
+                                        SearchBarState.state,
+                                        "none",
+                                        "flex",
+                                    ),
                                     "borderRadius": "20px",
                                     "backgroundColor": "transparent",
                                     "border": "none",
@@ -220,11 +236,16 @@ def table_interactive() -> rx.Component:
                                         "borderRadius": "0 20px 0 20px",
                                     },
                                 },
+                                _focus={
+                                    "border": "0.2px solid black",
+                                    "borderRadius": "10px",
+                                    "outline": "none",  # Esto elimina el contorno predeterminado del navegador
+                                },
                             ),
                             spacing="0",
                             style={
                                 "display": "flex",
-                                "justifyContent": "center",
+                                "justifyContent": "flex-start",
                                 "alignItems": "center",
                             },
                             height="100%",
@@ -261,6 +282,8 @@ def table_interactive() -> rx.Component:
                                 "transition": "0.3s",
                             },
                         },
+                        on_mouse_enter=SearchBarState.toggle_status,
+                        on_mouse_leave=SearchBarState.toggle_status,
                         height="100%",
                         width="3%",
                     ),
