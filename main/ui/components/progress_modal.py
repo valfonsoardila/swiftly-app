@@ -36,8 +36,15 @@ def progress_modal(
                         color="white",
                         style={
                             "color": "white",
-                            "backgroundColor": "black",
-                            "border": "none",
+                            "background": rx.color_mode_cond(
+                                light="linear-gradient(90deg, #000000 0%, #434343 100%)",
+                                dark="linear-gradient(45deg, rgba(38, 38, 38) 0%, #1a1a1a 85%, rgba(50, 254, 165, 0.7) 100%)",
+                            ),
+                            "clipPath": "border-box",
+                            "border": rx.color_mode_cond(
+                                light="1px solid #000000",
+                                dark="0.5px solid rgba(255, 255, 255, 0.2)",
+                            ),
                             "padding": "1em 2em",
                             "borderRadius": "1em",
                             "cursor": "pointer",

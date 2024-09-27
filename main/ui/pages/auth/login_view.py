@@ -95,7 +95,7 @@ def login_view() -> rx.Component:
                                 ),
                                 rx.input(
                                     rx.input.slot(rx.icon("user")),
-                                    placeholder="user@reflex.dev",
+                                    placeholder="user@gmail.com",
                                     type="email",
                                     size="3",
                                     width="100%",
@@ -124,6 +124,7 @@ def login_view() -> rx.Component:
                                         "Forgot password?",
                                         size="3",
                                         color="black",
+                                        color_scheme="orange",
                                         underline="always",
                                         style={
                                             "color": "black",

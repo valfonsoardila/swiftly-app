@@ -105,18 +105,16 @@ def dashboard_view() -> rx.Component:
                         height="70%",
                         width="100%",
                         style={
-                            "border": "none !important",
-                            "borderRadius": "none",
-                            "backgroundColor": rx.color_mode_cond(
-                                light="rgba(255, 255, 255, 0.5)",
-                                dark=rx.color("grass", 3, alpha=True),
+                            "contain": "none",
+                            "borderRadius": "30px",
+                            "clipPath": "border-box",
+                            "background": rx.color_mode_cond(
+                                light="linear-gradient(-145deg, rgba(255, 255, 255, 0.6) 0%, #f5f5f5 100%)",
+                                dark="linear-gradient(45deg, rgba(38, 38, 38) 0%, #1a1a1a 85%, rgba(255, 160, 87, 0.7) 100%)",
                             ),
+                            "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                             "_hover": {
-                                "backgroundColor": rx.color_mode_cond(
-                                    light="rgba(255, 255, 255, 0.5)",
-                                    dark=rx.color("grass", 5, alpha=True),
-                                ),
-                                "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                                "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.8)",
                                 "cursor": "pointer",
                             },
                         },
@@ -129,10 +127,7 @@ def dashboard_view() -> rx.Component:
                                     rx.heading(
                                         "Clientes",
                                         size="2xl",
-                                        color=rx.color_mode_cond(
-                                            light="rgba(0, 0, 0, 0.8)",
-                                            dark="rgba(255, 255, 255, 0.8)",
-                                        ),
+                                        color="rgba(255, 255, 255, 0.8)",
                                         align="center",
                                     ),
                                     width="100%",
@@ -168,7 +163,7 @@ def dashboard_view() -> rx.Component:
                                     rx.heading(
                                         "Estadisticas",
                                         size="2xl",
-                                        color="rgba(0, 0, 0, 0.8)",
+                                        color="rgba(255, 255, 255, 0.8)",
                                         align="center",
                                     ),
                                     width="100%",
@@ -183,6 +178,7 @@ def dashboard_view() -> rx.Component:
                                             0,
                                             "book",
                                             "green",
+                                            "rgba(50, 254, 165, 0.7)",
                                         ),
                                         item_stat_card(
                                             "Clientes",
@@ -190,6 +186,7 @@ def dashboard_view() -> rx.Component:
                                             0,
                                             "users",
                                             "orange",
+                                            "rgba(255, 160, 87, 0.7)",
                                         ),
                                     ),
                                     width="100%",
@@ -205,12 +202,11 @@ def dashboard_view() -> rx.Component:
                         height="30%",
                         width="100%",
                         style={
-                            "backgroundColor": rx.color_mode_cond(
-                                light="rgba(255, 255, 255, 0.4)",
-                                dark="rgba(0, 0, 0, 0.1)",
-                            ),
+                            "contain": "none",
+                            "backgroundColor": "transparent",
                             "border": "none !important",
                             "--card-border-width": "0",
+                            "--card-background-color": "transparent",
                         },
                     ),
                     width="70%",
@@ -226,10 +222,7 @@ def dashboard_view() -> rx.Component:
                                     rx.heading(
                                         "Guias Pendientes",
                                         size="2xl",
-                                        color=rx.color_mode_cond(
-                                            light="rgba(0, 0, 0, 0.8)",
-                                            dark="rgba(255, 255, 255, 0.8)",
-                                        ),
+                                        color="rgba(255, 255, 255, 0.8)",
                                         align="center",
                                     ),
                                     width="100%",
@@ -253,9 +246,12 @@ def dashboard_view() -> rx.Component:
                     width="30%",
                     height="100%",
                     style={
-                        "borderRight": "1px solid #ccc",
-                        "borderLeft": "1px solid #ccc",
+                        "contain": "none",
+                        "background": "transparent",
+                        "borderRight": "1px solid rgba(200, 200, 200, 0.5)",
+                        "borderLeft": "1px solid rgba(200, 200, 200, 0.5)",
                         "--card-border-width": "0",
+                        "--card-background-color": "transparent",
                     },
                 ),
                 width="100%",
@@ -277,6 +273,7 @@ def item_stat_card(
     prev_value: int = 3000,
     icon: str = "users",
     badge_color: LiteralAccentColor = "blue",
+    bg_color: str = "white",
 ) -> rx.Component:
     percentage_change = (
         round(((value - prev_value) / prev_value) * 100, 2)
@@ -301,13 +298,13 @@ def item_stat_card(
                             f"{value:,}",
                             size="6",
                             weight="bold",
-                            color="black",
+                            color=rx.color_mode_cond(light="black", dark="white"),
                             font_size="20px",
                         ),
                         rx.text(
                             stat_name,
                             weight="medium",
-                            color="black",
+                            color=rx.color_mode_cond(light="black", dark="white"),
                             font_size="16px",
                         ),
                         spacing="1",
@@ -330,7 +327,7 @@ def item_stat_card(
                         rx.text(
                             f"{percentage_change}%",
                             size="3",
-                            color="black",
+                            color=rx.color_mode_cond(light="black", dark="gray"),
                             weight="medium",
                             font_size="16px",
                         ),
@@ -340,7 +337,7 @@ def item_stat_card(
                     rx.text(
                         f"{change} from last month",
                         size="2",
-                        color="black",
+                        color=rx.color_mode_cond(light="black", dark="gray"),
                     ),
                     align="center",
                     width="100%",
@@ -349,11 +346,19 @@ def item_stat_card(
             ),
             style={
                 "_hover": {
-                    "bg": "rgba(225, 225, 225, 0.55)",
+                    "clipPath": "border-box",
+                    "background": rx.color_mode_cond(
+                        light="rgba(255, 255, 255, 0.9)",
+                        dark="rgba(55, 55, 55, 0.5)",
+                    ),
                     "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                     "cursor": "pointer",
                 },
-                "backgroundColor": "rgba(255, 255, 255, 0.5)",
+                "clipPath": "border-box",
+                "background": rx.color_mode_cond(
+                    light="linear-gradient(-145deg, rgba(255, 255, 255, 0.6) 0%, #f5f5f5 100%)",
+                    dark=f"linear-gradient(45deg, rgba(38, 38, 38) 0%, #1a1a1a 85%, {bg_color} 100%)",
+                ),
             },
             size="3",
             height="45%",
@@ -368,33 +373,49 @@ def item_stat_card(
 
 # componente para la lista de guias pendientes
 def item_list_guide(icon: str, text: str, href: str) -> rx.Component:
-    return rx.link(
-        rx.hstack(
-            rx.icon(icon, color="black"),
-            rx.text(text, color="black"),
+    return rx.card(
+        rx.link(
+            rx.hstack(
+                rx.icon(
+                    icon,
+                    color=rx.color_mode_cond(
+                        light=rx.color("tomato", 9), dark="#ffa057"
+                    ),
+                    size=20,
+                ),
+                rx.text(text, color=rx.color_mode_cond(light="black", dark="white")),
+                width="100%",
+                padding_x="0.5rem",
+                padding_y="0.75rem",
+                align="center",
+                justify="center",
+            ),
+            on_click=StatePage.set_current_route(href),
+            underline="none",
+            weight="medium",
             width="100%",
-            padding_x="0.5rem",
-            padding_y="0.75rem",
-            align="center",
-            justify="center",
-            style={
-                "_hover": {
-                    "bg": "rgba(225, 225, 225, 0.55)",
-                    "borderRadius": "0.5rem",
-                    "color": "orange",
-                    "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
-                    "cursor": "pointer",
-                    "transition": "all 0.3s",
-                },
-                "borderRadius": "0.5rem",
-                "border": "1px solid #ccc",
-                "backgroundColor": "rgba(255, 255, 255, 0.5)",
-            },
         ),
-        on_click=StatePage.set_current_route(href),
-        underline="none",
-        weight="medium",
+        style={
+            "_hover": {
+                "borderRadius": "0.5rem",
+                "color": "orange",
+                "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
+                "background": rx.color_mode_cond(
+                    light="rgba(255, 255, 255, 0.9)",
+                    dark="rgba(55, 55, 55, 0.5)",
+                ),
+                "cursor": "pointer",
+                "transition": "all 0.3s",
+            },
+            "clipPath": "border-box",
+            "background": rx.color_mode_cond(
+                light="linear-gradient(-145deg, rgba(255, 255, 255, 0.6) 0%, #f5f5f5 100%)",
+                dark="linear-gradient(45deg, rgba(38, 38, 38) 0%, #1a1a1a 85%, rgba(50, 254, 165, 0.7) 100%)",
+            ),
+            "borderRadius": "0.5rem",
+        },
         width="100%",
+        padding="0",
     )
 
 
@@ -420,9 +441,9 @@ def item_list_client(user: dict, href="clients") -> rx.Component:
                         bottom="20px",  # El texto se coloca en la parte inferior
                     ),
                     padding_x="0.5rem",
+                    padding_y="0.05rem",
                     align="center",
                     justify="center",
-                    width="100%",
                     height="100%",
                 ),
                 width="100%",
@@ -430,7 +451,10 @@ def item_list_client(user: dict, href="clients") -> rx.Component:
                 style={
                     "_hover": {
                         # verde claro
-                        "bg": "rgba(225, 225, 225, 0.6)",
+                        "bg": rx.color_mode_cond(
+                            light="rgba(225, 225, 225, 0.6)",
+                            dark="rgba(50, 254, 165, 0.7)",
+                        ),
                         "borderRadius": "0.5rem",
                         "color": "orange",
                         "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
@@ -441,12 +465,16 @@ def item_list_client(user: dict, href="clients") -> rx.Component:
                             "filter": "brightness(1)",
                         },
                     },
-                    "borderRadius": "0.5rem",
-                    "border": "1px solid #ccc",
+                    "clipPath": "border-box",
+                    "borderRadius": "10px",
+                    "border": "1px solid rgba(120,120,120, .5)",
                     "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.4)",
                 },
             ),
-            background_color="#E8F5E9",
+            background=rx.color_mode_cond(
+                light="linear-gradient(-145deg, rgba(255, 255, 255, 0.6) 0%, #f5f5f5 100%)",
+                dark="linear-gradient(-145deg, rgba(38, 38,38) 0%, #1a1a1a 100%)",
+            ),
             height="90%",
             width="40%",
             style={

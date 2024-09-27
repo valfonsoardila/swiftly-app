@@ -73,8 +73,18 @@ def show_item(item: List[str]):
             lambda cell: rx.table.cell(
                 cell,
                 style={
-                    "borderRight": "1px solid rgba(0, 0, 0, 0.05)",
-                    "color": "black",
+                    "borderRight": rx.color_mode_cond(
+                        light="1px solid rgba(0, 0, 0, 0.05)",
+                        dark="1px solid rgba(50, 254, 165, 0.7)",
+                    ),
+                    "boxShadow": rx.color_mode_cond(
+                        light="0 2px 4px rgba(0, 0, 0, 0.1)",
+                        dark="inset 0 -1px transparent",
+                    ),
+                    "color": rx.color_mode_cond(
+                        light="black",
+                        dark="white",
+                    ),
                     "text_align": "center",
                 },
             ),
@@ -86,8 +96,14 @@ def show_item(item: List[str]):
                     on_click=lambda: DataTableState.update_item(item[1]),
                     style={
                         "backgroundColor": "transparent",
-                        "color": "rgba(0, 0, 0, 0.4)",
-                        "border": "0.5px solid rgba(0, 0, 0, 0.2)",
+                        "color": rx.color_mode_cond(
+                            light="rgba(0, 0, 0, 0.4)",
+                            dark="rgba(255, 255, 255, 0.4)",
+                        ),
+                        "border": rx.color_mode_cond(
+                            light="0.5px solid rgba(0, 0, 0, 0.2)",
+                            dark="0.5px solid rgba(255, 255, 255, 0.2)",
+                        ),
                         "borderRadius": "50%",
                         "width": "30px",
                         "height": "30px",
@@ -108,8 +124,14 @@ def show_item(item: List[str]):
                         "width": "30px",
                         "height": "30px",
                         "backgroundColor": "transparent",
-                        "color": "rgba(0, 0, 0, 0.4)",
-                        "border": "0.5px solid rgba(0, 0, 0, 0.2)",
+                        "color": rx.color_mode_cond(
+                            light="rgba(0, 0, 0, 0.4)",
+                            dark="rgba(255, 255, 255, 0.4)",
+                        ),
+                        "border": rx.color_mode_cond(
+                            light="0.5px solid rgba(0, 0, 0, 0.2)",
+                            dark="0.5px solid rgba(255, 255, 255, 0.2)",
+                        ),
                         "borderRadius": "50%",
                         "padding": "0",
                         "_hover": {
@@ -126,6 +148,10 @@ def show_item(item: List[str]):
                 "display": "flex",
                 "justifyContent": "center",
                 "gap": "10px",
+                "boxShadow": rx.color_mode_cond(
+                    light="0 2px 4px rgba(0, 0, 0, 0.1)",
+                    dark="inset 0 -1px transparent",
+                ),
             },
         ),
         style={
@@ -150,7 +176,10 @@ def table_interactive() -> rx.Component:
                                         "search",
                                         height="20px",
                                         width="20px",
-                                        color="gray",
+                                        color=rx.color_mode_cond(
+                                            light="gray",
+                                            dark="rgba(255, 255, 255, 0.6)",
+                                        ),
                                     ),
                                     style={
                                         "display": "flex",
@@ -180,7 +209,10 @@ def table_interactive() -> rx.Component:
                                 font_size="18px",
                                 style={
                                     "& input::placeholder": {"color": "gray"},
-                                    "color": "black",
+                                    "color": rx.color_mode_cond(
+                                        light="black",
+                                        dark="white",
+                                    ),
                                     "borderRadius": "20px",
                                     "backgroundColor": "transparent",
                                     "border": "none",
@@ -202,15 +234,28 @@ def table_interactive() -> rx.Component:
                             "display": "flex",
                             "justifyContent": "start",
                             "alignItems": "center",
-                            "backgroundColor": "rgba(255, 255, 255, 0.8)",
+                            "background": rx.color_mode_cond(
+                                light="linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8))",
+                                dark=rx.color("gray", 4, alpha=True),
+                            ),
                             "border": "none",
                             "borderRadius": "20px",
-                            "color": "gray",
+                            "color": rx.color_mode_cond(
+                                light="gray",
+                                dark="rgba(255, 255, 255, 0.6)",
+                            ),
                             "_hover": {
-                                "svg": {"color": "black"},
+                                "svg": {
+                                    "color": rx.color_mode_cond(
+                                        light="black", dark="white"
+                                    )
+                                },
                                 "borderRadius": "20px 20px 0 20px",
                                 "width": "40%",
-                                "color": "black",
+                                "color": rx.color_mode_cond(
+                                    light="black",
+                                    dark="white",
+                                ),
                                 "cursor": "pointer",
                                 "transform": "scale(1.05)",
                                 "transition": "0.3s",
@@ -243,7 +288,10 @@ def table_interactive() -> rx.Component:
                             ),
                         ),
                         style={
-                            "color": "black",
+                            "color": rx.color_mode_cond(
+                                light="black",
+                                dark="white",
+                            ),
                             "fontSize": "18px",
                             "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
                         },
@@ -257,7 +305,10 @@ def table_interactive() -> rx.Component:
                     "border": "0.5px solid rgba(0, 0, 0, 0.2)",
                     "borderRadius": "20px",
                     "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
-                    "backgroundColor": "rgba(255, 255, 255, 0.8)",
+                    "backgroundColor": rx.color_mode_cond(
+                        light="rgba(255, 255, 255, 0.8)",
+                        dark=rx.color("gray", 4, alpha=True),
+                    ),
                     "text_align": "center",
                 },
             ),
@@ -265,67 +316,113 @@ def table_interactive() -> rx.Component:
             rx.box(
                 rx.hstack(
                     rx.box(
-                        rx.hstack(
-                            rx.box(
-                                rx.icon(
-                                    "chevron-left",
-                                    height="20px",
-                                    width="20px",
+                        rx.vstack(
+                            rx.hstack(
+                                rx.text(
+                                    "Rows per page",
+                                    color=rx.color_mode_cond(
+                                        light="black", dark="white"
+                                    ),
+                                ),
+                                rx.box(
+                                    rx.icon(
+                                        "chevron-left",
+                                        height="20px",
+                                        width="20px",
+                                        style={
+                                            "marginRight": "5px",
+                                            "marginLeft": "5px",
+                                        },
+                                    ),
                                     style={
-                                        "marginRight": "10px",
-                                        "marginLeft": "10px",
-                                        "color": "gray",
+                                        "color": rx.color_mode_cond(
+                                            light="gray",
+                                            dark="white",
+                                        ),
+                                        "display": "flex",
+                                        "justifyContent": "center",
+                                        "alignItems": "center",
+                                        "width": "30px",
+                                        "height": "30px",
                                         "_hover": {
-                                            "color": "black",
+                                            "backgroundColor": rx.color_mode_cond(
+                                                light="rgba(255, 255, 255, 0.5)",
+                                                dark=rx.color(
+                                                    "gray",
+                                                    9,
+                                                    alpha=True,
+                                                ),
+                                            ),
+                                            "border": "1px solid rgba(0, 0, 0, .4)",
+                                            "borderRadius": "50%",
                                             "cursor": "pointer",
                                         },
                                     },
                                 ),
-                                style={
-                                    "display": "flex",
-                                    "justifyContent": "center",
-                                    "alignItems": "center",
-                                    "width": "20px",
-                                    "height": "20px",
-                                    "_hover": {
-                                        "border": "1px solid rgba(0, 0, 0, 0.2)",
-                                        "borderRadius": "50%",
-                                        "cursor": "pointer",
-                                    },
-                                },
-                            ),
-                            rx.input(
-                                default_value=TextFieldPageState.text,
-                                style={
-                                    "textAlign": "center",
-                                    "color": "black",
-                                    "width": "70px",
-                                    "height": "30px",
-                                    "border": "none",
-                                    "backgroundColor": "transparent",
-                                },
-                            ),
-                            rx.box(
-                                rx.icon(
-                                    "chevron-right",
-                                    height="20px",
-                                    width="20px",
+                                rx.el.input(
+                                    default_value=TextFieldPageState.text,
                                     style={
-                                        "marginRight": "10px",
-                                        "marginLeft": "10px",
-                                        "color": "gray",
+                                        "textAlign": "center",
+                                        "color": rx.color_mode_cond(
+                                            light="gray",
+                                            dark="white",
+                                        ),
+                                        "width": "50px",
+                                        "height": "30px",
+                                        "border": "none",
+                                        "backgroundColor": "transparent",
+                                        "textIndent": "0px",
+                                    },
+                                    _focus={
+                                        "border": "0.2px solid black",
+                                        "borderRadius": "10px",
+                                        "outline": "none",  # Esto elimina el contorno predeterminado del navegador
+                                    },
+                                ),
+                                rx.box(
+                                    rx.icon(
+                                        "chevron-right",
+                                        height="20px",
+                                        width="20px",
+                                        style={
+                                            "marginRight": "5px",
+                                            "marginLeft": "5px",
+                                        },
+                                    ),
+                                    style={
+                                        "color": rx.color_mode_cond(
+                                            light="gray",
+                                            dark="white",
+                                        ),
+                                        "display": "flex",
+                                        "justifyContent": "center",
+                                        "alignItems": "center",
+                                        "width": "30px",
+                                        "height": "30px",
                                         "_hover": {
-                                            "color": "black",
+                                            "backgroundColor": rx.color_mode_cond(
+                                                light="rgba(255, 255, 255, 0.5)",
+                                                dark=rx.color(
+                                                    "gray",
+                                                    9,
+                                                    alpha=True,
+                                                ),
+                                            ),
+                                            "border": "1px solid rgba(0, 0, 0, .4)",
+                                            "borderRadius": "50%",
                                             "cursor": "pointer",
                                         },
                                     },
                                 ),
-                                style={
-                                    "width": "20px",
-                                    "height": "20px",
-                                },
+                                width="fit-content",
+                                spacing="1",
                             ),
-                            height="100%",
+                            style={
+                                "display": "flex",
+                                "justifyContent": "center",
+                                "alignItems": "end",
+                            },
+                            width="fit-content",
                         ),
                         style={
                             "display": "flex",
@@ -334,7 +431,10 @@ def table_interactive() -> rx.Component:
                             "color": "black",
                             "border": "none",
                             "borderRadius": "20px",
-                            "backgroundColor": "rgba(255, 255, 255, 0.8)",
+                            "backgroundColor": rx.color_mode_cond(
+                                light="rgba(255, 255, 255, 0.8)",
+                                dark=rx.color("gray", 4, alpha=True),
+                            ),
                             "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
                             "padding": "0 10px",
                             "_hover": {
@@ -343,7 +443,7 @@ def table_interactive() -> rx.Component:
                             },
                         },
                         height="100%",
-                        width="10%",
+                        width="fit-content",
                     ),
                     style={
                         "display": "flex",

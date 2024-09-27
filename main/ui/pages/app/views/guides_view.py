@@ -19,12 +19,19 @@ def guides_view():
                 # Encabezado
                 rx.heading(
                     rx.hstack(
-                        rx.icon("truck", color="rgba(0, 0, 0, 0.8)"),
+                        rx.icon(
+                            "truck",
+                            color=rx.color_mode_cond(
+                                light="rgba(0, 0, 0, 0.8)",
+                                dark="rgba(255, 255, 255, 0.8)",
+                            ),
+                            size=32,
+                        ),
                         rx.text(
                             "Consulta de guias",
                             size="3xl",
                             font_weight="bold",
-                            color="rgba(0, 0, 0, 0.8)",
+                            color=rx.color_mode_cond(light="black", dark="white"),
                         ),
                         align="center",
                         justify="center",
@@ -34,94 +41,6 @@ def guides_view():
                 rx.box(
                     rx.vstack(
                         rx.box(
-                            # boton para abrir el modal de registro de guía
-                            # rx.dialog.root(
-                            #     rx.dialog.title("", fontSize="0px", margin="0"),
-                            #     rx.dialog.trigger(
-                            #         rx.box(
-                            #             rx.button(
-                            #                 rx.icon("plus"),
-                            #                 rx.text("Nueva guía", color="white"),
-                            #                 color="white",
-                            #                 style={
-                            #                     "color": "white",
-                            #                     "backgroundColor": "black",
-                            #                     "border": "none",
-                            #                     "padding": "1em 2em",
-                            #                     "borderRadius": "1em",
-                            #                     "cursor": "pointer",
-                            #                     "fontSize": "20px",
-                            #                     "_hover": {
-                            #                         "backgroundColor": "#333333",
-                            #                         "transform": "scale(1.05)",
-                            #                         "transition": "transform 0.2s ease",
-                            #                     },
-                            #                 },
-                            #             ),
-                            #             width="100%",
-                            #             align="center",
-                            #             justify="center",
-                            #         ),
-                            #     ),
-                            #     rx.dialog.content(
-                            #         rx.dialog.title(
-                            #             rx.heading(
-                            #                 rx.text(
-                            #                     "Registro de guía de envío",
-                            #                     size="xl",
-                            #                     font_weight="bold",
-                            #                     color="black",
-                            #                 ),
-                            #             ),
-                            #         ),
-                            #         rx.dialog.description(
-                            #             rx.text(
-                            #                 "Completa los siguientes pasos para registrar tu nuevo servicio de envío.",
-                            #                 size="lg",
-                            #                 color="black",
-                            #             ),
-                            #         ),
-                            #         new_shipment_guide_view(),
-                            #         rx.hstack(
-                            #             rx.dialog.close(
-                            #                 rx.button(
-                            #                     rx.icon("X"),
-                            #                     rx.text("Cerrar", color="white"),
-                            #                     color="white",
-                            #                     style={
-                            #                         "color": "white",
-                            #                         "backgroundColor": "black",
-                            #                         "border": "none",
-                            #                         "borderRadius": "1em",
-                            #                         "cursor": "pointer",
-                            #                         "fontSize": "18px",
-                            #                         "_hover": {
-                            #                             "backgroundColor": "#333333",
-                            #                             "transform": "scale(1.05)",
-                            #                             "transition": "transform 0.2s ease",
-                            #                         },
-                            #                     },
-                            #                 ),
-                            #             ),
-                            #             justify="end",
-                            #             spacing="2",
-                            #             padding_top="0px",
-                            #             padding_bottom="10px",
-                            #         ),
-                            #         style={
-                            #             "paddingTop": "90px",
-                            #             "paddingBottom": "0px",
-                            #             "paddingLeft": "65px",
-                            #             "paddingRight": "65px",
-                            #             "borderRadius": "40px",
-                            #             "border": "none",
-                            #             "backgroundImage": "url('/img/portapapeles.png')",
-                            #             "backgroundSize": "cover",
-                            #             "backgroundPosition": "0px -70px",
-                            #             "backgroundRepeat": "no-repeat",
-                            #         },
-                            #     ),
-                            # )
                             progress_modal(
                                 list_sections,
                             ),

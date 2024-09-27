@@ -39,7 +39,12 @@ def app_view() -> rx.Component:
                             rx.drawer.root(
                                 rx.drawer.trigger(
                                     rx.button(
-                                        rx.icon(tag="menu", color="black"),
+                                        rx.icon(
+                                            tag="menu",
+                                            color=rx.color_mode_cond(
+                                                light="black", dark="white"
+                                            ),
+                                        ),
                                         size="sm",
                                         background_color="transparent",
                                         on_click=StateSidebar.toggle_sidebar,
@@ -75,17 +80,16 @@ def app_view() -> rx.Component:
                                                         # icono flecha izquierda
                                                         rx.icon(
                                                             tag="arrow-left",
-                                                            color="black",
+                                                            color=rx.color_mode_cond(
+                                                                light="black",
+                                                                dark="orange",
+                                                            ),
                                                         ),
                                                         size="sm",
                                                         background_color="transparent",
                                                         on_click=StateSidebar.toggle_sidebar,
                                                         style={
                                                             "_hover": {
-                                                                "background_color": rx.color_mode_cond(
-                                                                    light="transparent",
-                                                                    dark="transparent",
-                                                                ),
                                                                 "color": rx.color_mode_cond(
                                                                     light="#000",
                                                                     dark="#fff",
@@ -111,7 +115,10 @@ def app_view() -> rx.Component:
                                         height="100%",
                                         width="20em",
                                         padding="2em",
-                                        background_color="rgba(255, 255, 255, 0.9)",
+                                        background=rx.color_mode_cond(
+                                            light="rgba(255, 255, 255, 0.9)",
+                                            dark="rgba(15, 15, 15, 0.9)",
+                                        ),
                                     )
                                 ),
                                 direction="left",
@@ -132,28 +139,27 @@ def app_view() -> rx.Component:
                             ),
                             rx.box(width="24px"),  # Espacio para equilibrar el botón
                             rx.spacer(),  # Esto empujará el botón hacia la derecha
-                            rx.color_mode.button("Cambiar tema"),
+                            rx.color_mode.button("Cambiar tema", color="black"),
                             style={
-                                "color": "rgba(255, 255, 255, 0.9)",
+                                "color": "none",
+                                "backgroundImage": rx.color_mode_cond(
+                                    light="linear-gradient(145deg, #F27405 10%, #F20505 90%)",
+                                    dark="linear-gradient(145deg, #ccc 10%, #333 90%)",
+                                ),
+                                "WebkitBackgroundClip": "text",
+                                "WebkitTextFillColor": "transparent",
                                 "transition": "all 0.3s ease",
-                                "_hover": {
-                                    "color": "none",
-                                    "backgroundImage": "linear-gradient(145deg, #F27405 10%, #F20505 90%)",
-                                    "WebkitBackgroundClip": "text",
-                                    "WebkitTextFillColor": "transparent",
-                                    "transition": "all 0.3s ease",
-                                },
                             },
                             width="100%",
                             justify="space-between",
                             align="center",
                         ),
                         size="2xl",
-                        background_color="rgba(255, 255, 255, 0.4)",
-                        _hover={
-                            "backgroundColor": "rgba(255, 255, 255, 0.82)",
-                            "cursor": "pointer",
-                        },
+                        background=rx.color_mode_cond(
+                            light="linear-gradient(-145deg, rgba(255, 255, 255, 0.82) 0%, #f5f5f5 100%)",
+                            dark="linear-gradient(45deg, rgba(38, 38, 38) 0%, #1a1a1a 85%, rgba(50, 254, 165, 0.7) 100%)",
+                        ),
+                        clip_path="border-box",
                         border="none",
                         box_shadow="0 2px 4px rgba(0, 0, 0, 0.4)",
                         border_radius="20px",
@@ -207,7 +213,7 @@ def app_view() -> rx.Component:
                         style={
                             "background": rx.color_mode_cond(
                                 light="rgba(255, 255, 255, 0.6)",
-                                dark="rgba(0, 0, 0, 0.4)",
+                                dark="rgba(25, 25, 25, 0.6)",
                             ),
                             "border": rx.color_mode_cond(
                                 light="1px solid rgba(255, 255, 255, 0.3)",
@@ -235,7 +241,7 @@ def app_view() -> rx.Component:
         # imagen de fondo
         background_image=rx.color_mode_cond(
             light="url('/img/bg.jpg')",
-            dark="url('/img/bg_dark2.jpg')",
+            dark="url('/img/bg_dark3.jpg')",
         ),
         style={
             "backgroundSize": "cover",
@@ -253,8 +259,14 @@ def sidebar_item(
 ) -> rx.Component:
     return rx.button(
         rx.hstack(
-            rx.icon(icon),
-            rx.text(text),
+            rx.icon(
+                icon,
+                color=rx.color_mode_cond(
+                    light="black",
+                    dark="orange",
+                ),
+            ),
+            rx.text(text, color=rx.color_mode_cond(light="black", dark="white")),
             width="100%",
             padding_x="0.5rem",
             padding_y="0.75rem",
@@ -266,9 +278,14 @@ def sidebar_item(
         bg="transparent",
         border="none",
         _hover={
-            "bg": "rgba(220, 220, 220, 0.8)",
-            "color": "rgba(242, 116, 5, 0.9)",
+            "bg": rx.color_mode_cond(
+                light="rgba(150, 150, 150, 0.4)",
+                dark="rgba(100, 100, 100, 0.4)",
+            ),
             "cursor": "pointer",
+            "p": {
+                "color": rx.color_mode_cond(light="black", dark="orange"),
+            },
         },
         border_radius="0.5rem",
     )
@@ -296,7 +313,12 @@ def sidebar_bottom_profile() -> rx.Component:
                         height="auto",
                         border_radius="25%",
                     ),
-                    rx.heading("Menu", size="7", weight="bold", color="black"),
+                    rx.heading(
+                        "Menu",
+                        size="7",
+                        weight="bold",
+                        color=rx.color_mode_cond(light="black", dark="white"),
+                    ),
                     align="center",
                     justify="start",
                     padding_x="0.5rem",
@@ -331,13 +353,17 @@ def sidebar_bottom_profile() -> rx.Component:
                                     UserState.load_user_username,
                                     size="3",
                                     weight="bold",
-                                    color="black",
+                                    color=rx.color_mode_cond(
+                                        light="black", dark="white"
+                                    ),
                                 ),
                                 rx.text(
                                     UserState.load_user_email,
                                     size="2",
                                     weight="medium",
-                                    color="black",
+                                    color=rx.color_mode_cond(
+                                        light="black", dark="white"
+                                    ),
                                 ),
                                 width="100%",
                             ),
