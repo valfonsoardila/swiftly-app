@@ -115,7 +115,10 @@ def progress_modal(
                     "paddingRight": "65px",
                     "borderRadius": "40px",
                     "border": "none",
-                    "backgroundImage": "url('/img/portapapeles.png')",
+                    "backgroundImage": rx.color_mode_cond(
+                        light="url('/img/portapapeles.png')",
+                        dark="url('/img/portapapeles_dark.png')",
+                    ),
                     "backgroundSize": "cover",
                     "backgroundPosition": "0px -70px",
                     "backgroundRepeat": "no-repeat",

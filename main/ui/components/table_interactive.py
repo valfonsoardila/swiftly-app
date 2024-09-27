@@ -207,8 +207,8 @@ def table_interactive() -> rx.Component:
                                 },
                                 width=rx.cond(
                                     SearchBarState.state,
-                                    "100%",
                                     "5%",
+                                    "100%",
                                 ),
                                 height="100%",
                             ),
@@ -226,8 +226,8 @@ def table_interactive() -> rx.Component:
                                     ),
                                     "display": rx.cond(
                                         SearchBarState.state,
-                                        "none",
                                         "flex",
+                                        "none",
                                     ),
                                     "borderRadius": "20px",
                                     "backgroundColor": "transparent",
@@ -339,119 +339,43 @@ def table_interactive() -> rx.Component:
             rx.box(
                 rx.hstack(
                     rx.box(
-                        rx.vstack(
-                            rx.hstack(
-                                rx.text(
-                                    "Rows per page",
-                                    color=rx.color_mode_cond(
-                                        light="black", dark="white"
-                                    ),
-                                ),
-                                rx.box(
-                                    rx.icon(
-                                        "chevron-left",
-                                        height="20px",
-                                        width="20px",
-                                        style={
-                                            "marginRight": "5px",
-                                            "marginLeft": "5px",
-                                        },
-                                    ),
-                                    style={
-                                        "color": rx.color_mode_cond(
-                                            light="gray",
-                                            dark="white",
-                                        ),
-                                        "display": "flex",
-                                        "justifyContent": "center",
-                                        "alignItems": "center",
-                                        "width": "30px",
-                                        "height": "30px",
-                                        "_hover": {
-                                            "backgroundColor": rx.color_mode_cond(
-                                                light="rgba(255, 255, 255, 0.5)",
-                                                dark=rx.color(
-                                                    "gray",
-                                                    9,
-                                                    alpha=True,
-                                                ),
-                                            ),
-                                            "border": "1px solid rgba(0, 0, 0, .4)",
-                                            "borderRadius": "50%",
-                                            "cursor": "pointer",
-                                        },
-                                    },
-                                ),
-                                rx.el.input(
-                                    default_value=TextFieldPageState.text,
-                                    style={
-                                        "textAlign": "center",
-                                        "color": rx.color_mode_cond(
-                                            light="gray",
-                                            dark="white",
-                                        ),
-                                        "width": "50px",
-                                        "height": "30px",
-                                        "border": "none",
-                                        "backgroundColor": "transparent",
-                                        "textIndent": "0px",
-                                    },
-                                    _focus={
-                                        "border": "0.2px solid black",
-                                        "borderRadius": "10px",
-                                        "outline": "none",  # Esto elimina el contorno predeterminado del navegador
-                                    },
-                                ),
-                                rx.box(
-                                    rx.icon(
-                                        "chevron-right",
-                                        height="20px",
-                                        width="20px",
-                                        style={
-                                            "marginRight": "5px",
-                                            "marginLeft": "5px",
-                                        },
-                                    ),
-                                    style={
-                                        "color": rx.color_mode_cond(
-                                            light="gray",
-                                            dark="white",
-                                        ),
-                                        "display": "flex",
-                                        "justifyContent": "center",
-                                        "alignItems": "center",
-                                        "width": "30px",
-                                        "height": "30px",
-                                        "_hover": {
-                                            "backgroundColor": rx.color_mode_cond(
-                                                light="rgba(255, 255, 255, 0.5)",
-                                                dark=rx.color(
-                                                    "gray",
-                                                    9,
-                                                    alpha=True,
-                                                ),
-                                            ),
-                                            "border": "1px solid rgba(0, 0, 0, .4)",
-                                            "borderRadius": "50%",
-                                            "cursor": "pointer",
-                                        },
-                                    },
-                                ),
-                                width="fit-content",
-                                spacing="1",
+                        rx.hstack(
+                            rx.icon(
+                                "package",
+                                height="20px",
+                                width="20px",
+                                style={
+                                    "marginRight": "5px",
+                                    "marginLeft": "5px",
+                                },
                             ),
+                            rx.text(
+                                "Total items:",
+                                style={
+                                    "fontWeight": "bold",
+                                    "textAlign": "center",
+                                },
+                            ),
+                            rx.text(
+                                "3",
+                                style={
+                                    "fontWeight": "bold",
+                                    "textAlign": "center",
+                                },
+                            ),
+                            spacing="1",
                             style={
                                 "display": "flex",
                                 "justifyContent": "center",
-                                "alignItems": "end",
+                                "alignItems": "center",
                             },
-                            width="fit-content",
                         ),
                         style={
                             "display": "flex",
-                            "justifyContent": "end",
+                            "justifyContent": "center",
                             "alignItems": "center",
-                            "color": "black",
+                            "width": "15%",
+                            "height": "100%",
                             "border": "none",
                             "borderRadius": "20px",
                             "backgroundColor": rx.color_mode_cond(
@@ -460,19 +384,177 @@ def table_interactive() -> rx.Component:
                             ),
                             "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
                             "padding": "0 10px",
-                            "_hover": {
-                                "width": "100%",
-                                "transition": "0.3s",
-                            },
                         },
-                        height="100%",
-                        width="fit-content",
+                    ),
+                    rx.box(
+                        rx.hstack(
+                            rx.box(
+                                rx.vstack(
+                                    rx.hstack(
+                                        rx.icon(
+                                            "layers",
+                                            height="20px",
+                                            width="20px",
+                                            style={
+                                                "marginRight": "5px",
+                                                "marginLeft": "5px",
+                                            },
+                                        ),
+                                        rx.text(
+                                            "Rows per page",
+                                            color=rx.color_mode_cond(
+                                                light="black", dark="white"
+                                            ),
+                                        ),
+                                        rx.box(
+                                            rx.icon(
+                                                "chevron-left",
+                                                height="20px",
+                                                width="20px",
+                                                style={
+                                                    "marginRight": "5px",
+                                                    "marginLeft": "5px",
+                                                },
+                                            ),
+                                            style={
+                                                "color": rx.color_mode_cond(
+                                                    light="gray",
+                                                    dark="white",
+                                                ),
+                                                "display": "flex",
+                                                "justifyContent": "center",
+                                                "alignItems": "center",
+                                                "width": "30px",
+                                                "height": "30px",
+                                                "_hover": {
+                                                    "backgroundColor": rx.color_mode_cond(
+                                                        light="rgba(255, 255, 255, 0.5)",
+                                                        dark=rx.color(
+                                                            "gray",
+                                                            9,
+                                                            alpha=True,
+                                                        ),
+                                                    ),
+                                                    "border": "1px solid rgba(0, 0, 0, .4)",
+                                                    "borderRadius": "50%",
+                                                    "cursor": "pointer",
+                                                },
+                                            },
+                                        ),
+                                        rx.el.input(
+                                            default_value=TextFieldPageState.text,
+                                            style={
+                                                "textAlign": "center",
+                                                "color": rx.color_mode_cond(
+                                                    light="gray",
+                                                    dark="white",
+                                                ),
+                                                "width": "50px",
+                                                "height": "30px",
+                                                "border": "none",
+                                                "backgroundColor": "transparent",
+                                                "textIndent": "0px",
+                                            },
+                                            _focus={
+                                                "border": "0.2px solid black",
+                                                "borderRadius": "10px",
+                                                "outline": "none",  # Esto elimina el contorno predeterminado del navegador
+                                            },
+                                        ),
+                                        rx.box(
+                                            rx.icon(
+                                                "chevron-right",
+                                                height="20px",
+                                                width="20px",
+                                                style={
+                                                    "marginRight": "5px",
+                                                    "marginLeft": "5px",
+                                                },
+                                            ),
+                                            style={
+                                                "color": rx.color_mode_cond(
+                                                    light="gray",
+                                                    dark="white",
+                                                ),
+                                                "display": "flex",
+                                                "justifyContent": "center",
+                                                "alignItems": "center",
+                                                "width": "30px",
+                                                "height": "30px",
+                                                "_hover": {
+                                                    "backgroundColor": rx.color_mode_cond(
+                                                        light="rgba(255, 255, 255, 0.5)",
+                                                        dark=rx.color(
+                                                            "gray",
+                                                            9,
+                                                            alpha=True,
+                                                        ),
+                                                    ),
+                                                    "border": "1px solid rgba(0, 0, 0, .4)",
+                                                    "borderRadius": "50%",
+                                                    "cursor": "pointer",
+                                                },
+                                            },
+                                        ),
+                                        style={
+                                            "display": "flex",
+                                            "justifyContent": "center",
+                                            "alignItems": "center",
+                                            "svg": {
+                                                "color": rx.color_mode_cond(
+                                                    light="black", dark="white"
+                                                )
+                                            },
+                                        },
+                                        width="fit-content",
+                                        spacing="1",
+                                    ),
+                                    style={
+                                        "display": "flex",
+                                        "justifyContent": "center",
+                                        "alignItems": "end",
+                                    },
+                                    width="fit-content",
+                                ),
+                                style={
+                                    "display": "flex",
+                                    "justifyContent": "end",
+                                    "alignItems": "center",
+                                    "color": "black",
+                                    "border": "none",
+                                    "borderRadius": "20px",
+                                    "backgroundColor": rx.color_mode_cond(
+                                        light="rgba(255, 255, 255, 0.8)",
+                                        dark=rx.color("gray", 4, alpha=True),
+                                    ),
+                                    "boxShadow": "0 2px 4px rgba(0, 0, 0, 0.2)",
+                                    "padding": "0 10px",
+                                    "_hover": {
+                                        "width": "100%",
+                                        "transition": "0.3s",
+                                    },
+                                },
+                                height="100%",
+                                width="fit-content",
+                            ),
+                            style={
+                                "display": "flex",
+                                "justifyContent": "end",
+                                "alignItems": "center",
+                            },
+                            height="100%",
+                        ),
+                        style={
+                            "width": "85%",
+                            "height": "100%",
+                        },
                     ),
                     style={
                         "display": "flex",
-                        "justifyContent": "end",
                         "alignItems": "center",
+                        "justifyContent": "start",
                     },
+                    spacing="2",
                     height="100%",
                 ),
                 width="100%",
