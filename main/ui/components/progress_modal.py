@@ -122,6 +122,11 @@ def progress_modal(
                     "backgroundSize": "cover",
                     "backgroundPosition": "0px -70px",
                     "backgroundRepeat": "no-repeat",
+                    "ClipPath": "border-box",
+                    "boxShadow": rx.color_mode_cond(
+                        light="0px 0px 20px rgba(0, 0, 0, 0.2)",
+                        dark="0px 0px 10px rgba(50, 254, 165, 0.7)",
+                    ),
                 },
             ),
         ),
