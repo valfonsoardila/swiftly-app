@@ -1,8 +1,9 @@
 *.db
 *.py[cod]
 .env
-.venv/
 .web
+.venv/
+build/
 __init__.py
 __pycache__/
 assets/external/

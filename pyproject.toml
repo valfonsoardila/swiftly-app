@@ -24,3 +24,5 @@ mongoengine = "^0.29.0" # (ORM para MongoDB)
 create-skln = "core:create_skeleton"
 --frontend = "core:run_frontend"
 --backend = "core:run_backend"
+--build-frontend = "core:export_frontend"
+--build-backend = "core:export_backend"

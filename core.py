@@ -2,6 +2,7 @@ import os
 import shutil
 import subprocess
 import socket
+import zipfile
 
 
 def create_skeleton():
@@ -100,6 +101,53 @@ def run_backend(default_port=8000):
     backend_port = get_free_port(default_port)
     subprocess.run(["reflex", "run", f"--backend-port={backend_port}"], check=True)
     delete_pycache()
+
+
+def delete_build_folder():
+    build_dir = "build"
+    if os.path.exists(build_dir):
+        shutil.rmtree(build_dir)
+        print(f"Carpeta {build_dir} eliminada.")
+
+
+def export_frontend():
+    delete_build_folder()  # Eliminar la carpeta build antes de exportar
+    subprocess.run(["reflex", "export", "--frontend-only"], check=True)
+
+    zip_filename = "frontend.zip"
+    build_dir = "build"
+
+    if os.path.exists(zip_filename):
+        if not os.path.exists(build_dir):
+            os.makedirs(build_dir)
+
+        with zipfile.ZipFile(zip_filename, "r") as zip_ref:
+            zip_ref.extractall(build_dir)
+
+        os.remove(zip_filename)
+        print(f"Frontend exportado y descomprimido en la carpeta {build_dir}")
+    else:
+        print("El archivo frontend.zip no fue encontrado.")
+
+
+def export_backend():
+    delete_build_folder()  # Eliminar la carpeta build antes de exportar
+    subprocess.run(["reflex", "export", "--backend-only"], check=True)
+
+    zip_filename = "backend.zip"
+    build_dir = "build"
+
+    if os.path.exists(zip_filename):
+        if not os.path.exists(build_dir):
+            os.makedirs(build_dir)
+
+        with zipfile.ZipFile(zip_filename, "r") as zip_ref:
+            zip_ref.extractall(build_dir)
+
+        os.remove(zip_filename)
+        print(f"Backend exportado y descomprimido en la carpeta {build_dir}")
+    else:
+        print("El archivo backend.zip no fue encontrado.")
 
 
 def delete_pycache():

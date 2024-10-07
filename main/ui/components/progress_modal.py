@@ -27,57 +27,47 @@ def progress_modal(
 ) -> rx.Component:
     return (
         rx.dialog.root(
-            rx.dialog.title("", fontSize="0px", margin="0"),
             rx.dialog.trigger(
-                rx.box(
-                    rx.button(
-                        rx.icon("plus"),
-                        rx.text("Nueva guía", color="white"),
-                        color="white",
-                        style={
-                            "color": "white",
-                            "background": rx.color_mode_cond(
-                                light="linear-gradient(90deg, #000000 0%, #434343 100%)",
-                                dark="linear-gradient(45deg, rgba(38, 38, 38) 0%, #1a1a1a 85%, rgba(50, 254, 165, 0.7) 100%)",
-                            ),
-                            "clipPath": "border-box",
-                            "border": rx.color_mode_cond(
-                                light="1px solid #000000",
-                                dark="0.5px solid rgba(255, 255, 255, 0.2)",
-                            ),
-                            "padding": "1em 2em",
-                            "borderRadius": "1em",
-                            "cursor": "pointer",
-                            "fontSize": "20px",
-                            "_hover": {
-                                "backgroundColor": "#333333",
-                                "transform": "scale(1.05)",
-                                "transition": "transform 0.2s ease",
-                            },
+                rx.button(
+                    rx.icon("plus"),
+                    rx.text("Nueva guía", color="white"),
+                    color="white",
+                    style={
+                        "color": "white",
+                        "background": rx.color_mode_cond(
+                            light="linear-gradient(90deg, #000000 0%, #434343 100%)",
+                            dark="linear-gradient(45deg, rgba(38, 38, 38) 0%, #1a1a1a 85%, rgba(50, 254, 165, 0.7) 100%)",
+                        ),
+                        "clipPath": "border-box",
+                        "border": rx.color_mode_cond(
+                            light="1px solid #000000",
+                            dark="0.5px solid rgba(255, 255, 255, 0.2)",
+                        ),
+                        "padding": "1em 2em",
+                        "borderRadius": "1em",
+                        "cursor": "pointer",
+                        "fontSize": "20px",
+                        "_hover": {
+                            "backgroundColor": "#333333",
+                            "transform": "scale(1.05)",
+                            "transition": "transform 0.2s ease",
                         },
-                    ),
-                    width="100%",
-                    align="center",
-                    justify="center",
+                    },
                 ),
             ),
             rx.dialog.content(
                 rx.dialog.title(
-                    rx.heading(
-                        rx.text(
-                            "Registro de guía de envío",
-                            size="xl",
-                            font_weight="bold",
-                            color="black",
-                        ),
+                    rx.text(
+                        "Registro de guía de envío",
+                        size="6",
+                        font_weight="bold",
+                        color="black",
                     ),
                 ),
                 rx.dialog.description(
-                    rx.text(
-                        "Completa los siguientes pasos para registrar tu nuevo servicio de envío.",
-                        size="lg",
-                        color="black",
-                    ),
+                    "Completa los siguientes pasos para registrar tu nuevo servicio de envío.",
+                    size="3",
+                    color="black",
                 ),
                 container_sections(
                     list_sections,
